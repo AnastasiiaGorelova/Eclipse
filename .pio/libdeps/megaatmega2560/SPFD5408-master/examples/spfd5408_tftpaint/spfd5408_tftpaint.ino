@@ -1,3 +1,10 @@
+// Paint example specifically for the TFTLCD breakout board.
+// If using the Arduino shield, use the tftpaint_shield.pde sketch instead!
+// DOES NOT CURRENTLY WORK ON ARDUINO LEONARDO
+
+// Modified for SPFD5408 Library by Joao Lopes
+// Version 0.9.2 - Rotation for Mega
+
 // *** SPFD5408 change -- Begin
 #include <SPFD5408_Adafruit_GFX.h>    // Core graphics library
 #include <SPFD5408_Adafruit_TFTLCD.h> // Hardware-specific library
@@ -9,26 +16,55 @@
     #define F(string_literal) string_literal
 #endif
 
-void drawBorder ();
-TSPoint waitOneTouch();
+// When using the BREAKOUT BOARD only, use these 8 data lines to the LCD:
+// For the Arduino Uno, Duemilanove, Diecimila, etc.:
+//   D0 connects to digital pin 8  (Notice these are
+//   D1 connects to digital pin 9   NOT in order!)
+//   D2 connects to digital pin 2
+//   D3 connects to digital pin 3
+//   D4 connects to digital pin 4
+//   D5 connects to digital pin 5
+//   D6 connects to digital pin 6
+//   D7 connects to digital pin 7
 
+// For the Arduino Mega, use digital pins 22 through 29
+// (on the 2-row header at the end of the board).
+//   D0 connects to digital pin 22
+//   D1 connects to digital pin 23
+//   D2 connects to digital pin 24
+//   D3 connects to digital pin 25
+//   D4 connects to digital pin 26
+//   D5 connects to digital pin 27
+//   D6 connects to digital pin 28
+//   D7 connects to digital pin 29
 
-#define XM A1  // must be an analog pin, use "An" notation!
-#define YP A2  // must be an analog pin, use "An" notation!
-#define XP 7   // can be a digital pin
-#define YM 6   // can be a digital pin
+// For the Arduino Due, use digital pins 33 through 40
+// (on the 2-row header at the end of the board).
+//   D0 connects to digital pin 33
+//   D1 connects to digital pin 34
+//   D2 connects to digital pin 35
+//   D3 connects to digital pin 36
+//   D4 connects to digital pin 37
+//   D5 connects to digital pin 38
+//   D6 connects to digital pin 39
+//   D7 connects to digital pin 40
+
+#define YP A1  // must be an analog pin, use "An" notation!
+#define XM A2  // must be an analog pin, use "An" notation!
+#define YM 7   // can be a digital pin
+#define XP 6   // can be a digital pin
 
 // Original values
-//#define TS_MINX 920
+//#define TS_MINX 150
 //#define TS_MINY 120
-//#define TS_MAXX 160
+//#define TS_MAXX 920
 //#define TS_MAXY 940
 
 // Calibrate values
-#define TS_MINX 910
-#define TS_MINY 95
-#define TS_MAXX 130
-#define TS_MAXY 890
+#define TS_MINX 125
+#define TS_MINY 85
+#define TS_MAXX 965
+#define TS_MAXY 905
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
@@ -258,3 +294,5 @@ void drawBorder () {
   tft.fillRect(border, border, (width - border * 2), (height - border * 2), WHITE);
   
 }
+
+

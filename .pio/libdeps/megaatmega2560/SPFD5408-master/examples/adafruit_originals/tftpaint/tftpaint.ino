@@ -1,34 +1,58 @@
-// *** SPFD5408 change -- Begin
-#include <SPFD5408_Adafruit_GFX.h>    // Core graphics library
-#include <SPFD5408_Adafruit_TFTLCD.h> // Hardware-specific library
-#include <SPFD5408_TouchScreen.h>
-// *** SPFD5408 change -- End
+// Paint example specifically for the TFTLCD breakout board.
+// If using the Arduino shield, use the tftpaint_shield.pde sketch instead!
+// DOES NOT CURRENTLY WORK ON ARDUINO LEONARDO
+
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <TouchScreen.h>
 
 #if defined(__SAM3X8E__)
     #undef __FlashStringHelper::F(string_literal)
     #define F(string_literal) string_literal
 #endif
 
-void drawBorder ();
-TSPoint waitOneTouch();
+// When using the BREAKOUT BOARD only, use these 8 data lines to the LCD:
+// For the Arduino Uno, Duemilanove, Diecimila, etc.:
+//   D0 connects to digital pin 8  (Notice these are
+//   D1 connects to digital pin 9   NOT in order!)
+//   D2 connects to digital pin 2
+//   D3 connects to digital pin 3
+//   D4 connects to digital pin 4
+//   D5 connects to digital pin 5
+//   D6 connects to digital pin 6
+//   D7 connects to digital pin 7
 
+// For the Arduino Mega, use digital pins 22 through 29
+// (on the 2-row header at the end of the board).
+//   D0 connects to digital pin 22
+//   D1 connects to digital pin 23
+//   D2 connects to digital pin 24
+//   D3 connects to digital pin 25
+//   D4 connects to digital pin 26
+//   D5 connects to digital pin 27
+//   D6 connects to digital pin 28
+//   D7 connects to digital pin 29
 
-#define XM A1  // must be an analog pin, use "An" notation!
-#define YP A2  // must be an analog pin, use "An" notation!
-#define XP 7   // can be a digital pin
-#define YM 6   // can be a digital pin
+// For the Arduino Due, use digital pins 33 through 40
+// (on the 2-row header at the end of the board).
+//   D0 connects to digital pin 33
+//   D1 connects to digital pin 34
+//   D2 connects to digital pin 35
+//   D3 connects to digital pin 36
+//   D4 connects to digital pin 37
+//   D5 connects to digital pin 38
+//   D6 connects to digital pin 39
+//   D7 connects to digital pin 40
 
-// Original values
-//#define TS_MINX 920
-//#define TS_MINY 120
-//#define TS_MAXX 160
-//#define TS_MAXY 940
+#define YP A3  // must be an analog pin, use "An" notation!
+#define XM A2  // must be an analog pin, use "An" notation!
+#define YM 9   // can be a digital pin
+#define XP 8   // can be a digital pin
 
-// Calibrate values
-#define TS_MINX 910
-#define TS_MINY 95
-#define TS_MAXX 130
-#define TS_MAXY 890
+#define TS_MINX 150
+#define TS_MINY 120
+#define TS_MAXX 920
+#define TS_MAXY 940
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
@@ -64,70 +88,33 @@ void setup(void) {
   Serial.println(F("Paint!"));
   
   tft.reset();
-
-  // *** SPFD5408 change -- Begin
-//  uint16_t identifier = tft.readID();
-//
-//  if(identifier == 0x9325) {
-//    Serial.println(F("Found ILI9325 LCD driver"));
-//  } else if(identifier == 0x9328) {
-//    Serial.println(F("Found ILI9328 LCD driver"));
-//  } else if(identifier == 0x7575) {
-//    Serial.println(F("Found HX8347G LCD driver"));
-//  } else if(identifier == 0x9341) {
-//    Serial.println(F("Found ILI9341 LCD driver"));
-//  } else if(identifier == 0x8357) {
-//    Serial.println(F("Found HX8357D LCD driver"));
-//  } else {
-//    Serial.print(F("Unknown LCD driver chip: "));
-//    Serial.println(identifier, HEX);
-//    Serial.println(F("If using the Adafruit 2.8\" TFT Arduino shield, the line:"));
-//    Serial.println(F("  #define USE_ADAFRUIT_SHIELD_PINOUT"));
-//    Serial.println(F("should appear in the library header (Adafruit_TFT.h)."));
-//    Serial.println(F("If using the breakout board, it should NOT be #defined!"));
-//    Serial.println(F("Also if using the breakout, double-check that all wiring"));
-//    Serial.println(F("matches the tutorial."));
-//    return;
-//  }
-//
-//  tft.begin(identifier);
-
-  tft.begin(0x9341); // SDFP5408
-
-  tft.setRotation(0); // Need for the Mega, please changed for your choice or rotation initial
-
-  // Border
-
-  drawBorder();
   
-  // Initial screen
-  
-  tft.setCursor (55, 50);
-  tft.setTextSize (3);
-  tft.setTextColor(RED);
-  tft.println("SPFD5408");
-  tft.setCursor (65, 85);
-  tft.println("Library");
-  tft.setCursor (55, 150);
-  tft.setTextSize (2);
-  tft.setTextColor(BLACK);
-  tft.println("TFT Paint");
+  uint16_t identifier = tft.readID();
 
-  tft.setCursor (80, 250);
-  tft.setTextSize (1);
-  tft.setTextColor(BLACK);
-  tft.println("Touch to proceed");
+  if(identifier == 0x9325) {
+    Serial.println(F("Found ILI9325 LCD driver"));
+  } else if(identifier == 0x9328) {
+    Serial.println(F("Found ILI9328 LCD driver"));
+  } else if(identifier == 0x7575) {
+    Serial.println(F("Found HX8347G LCD driver"));
+  } else if(identifier == 0x9341) {
+    Serial.println(F("Found ILI9341 LCD driver"));
+  } else if(identifier == 0x8357) {
+    Serial.println(F("Found HX8357D LCD driver"));
+  } else {
+    Serial.print(F("Unknown LCD driver chip: "));
+    Serial.println(identifier, HEX);
+    Serial.println(F("If using the Adafruit 2.8\" TFT Arduino shield, the line:"));
+    Serial.println(F("  #define USE_ADAFRUIT_SHIELD_PINOUT"));
+    Serial.println(F("should appear in the library header (Adafruit_TFT.h)."));
+    Serial.println(F("If using the breakout board, it should NOT be #defined!"));
+    Serial.println(F("Also if using the breakout, double-check that all wiring"));
+    Serial.println(F("matches the tutorial."));
+    return;
+  }
 
-  // Wait touch
+  tft.begin(identifier);
 
-  waitOneTouch();
-
-// *** SPFD5408 change -- End
-
-  // -- End
-
-  // Paint
-  
   tft.fillScreen(BLACK);
 
   tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);
@@ -175,14 +162,8 @@ void loop()
       tft.fillRect(0, BOXSIZE, tft.width(), tft.height()-BOXSIZE, BLACK);
     }
     // scale from 0->1023 to tft.width
-
-    // *** SPFD5408 change -- Begin
-    // Bug in in original code
-    //p.x = map(p.y, TS_MINY, TS_MAXY, 0, tft.height());
-    p.x = map(p.x, TS_MINX, TS_MAXX, 0, tft.width());
-    // *** SPFD5408 change -- End
-    p.y = map(p.y, TS_MINY, TS_MAXY, 0, tft.height());;
-
+    p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
+    p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
     /*
     Serial.print("("); Serial.print(p.x);
     Serial.print(", "); Serial.print(p.y);
@@ -226,35 +207,3 @@ void loop()
   }
 }
 
-// Wait one touch
-
-TSPoint waitOneTouch() {
-
-  // wait 1 touch to exit function
-  
-  TSPoint p;
-  
-  do {
-    p= ts.getPoint(); 
-  
-    pinMode(XM, OUTPUT); //Pins configures again for TFT control
-    pinMode(YP, OUTPUT);
-  
-  } while((p.z < MINPRESSURE )|| (p.z > MAXPRESSURE));
-  
-  return p;
-}
-
-
-void drawBorder () {
-
-  // Draw a border
-
-  uint16_t width = tft.width() - 1;
-  uint16_t height = tft.height() - 1;
-  uint8_t border = 10;
-
-  tft.fillScreen(RED);
-  tft.fillRect(border, border, (width - border * 2), (height - border * 2), WHITE);
-  
-}

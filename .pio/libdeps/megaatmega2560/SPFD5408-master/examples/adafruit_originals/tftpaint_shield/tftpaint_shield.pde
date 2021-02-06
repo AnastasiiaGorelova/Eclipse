@@ -1,34 +1,24 @@
-// *** SPFD5408 change -- Begin
-#include <SPFD5408_Adafruit_GFX.h>    // Core graphics library
-#include <SPFD5408_Adafruit_TFTLCD.h> // Hardware-specific library
-#include <SPFD5408_TouchScreen.h>
-// *** SPFD5408 change -- End
+// Paint example specifically for the TFTLCD Arduino shield.
+// If using the breakout board, use the tftpaint.pde sketch instead!
 
-#if defined(__SAM3X8E__)
-    #undef __FlashStringHelper::F(string_literal)
-    #define F(string_literal) string_literal
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <TouchScreen.h>
+
+#ifndef USE_ADAFRUIT_SHIELD_PINOUT 
+ #error "This sketch is intended for use with the TFT LCD Shield. Make sure that USE_ADAFRUIT_SHIELD_PINOUT is #defined in the Adafruit_TFTLCD.h library file."
 #endif
 
-void drawBorder ();
-TSPoint waitOneTouch();
+// These are the pins for the shield!
+#define YP A1  // must be an analog pin, use "An" notation!
+#define XM A2  // must be an analog pin, use "An" notation!
+#define YM 7   // can be a digital pin
+#define XP 6   // can be a digital pin
 
-
-#define XM A1  // must be an analog pin, use "An" notation!
-#define YP A2  // must be an analog pin, use "An" notation!
-#define XP 7   // can be a digital pin
-#define YM 6   // can be a digital pin
-
-// Original values
-//#define TS_MINX 920
-//#define TS_MINY 120
-//#define TS_MAXX 160
-//#define TS_MAXY 940
-
-// Calibrate values
-#define TS_MINX 910
-#define TS_MINY 95
-#define TS_MAXX 130
-#define TS_MAXY 890
+#define TS_MINX 150
+#define TS_MINY 120
+#define TS_MAXX 920
+#define TS_MAXY 940
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
@@ -39,8 +29,6 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define LCD_CD A2
 #define LCD_WR A1
 #define LCD_RD A0
-// optional
-#define LCD_RESET A4
 
 // Assign human-readable names to some common 16-bit color values:
 #define	BLACK   0x0000
@@ -53,81 +41,34 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define WHITE   0xFFFF
 
 
-Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+Adafruit_TFTLCD tft;
 
-#define BOXSIZE 40
-#define PENRADIUS 3
+#define BOXSIZE   40
+#define PENRADIUS  4
 int oldcolor, currentcolor;
 
 void setup(void) {
   Serial.begin(9600);
-  Serial.println(F("Paint!"));
-  
+  progmemPrintln(PSTR("Paint!"));
+
   tft.reset();
 
-  // *** SPFD5408 change -- Begin
-//  uint16_t identifier = tft.readID();
-//
-//  if(identifier == 0x9325) {
-//    Serial.println(F("Found ILI9325 LCD driver"));
-//  } else if(identifier == 0x9328) {
-//    Serial.println(F("Found ILI9328 LCD driver"));
-//  } else if(identifier == 0x7575) {
-//    Serial.println(F("Found HX8347G LCD driver"));
-//  } else if(identifier == 0x9341) {
-//    Serial.println(F("Found ILI9341 LCD driver"));
-//  } else if(identifier == 0x8357) {
-//    Serial.println(F("Found HX8357D LCD driver"));
-//  } else {
-//    Serial.print(F("Unknown LCD driver chip: "));
-//    Serial.println(identifier, HEX);
-//    Serial.println(F("If using the Adafruit 2.8\" TFT Arduino shield, the line:"));
-//    Serial.println(F("  #define USE_ADAFRUIT_SHIELD_PINOUT"));
-//    Serial.println(F("should appear in the library header (Adafruit_TFT.h)."));
-//    Serial.println(F("If using the breakout board, it should NOT be #defined!"));
-//    Serial.println(F("Also if using the breakout, double-check that all wiring"));
-//    Serial.println(F("matches the tutorial."));
-//    return;
-//  }
-//
-//  tft.begin(identifier);
+  uint16_t identifier = tft.readID();
 
-  tft.begin(0x9341); // SDFP5408
+  if(identifier == 0x9325) {
+    progmemPrintln(PSTR("Found ILI9325 LCD driver"));
+  } else if(identifier == 0x9328) {
+    progmemPrintln(PSTR("Found ILI9328 LCD driver"));
+  } else if(identifier == 0x7575) {
+    progmemPrintln(PSTR("Found HX8347G LCD driver"));
+  } else {
+    progmemPrint(PSTR("Unknown LCD driver chip: "));
+    Serial.println(identifier, HEX);
+    return;
+  }
 
-  tft.setRotation(0); // Need for the Mega, please changed for your choice or rotation initial
+  tft.begin(identifier);
 
-  // Border
-
-  drawBorder();
-  
-  // Initial screen
-  
-  tft.setCursor (55, 50);
-  tft.setTextSize (3);
-  tft.setTextColor(RED);
-  tft.println("SPFD5408");
-  tft.setCursor (65, 85);
-  tft.println("Library");
-  tft.setCursor (55, 150);
-  tft.setTextSize (2);
-  tft.setTextColor(BLACK);
-  tft.println("TFT Paint");
-
-  tft.setCursor (80, 250);
-  tft.setTextSize (1);
-  tft.setTextColor(BLACK);
-  tft.println("Touch to proceed");
-
-  // Wait touch
-
-  waitOneTouch();
-
-// *** SPFD5408 change -- End
-
-  // -- End
-
-  // Paint
-  
   tft.fillScreen(BLACK);
 
   tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);
@@ -150,7 +91,7 @@ void setup(void) {
 void loop()
 {
   digitalWrite(13, HIGH);
-  TSPoint p = ts.getPoint();
+  Point p = ts.getPoint();
   digitalWrite(13, LOW);
 
   // if sharing pins, you'll need to fix the directions of the touchscreen pins
@@ -175,14 +116,8 @@ void loop()
       tft.fillRect(0, BOXSIZE, tft.width(), tft.height()-BOXSIZE, BLACK);
     }
     // scale from 0->1023 to tft.width
-
-    // *** SPFD5408 change -- Begin
-    // Bug in in original code
-    //p.x = map(p.y, TS_MINY, TS_MAXY, 0, tft.height());
-    p.x = map(p.x, TS_MINX, TS_MAXX, 0, tft.width());
-    // *** SPFD5408 change -- End
-    p.y = map(p.y, TS_MINY, TS_MAXY, 0, tft.height());;
-
+    p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
+    p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
     /*
     Serial.print("("); Serial.print(p.x);
     Serial.print(", "); Serial.print(p.y);
@@ -226,35 +161,16 @@ void loop()
   }
 }
 
-// Wait one touch
-
-TSPoint waitOneTouch() {
-
-  // wait 1 touch to exit function
-  
-  TSPoint p;
-  
-  do {
-    p= ts.getPoint(); 
-  
-    pinMode(XM, OUTPUT); //Pins configures again for TFT control
-    pinMode(YP, OUTPUT);
-  
-  } while((p.z < MINPRESSURE )|| (p.z > MAXPRESSURE));
-  
-  return p;
+// Copy string from flash to serial port
+// Source string MUST be inside a PSTR() declaration!
+void progmemPrint(const char *str) {
+  char c;
+  while(c = pgm_read_byte(str++)) Serial.print(c);
 }
 
-
-void drawBorder () {
-
-  // Draw a border
-
-  uint16_t width = tft.width() - 1;
-  uint16_t height = tft.height() - 1;
-  uint8_t border = 10;
-
-  tft.fillScreen(RED);
-  tft.fillRect(border, border, (width - border * 2), (height - border * 2), WHITE);
-  
+// Same as above, with trailing newline
+void progmemPrintln(const char *str) {
+  progmemPrint(str);
+  Serial.println();
 }
+
