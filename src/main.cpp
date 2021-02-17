@@ -109,6 +109,7 @@
 // #define MINPRESSURE 1
 // #define MAXPRESSURE 1000
 //
+//
 // void loop(){
 //
 //         digitalWrite(13, HIGH);
@@ -122,11 +123,11 @@
 //         // pressure of 0 means no pressing!
 //
 //         if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
-//                 /*
+//
 //                    Serial.print("X = "); Serial.print(p.x);
 //                    Serial.print("\tY = "); Serial.print(p.y);
 //                    Serial.print("\tPressure = "); Serial.println(p.z);
-//                  */
+//
 //
 //                 if (p.y < (TS_MINY-5)) {
 //                         Serial.println("erase");
