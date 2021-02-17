@@ -2,8 +2,8 @@
 #include <SPFD5408_Adafruit_GFX.h>    // Core graphics library
 #include <SPFD5408_Adafruit_TFTLCD.h> // Hardware-specific library
 #include <SPFD5408_TouchScreen.h>
-#include "Keyboard.h"
 // *** SPFD5408 change -- End
+#include <Keyboard.h>
 
 // I have no idea what is it for
 #if defined(__SAM3X8E__)
@@ -25,7 +25,7 @@
 
 #define HALFX 120
 #define WIDTH 240
-#define HEIGHT 320
+#define HEIGHT 250
 #define KEY_Q 0x14
 
 
@@ -67,11 +67,15 @@ void drawBorder () {
 }
 
 void touched(int start_x, int start_y, int wid, int hei, int color){
-    tft.drawRect(start_x, start_y, wid, hei, WHITE);
+    for (int i = 0; i <= 3; i++ ){
+      tft.drawRect(start_x+i, start_y+i, wid-2*i, hei-2*i, WHITE);
+    }
 }
 
 void stop_touch(int start_x, int start_y, int wid, int hei, int color){
-    tft.drawRect(start_x, start_y, wid, hei, color);
+    for (int i = 0; i <= 3; i++ ){
+      tft.drawRect(start_x+i, start_y+i, wid-2*i, hei-2*i, color);
+    }
 }
 
 TSPoint waitOneTouch() {
@@ -133,7 +137,7 @@ void setup() {
         tft.setTextColor(WHITE);
         tft.print("MENU");
         tft.setTextColor(BLACK);
-        tft.setCursor(140, 180);
+        tft.setCursor(138, 180);
         tft.print("RIGHT");
         tft.setCursor(23, 180);
         tft.print("LEFT");
