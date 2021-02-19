@@ -11,11 +11,10 @@
     #define F(string_literal) string_literal
 #endif
 
-
-#define XM A1  // must be an analog pin, use "An" notation!
-#define YP A2  // must be an analog pin, use "An" notation!
-#define XP 7   // can be a digital pin
-#define YM 6   // can be a digital pin
+#define YP A2  // A1
+#define XM A1  // A2
+#define XP 7   // D6
+#define YM 6   // D7
 
 // Calibrate values
 #define TS_MINX 910
@@ -94,7 +93,7 @@ void setup() {
 
 /// IMPORTANT
         Serial.begin(9600);
-        Serial.println(F("Start!"));
+        Serial.println("Start!");
         tft.reset();
         tft.begin(0x9341); // SDFP5408
         tft.invertDisplay(true);
@@ -158,9 +157,11 @@ void loop(){
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
 
     /// Вывод данных от экрана в монитор порта
+    /*
     Serial.print("X = "); Serial.print(p.x);
     Serial.print("\tY = "); Serial.print(p.y);
     Serial.print("\tPressure = "); Serial.println(p.z);
+    */
 
     /// нажали на стрелочки
     if (p.y < 700){
