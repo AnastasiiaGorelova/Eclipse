@@ -3,6 +3,7 @@
 #include "../include/game_fwd.h"
 #include <cmath>
 #include <vector>
+#include "include/asteroids_qt.h"
 
 extern eclipse::Game *game;
 
@@ -50,6 +51,8 @@ Game::Game() {
 
 //for qt
 void Game::makeGame(int const width, int const height) {
+
+
   game->scene = new QGraphicsScene();
   ship = new eclipse::Space_ship();
   scene -> setSceneRect(0, 0, width, height);
@@ -61,7 +64,15 @@ void Game::makeGame(int const width, int const height) {
   setWindowTitle("Eclipse");
   resize(width, height);
   ship->set_ship(ship->x, ship->y, ship->size);
-  show();
+
+
+        auto* present = new Asteroids_qt();
+        Asteroid setting(present);
+        setting.set_asteroid_in_field(setting.get_size());
+
+
+
+        show();
 }
 
 } // namespace eclipse

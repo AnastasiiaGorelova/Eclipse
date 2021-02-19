@@ -1,10 +1,8 @@
-//
-// Created by alena on 18.02.2021.
-//
+
 
 // You may need to build the project (run Qt uic code generator) to get "ui_game_window.h" resolved
 
-#include "game_window.h"
+#include "../include/game_window.h"
 #include "ui_game_window.h"
 
 extern eclipse::Game *game;

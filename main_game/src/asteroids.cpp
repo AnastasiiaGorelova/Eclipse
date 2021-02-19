@@ -23,4 +23,7 @@ namespace eclipse {
             cur_state = DEAD;
         }
     }
+    void Asteroid::set_asteroid_in_field(int x, int y, int size) {
+        present->set_asteroid(x, y, size);
+    }
 }// namespace eclipse

@@ -1,8 +1,7 @@
 
 #include<QApplication>
 #include <QStyle>
-#include "game_window.h"
-#include "../include/game.h"
+#include "../include/game_window.h"
 
 
 eclipse::Game *game;

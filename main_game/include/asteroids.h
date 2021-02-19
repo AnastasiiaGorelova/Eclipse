@@ -4,9 +4,12 @@
 #include "game_fwd.h"
 #include <cstdlib>
 #include <utility>
+#include "asteroids_presentation.h"
 
 namespace eclipse {
     struct Asteroid {
+        Asteroid(Asteroids_presentation* present_) : present(present_) {}
+
     private:
         const int size = rand() % 5 + 1;
         int x = rand() % WIDTH;
@@ -15,8 +18,12 @@ namespace eclipse {
         const int speed = 2;
         Object_state cur_state = ALIVE;
 
+        Asteroids_presentation* present;
+
     public:
         Object_state get_state() const;
+
+        void set_asteroid_in_field(int x, int y, int size);
 
         int get_speed() const;
 
