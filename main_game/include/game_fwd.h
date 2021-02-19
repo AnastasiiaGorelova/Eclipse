@@ -4,8 +4,13 @@
 
 namespace eclipse {
     struct Game;
-    static const int HEIGHT = 10;
-    static const int WIDTH = 50;
+    static const int D_HEIGHT = 10;
+    static const int D_WIDTH = 50;
+
+    static const int HEIGHT = 600;
+    static const int WIDTH = 800;
+
+
     enum Game_state { ONGOING,
                       FINISHED };
     enum Field_state { ASTEROID,

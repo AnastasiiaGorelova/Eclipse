@@ -4,33 +4,64 @@
 #include <cmath>
 #include <vector>
 
+extern eclipse::Game *game;
+
 namespace eclipse {
-    namespace {
-        void change_field() {}
-        // TODO
-    }// namespace
 
-    Game_state Game::get_game_state() const { return game_state; }
+namespace {
+void change_field() {}
+// TODO
+} // namespace
 
-    Field_state Game::get_field_state(int x, int y) const { return field[x][y]; }
+Game_state Game::get_game_state() const { return game_state; }
 
-    int Game::get_time() const { return static_cast<int>(ceil(Game::time)); }
+Field_state Game::get_field_state(int x, int y) const { return field[x][y]; }
 
-    void Game::moving_asteroids() {
-        //TODO
+int Game::get_time() const { return static_cast<int>(ceil(Game::time)); }
+
+void Game::moving_asteroids() {
+  // TODO
+}
+
+void Game::moving_shots() {
+  // TODO
+}
+
+void Game::make_move() {
+  // TODO
+}
+
+void Game::run_game() {
+  // TODO
+}
+
+Game::Game() {
+  field.resize(WIDTH, std::vector<Field_state>(HEIGHT, NOTHING));
+  for (int i = my_ship.where_is_ship().first - my_ship.get_size();
+       i <= my_ship.where_is_ship().first + my_ship.get_size(); i++) {
+    for (int j = my_ship.where_is_ship().second - my_ship.get_size();
+         j < HEIGHT; j++) {
+      field[i][j] = SPACE_SHIP;
     }
-
-    void Game::moving_shots() {
-        //TODO
-    }
-
-    void Game::make_move() {
-        //TODO
-    }
-
-    void Game::run_game() {
-        //TODO
-    }
+  }
+  time = static_cast<double>(clock()) / static_cast<double>(CLOCKS_PER_SEC);
+}
 
 
-}// namespace eclipse
+//for qt
+void Game::makeGame(int const width, int const height) {
+  game->scene = new QGraphicsScene();
+  ship = new eclipse::Space_ship();
+  scene -> setSceneRect(0, 0, width, height);
+  setScene(scene);
+  scene->setBackgroundBrush(QBrush(QImage("../../images/background.jpeg")));
+  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setFixedSize(width, height);
+  setWindowTitle("Eclipse");
+  resize(width, height);
+  ship->set_ship(ship->x, ship->y, ship->size);
+  show();
+}
+
+} // namespace eclipse
