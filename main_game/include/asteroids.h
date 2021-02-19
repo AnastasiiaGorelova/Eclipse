@@ -8,19 +8,18 @@
 namespace eclipse {
     struct Asteroid {
     private:
-        const int size = rand() % 5 + 1;
-        int x = rand() % WIDTH;
+        int size;
+        int x;
         int y = 0;
-        int shots_to_die = size;
-        const int speed = 2;
+        int shots_to_die;
         Object_state cur_state = ALIVE;
 
     public:
+        Asteroid(int x_, int size_) : x(x_), size(size_), shots_to_die(size_) {}
+
         Object_state get_state() const;
 
-        int get_speed() const;
-
-        void move();
+        void move(int speed);
 
         std::pair<int, int> where_is_asteroid() const;//x,y coordinates
 

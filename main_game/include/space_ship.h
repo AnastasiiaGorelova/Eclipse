@@ -8,12 +8,11 @@
 namespace eclipse {
     struct Space_ship {
     private:
-        const int size = 1;// TODO: the exact coordinates
-        int x = WIDTH / 2; // central coordinates
-        int y = HEIGHT - size - 1;
+        const int size = 3;      // TODO: the exact coordinates
+        int x = WIDTH / 2 - size;//left corner coordinates
+        int y = HEIGHT - size;
 
     public:
-        void shoot() {}
         std::pair<int, int> where_is_ship() const;//x,y coordinates
         int get_size() const;
     };

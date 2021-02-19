@@ -5,10 +5,7 @@ namespace eclipse {
     Object_state Asteroid::get_state() const {
         return cur_state;
     }
-    int Asteroid::get_speed() const {
-        return speed;
-    }
-    void Asteroid::move() {
+    void Asteroid::move(int speed) {
         y += speed;
     }
     std::pair<int, int> Asteroid::where_is_asteroid() const {

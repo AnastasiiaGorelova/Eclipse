@@ -11,6 +11,7 @@ namespace eclipse {
     enum Field_state { ASTEROID,
                        LIFE,
                        SPACE_SHIP,
+                       SHOT,
                        NOTHING };
     enum Go {
         LEFT,
