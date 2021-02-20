@@ -3,6 +3,7 @@
 #define MAIN_GAME_SHOTS_H
 #include "game_fwd.h"
 #include "space_ship.h"
+#include <string>
 #include <utility>
 
 namespace eclipse {
@@ -12,9 +13,10 @@ namespace eclipse {
         int x;
         int y;
         int speed = 1;
+        std::string id;
 
     public:
-        Shot(int x_, int y_) : x(x_), y(y_) {}
+        Shot(int x_, int y_, std::string id_) : x(x_), y(y_), id(id_) {}
         std::pair<int, int> where_is_shot() const;
         void move();
     };

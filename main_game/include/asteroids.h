@@ -3,6 +3,7 @@
 
 #include "game_fwd.h"
 #include <cstdlib>
+#include <string>
 #include <utility>
 
 namespace eclipse {
@@ -13,9 +14,10 @@ namespace eclipse {
         int y = 0;
         int shots_to_die;
         Object_state cur_state = ALIVE;
+        std::string id;
 
     public:
-        Asteroid(int x_, int size_) : x(x_), size(size_), shots_to_die(size_) {}
+        Asteroid(int x_, int size_, std::string id_) : x(x_), size(size_), shots_to_die(size_), id(id_) {}
 
         Object_state get_state() const;
 

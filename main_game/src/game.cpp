@@ -30,6 +30,21 @@ namespace eclipse {
 
     }// namespace
 
+    std::string Game::new_uuid() {
+        static auto &chrs = "0123456789"
+                            "abcdefghijklmnopqrstuvwxyz"
+                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        thread_local static std::mt19937 gen{std::random_device{}()};
+        thread_local static std::uniform_int_distribution<std::string::size_type> dis(0, sizeof(chrs) - 2);//-1???
+        std::string str;
+        int length = 10;
+        str.reserve(length);
+        while (length--)
+            str += chrs[dis(gen)];
+
+        return str;
+    }
+
     Game_state Game::get_game_state() const { return game_state; }
 
     Field_state Game::get_field_state(int x, int y) const { return field[x][y]; }
@@ -47,7 +62,7 @@ namespace eclipse {
     void Game::shoot() {
         int x = my_ship.where_is_ship().first;
         int y = my_ship.where_is_ship().second + 1;
-        Shot my_shot(x, y);
+        Shot my_shot(x, y, new_uuid());
         shots_in_the_field.push_back(my_shot);
         field[x][y] = SHOT;
     }
@@ -58,7 +73,7 @@ namespace eclipse {
         while (!checker_for_nothing(x, x + size, 0, size, *this)) {
             x = rand() % WIDTH;
         }
-        Asteroid my_asteroid(x, size);
+        Asteroid my_asteroid(x, size, new_uuid());
         asteroids_in_the_field.push_back(my_asteroid);
         change_field(x, x + size, 0, size, ASTEROID);
     }

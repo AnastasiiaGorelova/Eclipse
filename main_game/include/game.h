@@ -6,14 +6,16 @@
 #include "shots.h"
 #include "space_ship.h"
 #include <ctime>
+#include <random>
+#include <string>
 #include <vector>
 
-//TODO: подключить таймер, добавить id объектов, функции запуска игры, почистить и потестить код, убрать rand()
+//TODO: подключить таймер, функции запуска игры, почистить и потестить код, убрать rand()
 
 namespace eclipse {
     struct Game {
     private:
-        double time;
+        double time = std::clock();
         Game_state game_state = ONGOING;
         std::vector<std::vector<Field_state>> field;
         int lives = 3;
@@ -22,6 +24,7 @@ namespace eclipse {
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
 
+        static std::string new_uuid();
         void change_field(int x_start, int x_finish, int y_start, int y_finish, Field_state value);
         bool check_for_living();
         void shoot();

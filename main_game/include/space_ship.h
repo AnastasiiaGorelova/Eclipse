@@ -3,6 +3,7 @@
 #define MAIN_GAME_SPACE_SHIP_H
 
 #include "game_fwd.h"
+#include <string>
 #include <utility>
 
 namespace eclipse {
@@ -11,6 +12,7 @@ namespace eclipse {
         const int size = 3;      // TODO: the exact coordinates
         int x = WIDTH / 2 - size;//left corner coordinates
         int y = HEIGHT - size;
+        std::string id = "ship";
 
     public:
         std::pair<int, int> where_is_ship() const;//x,y coordinates
