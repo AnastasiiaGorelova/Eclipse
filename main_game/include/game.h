@@ -30,8 +30,10 @@ namespace eclipse {
         void shoot();
         void generate_asteroid();
         void moving_shots();
-        void moving_asteroids();//TODO: to run both vectors
-        void make_move();       //TODO: add the interaction with the keyboard
+        void moving_asteroids();
+        void moving_ship(Go direction);
+
+        friend class Space_ship;
 
 
     public:
@@ -51,7 +53,8 @@ namespace eclipse {
 
         int get_time() const;
 
-        void run_game();
+        void make_move(Go direction = NO_MOVE);       //TODO: add the interaction with the keyboard
+
     };
 
 }// namespace eclipse

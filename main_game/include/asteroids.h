@@ -16,6 +16,8 @@ namespace eclipse {
         Object_state cur_state = ALIVE;
         std::string id;
 
+        friend class Game;
+
     public:
         Asteroid(int x_, int size_, std::string id_) : x(x_), size(size_), shots_to_die(size_), id(id_) {}
 

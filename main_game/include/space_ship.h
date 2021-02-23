@@ -13,10 +13,12 @@ namespace eclipse {
         int x = WIDTH / 2 - size;//left corner coordinates
         int y = HEIGHT - size;
         std::string id = "ship";
+        int speed = 2;
 
     public:
         std::pair<int, int> where_is_ship() const;//x,y coordinates
         int get_size() const;
+        void move(Go direction);
     };
 }// namespace eclipse
 

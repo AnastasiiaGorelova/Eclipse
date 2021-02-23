@@ -28,6 +28,13 @@ namespace eclipse {
             vec[second_id] = temp;
         }
 
+        int random_number(int l, int r) {
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> dist(l, r);
+            return dist(gen);
+        }
+
     }// namespace
 
     std::string Game::new_uuid() {
@@ -45,6 +52,15 @@ namespace eclipse {
         return str;
     }
 
+    bool Game::check_for_living() {
+        lives--;
+        if (lives <= 0) {//dead
+            game_state = FINISHED;
+            return false;
+        }
+        return true;
+    }
+
     Game_state Game::get_game_state() const { return game_state; }
 
     Field_state Game::get_field_state(int x, int y) const { return field[x][y]; }
@@ -60,18 +76,18 @@ namespace eclipse {
     }
 
     void Game::shoot() {
-        int x = my_ship.where_is_ship().first;
-        int y = my_ship.where_is_ship().second + 1;
+        int x = my_ship.where_is_ship().first + my_ship.get_size() / 2;
+        int y = my_ship.where_is_ship().second - 1;
         Shot my_shot(x, y, new_uuid());
         shots_in_the_field.push_back(my_shot);
         field[x][y] = SHOT;
     }
 
     void Game::generate_asteroid() {
-        int size = rand() % 5 + 1;
-        int x = rand() % WIDTH;
+        int size = random_number(1, 5);
+        int x = random_number(0, WIDTH - 1);
         while (!checker_for_nothing(x, x + size, 0, size, *this)) {
-            x = rand() % WIDTH;
+            x = random_number(0, WIDTH - 1);
         }
         Asteroid my_asteroid(x, size, new_uuid());
         asteroids_in_the_field.push_back(my_asteroid);
@@ -95,19 +111,10 @@ namespace eclipse {
         }
     }
 
-    bool Game::check_for_living() {
-        lives--;
-        if (lives <= 0) {//dead
-            game_state = FINISHED;
-            return false;
-        }
-        return true;
-    }
-
     void Game::moving_asteroids() {
         int id = 0;
         while (id < asteroids_in_the_field.size()) {
-            int x = asteroids_in_the_field[id].where_is_asteroid().first;
+            int x = asteroids_in_the_field[id].x;
             int old_y = asteroids_in_the_field[id].where_is_asteroid().second;
             int size = asteroids_in_the_field[id].get_size();
             if (!checker_for_nothing(x, x + size, old_y + size, old_y + size + asteroids_speed, *this)) {
@@ -134,12 +141,21 @@ namespace eclipse {
         }
     }
 
-    void Game::make_move() {
-        //TODO
+    void Game::moving_ship(Go direction) {
+//        int y = my_ship.where_is_ship().second;
+//        int old_x = my_ship.where_is_ship().first;
+//        change_field(old_x, old_x + my_ship.get_size(), y, y + my_ship.get_size(), NOTHING);
+//        my_ship.move(direction);
+//        int new_x = my_ship.where_is_ship().first;
+//        change_field(new_x, new_x + my_ship.get_size(), y, y + my_ship.get_size(), SPACE_SHIP);
     }
 
-    void Game::run_game() {
-        //TODO
+    void Game::make_move(Go direction) {//лазеры летят по времени?
+        moving_ship(direction);
+        moving_shots();
+        moving_asteroids();
+        shoot();
+        generate_asteroid();
     }
 
     std::pair<int, int> get_field_size() {
