@@ -25,9 +25,9 @@ namespace eclipse {
             case NO_MOVE:
                 return;
             case LEFT:
-                moving(x, -speed, size);
+                moving(x, -speed);
             case RIGHT:
-                moving(x, speed);
+                moving(x, speed, size);
         }
     }
 

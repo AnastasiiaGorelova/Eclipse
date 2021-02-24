@@ -15,6 +15,8 @@ namespace eclipse {
         std::string id = "ship";
         int speed = 2;
 
+        friend class Game;
+
     public:
         std::pair<int, int> where_is_ship() const;//x,y coordinates
         int get_size() const;

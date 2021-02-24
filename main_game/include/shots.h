@@ -15,6 +15,8 @@ namespace eclipse {
         int speed = 1;
         std::string id;
 
+        friend class Game;
+
     public:
         Shot(int x_, int y_, std::string id_) : x(x_), y(y_), id(id_) {}
         std::pair<int, int> where_is_shot() const;

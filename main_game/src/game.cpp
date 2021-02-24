@@ -52,13 +52,11 @@ namespace eclipse {
         return str;
     }
 
-    bool Game::check_for_living() {
-        lives--;
+    void Game::check_for_living() {
+        --lives;
         if (lives <= 0) {//dead
             game_state = FINISHED;
-            return false;
         }
-        return true;
     }
 
     Game_state Game::get_game_state() const { return game_state; }
@@ -76,18 +74,18 @@ namespace eclipse {
     }
 
     void Game::shoot() {
-        int x = my_ship.where_is_ship().first + my_ship.get_size() / 2;
-        int y = my_ship.where_is_ship().second - 1;
+        int x = my_ship.x + my_ship.size / 2;
+        int y = my_ship.y - 1;
         Shot my_shot(x, y, new_uuid());
         shots_in_the_field.push_back(my_shot);
         field[x][y] = SHOT;
     }
 
     void Game::generate_asteroid() {
-        int size = random_number(1, 5);
-        int x = random_number(0, WIDTH - 1);
+        int size = random_number(2, 3);
+        int x = random_number(0, WIDTH - size);
         while (!checker_for_nothing(x, x + size, 0, size, *this)) {
-            x = random_number(0, WIDTH - 1);
+            x = random_number(0, WIDTH - size);
         }
         Asteroid my_asteroid(x, size, new_uuid());
         asteroids_in_the_field.push_back(my_asteroid);
@@ -97,17 +95,20 @@ namespace eclipse {
     void Game::moving_shots() {
         int id = 0;
         while (id < shots_in_the_field.size()) {
-            field[shots_in_the_field[id].where_is_shot().first][shots_in_the_field[id].where_is_shot().second] = NOTHING;
-            shots_in_the_field[id].move();
-            int new_x = shots_in_the_field[id].where_is_shot().first;
-            int new_y = shots_in_the_field[id].where_is_shot().second;
-            field[new_x][new_y] = SHOT;
-            if (field[new_x][new_y + asteroids_speed] == ASTEROID) {//если сейчас столкнется с астероидом --> удаляем
+            field[shots_in_the_field[id].x][shots_in_the_field[id].y] = NOTHING;
+            if (shots_in_the_field[id].y != 0) {
+                shots_in_the_field[id].move();
+            }
+            int new_y = shots_in_the_field[id].y;
+            if (field[shots_in_the_field[id].x][new_y] == ASTEROID ||
+                field[shots_in_the_field[id].x][new_y - asteroids_speed] == ASTEROID ||
+                shots_in_the_field[id].y == 0) {//если сейчас столкнется с астероидом --> удаляем
                 swap(shots_in_the_field, id, static_cast<int>(shots_in_the_field.size()) - 1);
                 shots_in_the_field.pop_back();
-            } else {
-                id++;
+                continue;
             }
+            field[shots_in_the_field[id].x][new_y] = SHOT;
+            id++;
         }
     }
 
@@ -115,26 +116,25 @@ namespace eclipse {
         int id = 0;
         while (id < asteroids_in_the_field.size()) {
             int x = asteroids_in_the_field[id].x;
-            int old_y = asteroids_in_the_field[id].where_is_asteroid().second;
-            int size = asteroids_in_the_field[id].get_size();
+            int old_y = asteroids_in_the_field[id].y;
+            int size = asteroids_in_the_field[id].size;
             if (!checker_for_nothing(x, x + size, old_y + size, old_y + size + asteroids_speed, *this)) {
                 //не можем спокойно подвинуть астероид
                 asteroids_in_the_field[id].killer();
                 if (old_y + size + asteroids_speed >= HEIGHT || asteroids_in_the_field[id].get_state() == DEAD) {//врезались в землю
-                    id++;
-                    if (!check_for_living())
-                        break;
                     change_field(x, x + size, old_y, old_y + size, NOTHING);
+                    change_field(my_ship.x, my_ship.x + my_ship.size, my_ship.y, my_ship.y + my_ship.size, SPACE_SHIP);
+                    // если в корабль врезался астероид, восстанавливаем  корабль
                     swap(asteroids_in_the_field, id, static_cast<int>(asteroids_in_the_field.size()) - 1);
                     asteroids_in_the_field.pop_back();
+                    check_for_living();
                     continue;
-                    //?????
                 }
             } else {
                 //пусто, можно двигать
                 change_field(x, x + size, old_y, old_y + asteroids_speed, NOTHING);
                 asteroids_in_the_field[id].move(asteroids_speed);
-                int new_y = asteroids_in_the_field[id].where_is_asteroid().second;
+                int new_y = asteroids_in_the_field[id].y;
                 change_field(x, x + size, new_y, new_y + size, ASTEROID);
                 id++;
             }
@@ -142,12 +142,12 @@ namespace eclipse {
     }
 
     void Game::moving_ship(Go direction) {
-//        int y = my_ship.where_is_ship().second;
-//        int old_x = my_ship.where_is_ship().first;
-//        change_field(old_x, old_x + my_ship.get_size(), y, y + my_ship.get_size(), NOTHING);
-//        my_ship.move(direction);
-//        int new_x = my_ship.where_is_ship().first;
-//        change_field(new_x, new_x + my_ship.get_size(), y, y + my_ship.get_size(), SPACE_SHIP);
+        int y = my_ship.y;
+        int old_x = my_ship.x;
+        change_field(old_x, old_x + my_ship.size, y, y + my_ship.size, NOTHING);
+        my_ship.move(direction);
+        int new_x = my_ship.x;
+        change_field(new_x, new_x + my_ship.size, y, y + my_ship.size, SPACE_SHIP);
     }
 
     void Game::make_move(Go direction) {//лазеры летят по времени?

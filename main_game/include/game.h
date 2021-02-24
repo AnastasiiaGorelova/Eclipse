@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-//TODO: подключить таймер, функции запуска игры, почистить и потестить код, убрать rand()
+//TODO: подключить таймер, функции запуска игры, почистить и потестить код, сделать список Shot??
 
 namespace eclipse {
     struct Game {
@@ -26,14 +26,12 @@ namespace eclipse {
 
         static std::string new_uuid();
         void change_field(int x_start, int x_finish, int y_start, int y_finish, Field_state value);
-        bool check_for_living();
+        void check_for_living();
         void shoot();
         void generate_asteroid();
         void moving_shots();
         void moving_asteroids();
         void moving_ship(Go direction);
-
-        friend class Space_ship;
 
 
     public:
@@ -53,8 +51,7 @@ namespace eclipse {
 
         int get_time() const;
 
-        void make_move(Go direction = NO_MOVE);       //TODO: add the interaction with the keyboard
-
+        void make_move(Go direction = NO_MOVE);//TODO: add the interaction with the keyboard
     };
 
 }// namespace eclipse

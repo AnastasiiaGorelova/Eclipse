@@ -26,10 +26,11 @@ int main() {
     // only for debug
     std::cout << g.get_time() << '\n';
     print(g);
-    while(g.get_game_state() != eclipse::FINISHED) {
+    while (g.get_game_state() != eclipse::FINISHED) {
         g.make_move(eclipse::RIGHT);
         print(g);
     }
+    print(g);
     std::cout << g.get_time() << '\n';
     // finished
 
