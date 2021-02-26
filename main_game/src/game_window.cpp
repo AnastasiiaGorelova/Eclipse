@@ -1,11 +1,6 @@
 
-
-// You may need to build the project (run Qt uic code generator) to get "ui_game_window.h" resolved
-
 #include "../include/game_window.h"
 #include "ui_game_window.h"
-
-extern eclipse::Game *game;
 
 game_window::game_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::game_window) {
@@ -19,11 +14,9 @@ game_window::~game_window() {
 }
 
 void game_window::on_start_clicked() {
-    game = new eclipse::Game();
-    game->makeGame(eclipse::WIDTH, eclipse::HEIGHT);
-    hide();
+    //FOR GOD
 }
 
 void game_window::on_exit_clicked() {
-    QApplication::quit();
+    //FOR_GOD
 }

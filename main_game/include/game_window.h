@@ -1,12 +1,8 @@
-//
-// Created by alena on 18.02.2021.
-//
 
 #ifndef MAIN_GAME_GAME_WINDOW_H
 #define MAIN_GAME_GAME_WINDOW_H
 
 #include <QWidget>
-#include "../include/game.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class game_window; }

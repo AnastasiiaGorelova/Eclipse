@@ -19,22 +19,17 @@ Q_OBJECT
 public:
     explicit main_window(QWidget *parent = nullptr);
     ~main_window() override;
+
     QGraphicsScene* scene{};
+
     void make_field(int width, int height);
-    void set(int x, int y, int size, int hash, std::string name);
-    void move(int x, int y, int hash);
+    void set(int x, int y, int size, const std::string& hash);
+    void move(int x, int y, const std::string& hash);
     void end_game();
 
 
 private:
-    enum Img {
-        ASTEROID,
-        LIFE,
-        SPACE_SHIP,
-        SHOT
-    };
-
-    std::unordered_map<int, eclipse::Asteroids_qt*> hash_table;
+    std::unordered_map<std::string, Asteroids_qt*> hash_table;
     Ui::main_window *ui;
 };
 

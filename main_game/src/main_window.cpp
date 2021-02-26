@@ -1,10 +1,5 @@
-//
-// Created by alena on 20.02.2021.
-//
 
-// You may need to build the project (run Qt uic code generator) to get "ui_main_window.h" resolved
-
-#include "main_window.h"
+#include "include/main_window.h"
 #include "ui_main_window.h"
 #include "../include/asteroids_qt.h"
 
@@ -29,15 +24,15 @@ void main_window::make_field(int width, int height) {
     resize(width, height);
 }
 
-void main_window::set(int x, int y, int size, int hash, std::string name) {
-    auto* ship = new eclipse::Asteroids_qt(); //todo new
-    ship->setPixmap(QPixmap("../../images/SpaceShip.png").scaled(size, size));
-    ship->setPos(x, y);
-    scene->addItem(ship);
-    hash_table[hash] = ship;
+void main_window::set(int x, int y, int size, const std::string& hash) {
+    auto* object = new Asteroids_qt();
+    object->setPixmap(QPixmap("../../images/SpaceShip.png").scaled(size, size));
+    object->setPos(x, y);
+    scene->addItem(object);
+    hash_table[hash] = object;
 }
 
-void main_window::move(int x, int y, int hash) {
+void main_window::move(int x, int y, const std::string& hash) {
     hash_table[hash]->setPos(x, y);
 }
 

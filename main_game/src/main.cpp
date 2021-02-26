@@ -4,13 +4,15 @@
 #include "../include/game_window.h"
 
 
-eclipse::Game *game;
 
 int main(int argc, char *argv[]) {
 
+    size_t WIDTH = 800;
+    size_t HEIGHT = 600;
+
     QApplication app(argc, argv);
     game_window window;
-    window.resize(eclipse::WIDTH, eclipse::HEIGHT);
+    window.resize(WIDTH, HEIGHT);
     window.setWindowTitle("Eclipse");
 
     window.show();

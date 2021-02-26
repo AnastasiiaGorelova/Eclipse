@@ -16,6 +16,6 @@ file(GLOB_RECURSE HEADERS "include/*.h")
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 
-add_executable(main_game ${HEADERS} ${SOURCES} src/asteroids_presentation.cpp src/asteroids_qt.cpp src/main_window.cpp src/main_window.h src/main_window.ui)
+add_executable(main_game ${HEADERS} ${SOURCES})
 
 target_link_libraries(main_game Qt5::Widgets)
