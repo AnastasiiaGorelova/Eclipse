@@ -1,0 +1,199 @@
+{
+	"BUILD_DIR" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug/main_game_autogen",
+	"CMAKE_BINARY_DIR" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/alena/Documents/Eclipse/main_game",
+	"CMAKE_EXECUTABLE" : "/usr/local/lib/python3.8/dist-packages/cmake/data/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/home/alena/Documents/Eclipse/main_game/CMakeLists.txt",
+		"/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/3.18.4/CMakeSystem.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake",
+		"/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/3.18.4/CMakeCCompiler.cmake",
+		"/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/3.18.4/CMakeCXXCompiler.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeGenericSystem.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Platform/Linux.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Platform/UnixPaths.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeFindCodeBlocks.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeExtraGeneratorDetermineCompilerMacrosAndIncludeDirs.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/ProcessorCount.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeCInformation.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Compiler/GNU-C.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Compiler/GNU.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Internal/CMakeCheckCompilerFlag.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Platform/Linux-GNU-C.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Platform/Linux-GNU.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeCXXInformation.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Compiler/GNU-CXX.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Compiler/GNU.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Platform/Linux-GNU-CXX.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/Platform/Linux-GNU.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtras.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeParseArguments.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QComposePlatformInputContextPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSEmulatorIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsEglDeviceIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsGbmIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QVncIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeParseArguments.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "/home/alena/Documents/Eclipse/main_game",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/asteroids.h",
+			"MU",
+			"6YEA5652QU/moc_asteroids.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/asteroids_presentation.h",
+			"MU",
+			"6YEA5652QU/moc_asteroids_presentation.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/asteroids_qt.h",
+			"MU",
+			"6YEA5652QU/moc_asteroids_qt.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/game.h",
+			"MU",
+			"6YEA5652QU/moc_game.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/game_fwd.h",
+			"MU",
+			"6YEA5652QU/moc_game_fwd.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/game_window.h",
+			"MU",
+			"6YEA5652QU/moc_game_window.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/shots.h",
+			"MU",
+			"6YEA5652QU/moc_shots.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/include/space_ship.h",
+			"MU",
+			"6YEA5652QU/moc_space_ship.cpp"
+		],
+		[
+			"/home/alena/Documents/Eclipse/main_game/src/main_window.h",
+			"MU",
+			"UVLADIE3JM/moc_main_window.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug/main_game_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug/main_game_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_WIDGETS_LIB" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/alena/Documents/Eclipse/main_game/cmake-build-debug",
+		"/home/alena/Documents/Eclipse/main_game",
+		"/usr/include/x86_64-linux-gnu/qt5",
+		"/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+		"/usr/include/x86_64-linux-gnu/qt5/QtGui",
+		"/usr/include/x86_64-linux-gnu/qt5/QtCore",
+		"/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++",
+		"/usr/include/c++/9",
+		"/usr/include/x86_64-linux-gnu/c++/9",
+		"/usr/include/c++/9/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/9/include",
+		"/usr/local/include",
+		"/usr/include/x86_64-linux-gnu",
+		"/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/local/lib/python3.8/dist-packages/cmake/data/share/cmake-3.18/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug/main_game_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/main_game_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
+	"QT_UIC_EXECUTABLE" : "/usr/lib/qt5/bin/uic",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 12,
+	"SETTINGS_FILE" : "/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/main_game_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[ "/home/alena/Documents/Eclipse/main_game/src/asteroids.cpp", "MU" ],
+		[
+			"/home/alena/Documents/Eclipse/main_game/src/asteroids_presentation.cpp",
+			"MU"
+		],
+		[ "/home/alena/Documents/Eclipse/main_game/src/asteroids_qt.cpp", "MU" ],
+		[ "/home/alena/Documents/Eclipse/main_game/src/game.cpp", "MU" ],
+		[ "/home/alena/Documents/Eclipse/main_game/src/game_window.cpp", "MU" ],
+		[ "/home/alena/Documents/Eclipse/main_game/src/main.cpp", "MU" ],
+		[ "/home/alena/Documents/Eclipse/main_game/src/main_window.cpp", "MU" ],
+		[ "/home/alena/Documents/Eclipse/main_game/src/shots.cpp", "MU" ],
+		[ "/home/alena/Documents/Eclipse/main_game/src/space_ship.cpp", "MU" ]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [ "/home/alena/Documents/Eclipse/main_game/src" ],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

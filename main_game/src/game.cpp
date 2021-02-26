@@ -68,7 +68,7 @@ void Game::makeGame(int const width, int const height) {
 
         auto* present = new Asteroids_qt();
         Asteroid setting(present);
-        setting.set_asteroid_in_field(setting.get_size());
+//        setting.set_asteroid_in_field(setting.get_size());
 
 
 

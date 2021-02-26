@@ -1,5 +1,8 @@
 
 #include "../include/asteroids.h"
+#include "../include/game_window.h"
+
+extern Ui::game_window game_window;
 
 namespace eclipse {
     Object_state Asteroid::get_state() const {
@@ -25,5 +28,6 @@ namespace eclipse {
     }
     void Asteroid::set_asteroid_in_field(int x, int y, int size) {
         present->set_asteroid(x, y, size);
+//        game_window
     }
 }// namespace eclipse
