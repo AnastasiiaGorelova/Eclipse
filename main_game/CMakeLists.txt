@@ -16,6 +16,8 @@ file(GLOB_RECURSE HEADERS "include/*.h")
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 
+
+
 add_executable(main_game ${HEADERS} ${SOURCES})
 
 target_link_libraries(main_game Qt5::Widgets)

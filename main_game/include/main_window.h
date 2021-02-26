@@ -7,6 +7,10 @@
 #include <QGraphicsScene>
 #include <unordered_map>
 #include <include/asteroids_qt.h>
+#include <QKeyEvent>
+#include "../include/God.h"
+
+extern God damn;
 
 
 QT_BEGIN_NAMESPACE
@@ -23,14 +27,17 @@ public:
     QGraphicsScene* scene{};
 
     void make_field(int width, int height);
-    void set(int x, int y, int size, const std::string& hash);
+    void set(int x, int y, int size, const std::string& hash, const std::string& object_name );
+    void delete_obj (const std::string& hash);
     void move(int x, int y, const std::string& hash);
-    void end_game();
-
 
 private:
-    std::unordered_map<std::string, Asteroids_qt*> hash_table;
+    std::unordered_map<std::string, GameObject*> hash_table;
     Ui::main_window *ui;
+
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
+
 };
 
 #endif //MAIN_GAME_MAIN_WINDOW_H

@@ -4,9 +4,11 @@
 
 #include "QObject"
 #include "QGraphicsPixmapItem"
+#include "../include/God.h"
 
-struct Asteroids_qt : public QObject, public QGraphicsPixmapItem {
-    void set_asteroid(int x, int y, int size);
+extern God damn;
+
+struct GameObject : public QObject, public QGraphicsPixmapItem {
 };
 
 
