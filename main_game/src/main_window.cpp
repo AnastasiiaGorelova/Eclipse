@@ -1,34 +1,38 @@
-
 #include "include/main_window.h"
 #include "ui_main_window.h"
-#include "../include/game_window.h"
+#include "../include/God.h"
+#include <iostream>
+#include <string>
 
 extern God damn;
 
 main_window::main_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::main_window) {
     ui->setupUi(this);
+    qApp->installEventFilter(this);
 }
 
 main_window::~main_window() {
     delete ui;
 }
 
-void main_window::make_field(int width, int height) {
+void main_window::make_field() {
     scene = new QGraphicsScene();
-    scene -> setSceneRect(0, 0, width, height);
+    scene->setSceneRect(0, 0, width, height);
     ui->graphicsView->setScene(scene);
     scene->setBackgroundBrush(QBrush(QImage("../../images/background.jpeg")));
+    scene->setStickyFocus(true);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(width, height);
+    setFixedSize(800, 600);
     setWindowTitle("Eclipse");
-    resize(width, height);
 }
 
 void main_window::set(int x, int y, int size, const std::string& hash, const std::string &object_name) {
-    QString filename = "../../image"+ QString::fromStdString(object_name) + "png";
     auto* object = new GameObject();
+    QString filename = "../../images/"+ QString::fromStdString(object_name) + ".png";
+
+    std::cout << "../../images/"+ object_name + ".png" << std::endl;;
     object->setPixmap(QPixmap(filename).scaled(size, size));
     object->setPos(x, y);
     scene->addItem(object);
@@ -44,17 +48,22 @@ void main_window::delete_obj(const std::string& hash) {
     hash_table.erase(hash);
 }
 
-void main_window::keyPressEvent(QKeyEvent *event) {
-    switch (event->key()){
-        case Qt::Key_Left:
-            damn.pushed_button_left();
-            break;
-        case Qt::Key_Right:
-            damn.pushed_button_right();
-            break;
-        default:
-            break;
+bool main_window::eventFilter(QObject *obj, QEvent *event) {
+    if (event->type() == QEvent::KeyPress){
+        auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
+        switch (keyEvent->key()){
+            case Qt::Key_Left:
+                God::pushed_button_left();
+                break;
+            case Qt::Key_Right:
+                God::pushed_button_right();
+                break;
+            default:
+                break;
+        }
     }
+    return QObject::eventFilter(obj, event);
 }
+
 
 

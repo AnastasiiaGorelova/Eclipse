@@ -1,13 +1,11 @@
-
 #include<QApplication>
-#include <QStyle>
-#include "../include/game_window.h"
 #include "../include/God.h"
 
-God damn;
+game_window *menu;
+main_window *game_view;
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    game_window window;
+    God::show_menu();
     return QApplication::exec();
 }
