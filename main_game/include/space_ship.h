@@ -1,4 +1,3 @@
-
 #ifndef MAIN_GAME_SPACE_SHIP_H
 #define MAIN_GAME_SPACE_SHIP_H
 
@@ -7,20 +6,18 @@
 #include <utility>
 
 namespace eclipse {
-    struct Space_ship {
+    struct SpaceShip {
     private:
         const int size = 3;      // TODO: the exact coordinates
-        int x = WIDTH / 2 - size;//left corner coordinates
-        int y = HEIGHT - size;
+        int x = kWidth / 2 - size;//left corner coordinates
+        int y = kHeight - size;
         std::string id = "ship";
         int speed = 2;
 
-        friend class Game;
-
     public:
-        std::pair<int, int> where_is_ship() const;//x,y coordinates
+        std::pair<int, int> find_ship() const;//x,y coordinates
         int get_size() const;
-        void move(Go direction);
+        void move(MoveDirection direction);
     };
 }// namespace eclipse
 

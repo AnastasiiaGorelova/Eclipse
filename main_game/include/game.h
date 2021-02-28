@@ -15,43 +15,38 @@
 namespace eclipse {
     struct Game {
     private:
-        double time = std::clock();
-        Game_state game_state = ONGOING;
-        std::vector<std::vector<Field_state>> field;
+        GameState game_state = kOngoing;
+        std::vector<std::vector<FieldState>> field;
         int lives = 3;
         int asteroids_speed = 2;
-        Space_ship my_ship;
+        SpaceShip ship;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
 
-        static std::string new_uuid();
-        void change_field(int x_start, int x_finish, int y_start, int y_finish, Field_state value);
+        void change_field(int x_start, int x_finish, int y_start, int y_finish, FieldState value);
         void check_for_living();
         void shoot();
         void generate_asteroid();
         void moving_shots();
         void moving_asteroids();
-        void moving_ship(Go direction);
+        void moving_ship(MoveDirection direction);
 
 
     public:
         Game() {
-            field.resize(WIDTH, std::vector<Field_state>(HEIGHT, NOTHING));
-            for (int i = my_ship.where_is_ship().first; i < my_ship.where_is_ship().first + my_ship.get_size(); i++) {
-                for (int j = my_ship.where_is_ship().second; j < HEIGHT; j++) {
-                    field[i][j] = SPACE_SHIP;
+            field.resize(kWidth, std::vector<FieldState>(kHeight, kNothing));
+            for (int i = ship.find_ship().first; i < ship.find_ship().first + ship.get_size(); i++) {
+                for (int j = ship.find_ship().second; j < kHeight; j++) {
+                    field[i][j] = kSpaceShip;
                 }
             }
-            time = static_cast<double>(clock()) / static_cast<double>(CLOCKS_PER_SEC);
         }
 
-        Game_state get_game_state() const;
+        GameState get_game_state() const;
 
-        Field_state get_field_state(int x, int y) const;
+        FieldState get_field_state(int x, int y) const;
 
-        int get_time() const;
-
-        void make_move(Go direction = NO_MOVE);//TODO: add the interaction with the keyboard
+        void make_move(MoveDirection direction = kNoMove);//TODO: add the interaction with the keyboard
     };
 
 }// namespace eclipse

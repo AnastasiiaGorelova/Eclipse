@@ -1,7 +1,8 @@
-#include "../include/shots.h"
+#include "shots.h"
+
 namespace eclipse {
-    std::pair<int, int> Shot::where_is_shot() const {
-        return std::make_pair(x, y);
+    std::pair<int, int> Shot::find_shot() const {
+        return {x, y};
     }
     void Shot::move() {
         y -= speed;

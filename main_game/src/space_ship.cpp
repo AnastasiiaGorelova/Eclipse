@@ -1,13 +1,12 @@
-
-#include "../include/space_ship.h"
-#include "../include/game.h"
+#include "space_ship.h"
+#include "game.h"
 #include <utility>
 
 namespace eclipse {
     namespace {
         void moving(int &x, int vec, int size = 0) {
-            if (x + vec >= WIDTH - size) {
-                x = WIDTH - size;
+            if (x + vec >= kWidth - size) {
+                x = kWidth - size;
             } else if (x + vec <= 0) {
                 x = 0;
             } else {
@@ -15,19 +14,21 @@ namespace eclipse {
             }
         }
     }// namespace
-    std::pair<int, int> Space_ship::where_is_ship() const {
-        return std::make_pair(Space_ship::x, Space_ship::y);
+    std::pair<int, int> SpaceShip::find_ship() const {
+        return {SpaceShip::x, SpaceShip::y};
     }
-    int Space_ship::get_size() const { return Space_ship::size; }
+    int SpaceShip::get_size() const { return SpaceShip::size; }
 
-    void Space_ship::move(Go direction = NO_MOVE) {
+    void SpaceShip::move(MoveDirection direction = kNoMove) {
         switch (direction) {
-            case NO_MOVE:
-                return;
-            case LEFT:
+            case kLeft:
                 moving(x, -speed);
-            case RIGHT:
+                break;
+            case kRight:
                 moving(x, speed, size);
+                break;
+            case kNoMove:
+                return;
         }
     }
 

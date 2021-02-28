@@ -1,23 +1,23 @@
 
-#include "../include/asteroids.h"
+#include "asteroids.h"
 
 namespace eclipse {
-    Object_state Asteroid::get_state() const {
+    ObjectState Asteroid::get_state() const {
         return cur_state;
     }
     void Asteroid::move(int speed) {
         y += speed;
     }
-    std::pair<int, int> Asteroid::where_is_asteroid() const {
-        return std::make_pair(x, y);
+    std::pair<int, int> Asteroid::find_asteroid() const {
+        return {x, y};
     }
     int Asteroid::get_size() const {
         return size;
     }
-    void Asteroid::killer() {
+    void Asteroid::kill() {
         --shots_to_die;
         if (!shots_to_die) {
-            cur_state = DEAD;
+            cur_state = kDead;
         }
     }
 }// namespace eclipse

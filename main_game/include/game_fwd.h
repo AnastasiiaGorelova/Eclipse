@@ -1,25 +1,24 @@
-
 #ifndef MAIN_GAME_GAME_FWD_H
 #define MAIN_GAME_GAME_FWD_H
 
 namespace eclipse {
     struct Game;
-    static const int HEIGHT = 10;
-    static const int WIDTH = 50;
-    enum Game_state { ONGOING,
-                      FINISHED };
-    enum Field_state { ASTEROID,
-                       LIFE,
-                       SPACE_SHIP,
-                       SHOT,
-                       NOTHING };
-    enum Go {
-        LEFT,
-        RIGHT,
-        NO_MOVE
+    static const int kHeight = 10;
+    static const int kWidth = 50;
+    enum GameState { kOngoing,
+                      kFinished };
+    enum FieldState { kAsteroid,
+                       kLife,
+                       kSpaceShip,
+                       kShot,
+                       kNothing };
+    enum MoveDirection {
+        kLeft,
+        kRight,
+        kNoMove
     };
-    enum Object_state { ALIVE,
-                        DEAD };
+    enum ObjectState { kAlive,
+                        kDead };
 
 }// namespace eclipse
 
