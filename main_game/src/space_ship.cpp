@@ -14,12 +14,12 @@ namespace eclipse {
             }
         }
     }// namespace
-    std::pair<int, int> SpaceShip::find_ship() const {
-        return {SpaceShip::x, SpaceShip::y};
+    std::pair<int, int> spaceship::get_coordinates() const {
+        return {spaceship::x, spaceship::y};
     }
-    int SpaceShip::get_size() const { return SpaceShip::size; }
+    int spaceship::get_size() const { return spaceship::size; }
 
-    void SpaceShip::move(MoveDirection direction = kNoMove) {
+    void spaceship::move(MoveDirection direction = kNoMove) {
         switch (direction) {
             case kLeft:
                 moving(x, -speed);

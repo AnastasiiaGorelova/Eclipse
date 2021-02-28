@@ -16,7 +16,7 @@ namespace eclipse {
     private:
         GameState game_state = kOngoing;
         std::vector<std::vector<FieldState>> field;
-        SpaceShip ship = SpaceShip(kWidth, kHeight);
+        spaceship ship = spaceship(kWidth, kHeight);
         int lives = 3;
         int asteroids_speed = 2;
         std::vector<Asteroid> asteroids_in_the_field;
@@ -34,8 +34,8 @@ namespace eclipse {
     public:
         Game() {
             field.resize(kWidth, std::vector<FieldState>(kHeight, kNothing));
-            for (int i = ship.find_ship().first; i < ship.find_ship().first + ship.get_size(); i++) {
-                for (int j = ship.find_ship().second; j < kHeight; j++) {
+            for (int i = ship.get_coordinates().first; i < ship.get_coordinates().first + ship.get_size(); i++) {
+                for (int j = ship.get_coordinates().second; j < kHeight; j++) {
                     field[i][j] = kSpaceShip;
                 }
             }

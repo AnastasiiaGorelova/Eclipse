@@ -6,7 +6,7 @@
 #include <utility>
 
 namespace eclipse {
-    struct SpaceShip {
+    struct spaceship {
     private:
         int size = 3;
         int x;
@@ -15,8 +15,8 @@ namespace eclipse {
         int speed = 2;
 
     public:
-        SpaceShip(int width, int height) : x(width / 2 - size), y(height - size) {}
-        std::pair<int, int> find_ship() const;
+        spaceship(int width, int height) : x(width / 2 - size), y(height - size) {}
+        std::pair<int, int> get_coordinates() const;
         int get_size() const;
         void move(MoveDirection direction);
     };

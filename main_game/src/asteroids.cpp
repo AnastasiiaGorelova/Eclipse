@@ -3,21 +3,21 @@
 
 namespace eclipse {
     ObjectState Asteroid::get_state() const {
-        return cur_state;
+        return state;
     }
     void Asteroid::move(int speed) {
         y += speed;
     }
-    std::pair<int, int> Asteroid::find_asteroid() const {
+    std::pair<int, int> Asteroid::get_coordinates() const {
         return {x, y};
     }
     int Asteroid::get_size() const {
         return size;
     }
-    void Asteroid::kill() {
-        --shots_to_die;
-        if (!shots_to_die) {
-            cur_state = kDead;
+    void Asteroid::destroy() {
+        --lives;
+        if (!lives) {
+            state = kDead;
         }
     }
 }// namespace eclipse
