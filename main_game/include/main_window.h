@@ -5,7 +5,6 @@
 #include <QGraphicsScene>
 #include <unordered_map>
 #include <include/GameObject.h>
-#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class main_window; }

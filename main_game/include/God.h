@@ -11,6 +11,7 @@ public:
 static void show_menu();
 static void close_menu();
 static void show_game_field();
+static void close_game_field();
 static void set_object(int x, int y, int size, const std::string& hash, const std::string& object_name);
 static void move_object(int x, int y, const std::string& hash);
 static void delete_object(const std::string& hash);
@@ -22,9 +23,6 @@ static void pushed_button_left();
 static void pushed_button_right();
 
 //both
-
-
-
 
 };
 

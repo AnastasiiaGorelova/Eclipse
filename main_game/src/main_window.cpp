@@ -1,8 +1,7 @@
 #include "include/main_window.h"
 #include "ui_main_window.h"
 #include "../include/God.h"
-#include <iostream>
-#include <string>
+#include <QKeyEvent>
 
 extern God damn;
 
@@ -21,7 +20,6 @@ void main_window::make_field() {
     scene->setSceneRect(0, 0, width, height);
     ui->graphicsView->setScene(scene);
     scene->setBackgroundBrush(QBrush(QImage("../../images/background.jpeg")));
-    scene->setStickyFocus(true);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(800, 600);
@@ -31,8 +29,6 @@ void main_window::make_field() {
 void main_window::set(int x, int y, int size, const std::string& hash, const std::string &object_name) {
     auto* object = new GameObject();
     QString filename = "../../images/"+ QString::fromStdString(object_name) + ".png";
-
-    std::cout << "../../images/"+ object_name + ".png" << std::endl;;
     object->setPixmap(QPixmap(filename).scaled(size, size));
     object->setPos(x, y);
     scene->addItem(object);

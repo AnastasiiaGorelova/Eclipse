@@ -3,8 +3,6 @@
 
 #include "QObject"
 #include "QGraphicsPixmapItem"
-#include <QKeyEvent>
-#include "God.h"
 
 struct GameObject :  public QObject, public QGraphicsPixmapItem {
 

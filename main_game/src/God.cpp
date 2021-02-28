@@ -1,4 +1,3 @@
-
 #include "include/God.h"
 
 extern game_window *menu;
@@ -14,9 +13,9 @@ void God::close_menu() {
 }
 
 void God::show_game_field() {
-    menu->hide();
     game_view = new main_window();
     game_view->make_field();
+    menu->hide();
     game_view->show();
 }
 
@@ -24,6 +23,19 @@ void God::close_game_field() {
     game_view->close();
     menu->show();
 }
+
+void God::set_object(int x, int y, int size, const std::string& hash, const std::string& object_name) {
+    game_view->set(x, y, size, hash, object_name);
+}
+
+void God::move_object(int x, int y, const std::string& hash) {
+    game_view->move(x, y, hash);
+}
+
+void God::delete_object(const std::string& hash) {
+    game_view->delete_obj(hash);
+}
+
 
 void God::clicked_on_start() {
     //тыкнутся функции в логике как-то запускающие игру для логики
@@ -52,22 +64,4 @@ void God::pushed_button_right() {
 
     //JUST FOR DEBUG
     move_object(400, 200, "aaa");
-}
-
-void God::set_object(int x, int y, int size, const std::string& hash, const std::string& object_name) {
-
-    //JUST FOR DEBUG
-    game_view->set(x, y, size, hash, object_name);
-}
-
-void God::move_object(int x, int y, const std::string& hash) {
-
-    //JUST FOR DEBUG
-    game_view->move(x, y, hash);
-}
-
-void God::delete_object(const std::string& hash) {
-
-    //JUST FOR DEBUG
-    game_view->delete_obj(hash);
 }

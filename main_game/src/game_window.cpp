@@ -1,16 +1,12 @@
-#include "../include/game_window.h"
+#include <include/game_window.h>
 #include "ui_game_window.h"
-#include "../include/main_window.h"
-#include "ui_main_window.h"
-#include "../include/God.h"
-
+#include <include/God.h>
 
 game_window::game_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
     QPixmap pix("../../images/cat.jpg");
     ui->label->setPixmap(pix.scaled(800, 600));
-
 }
 
 game_window::~game_window() {
