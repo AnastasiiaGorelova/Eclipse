@@ -1,7 +1,6 @@
 #include "game.h"
 #include "game_fwd.h"
 #include "util.h"
-#include <cmath>
 #include <vector>
 
 namespace eclipse {
@@ -51,8 +50,7 @@ namespace eclipse {
     void Game::shoot() {
         int x = ship.find_ship().first + ship.get_size() / 2;
         int y = ship.find_ship().second - 1;
-        Shot my_shot(x, y, new_uuid());
-        shots_in_the_field.push_back(my_shot);
+        shots_in_the_field.emplace_back(Shot(x, y, new_uuid()));
         field[x][y] = kShot;
     }
 
@@ -62,8 +60,7 @@ namespace eclipse {
         while (!checker_for_nothing(x, x + size, 0, size, *this)) {
             x = random_number(0, kWidth - size);
         }
-        Asteroid my_asteroid(x, size, new_uuid());
-        asteroids_in_the_field.push_back(my_asteroid);
+        asteroids_in_the_field.emplace_back(Asteroid(x, size, new_uuid()));
         change_field(x, x + size, 0, size, kAsteroid);
     }
 

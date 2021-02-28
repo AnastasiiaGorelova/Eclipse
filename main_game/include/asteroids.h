@@ -17,7 +17,7 @@ namespace eclipse {
         std::string id;
 
     public:
-        Asteroid(int x, int size, std::string id) : x(x), size(size), shots_to_die(size), id(id) {}
+        Asteroid(int x, int size, std::string id) : x(x), size(size), shots_to_die(size), id(std::move(id)) {}
 
         ObjectState get_state() const;
 

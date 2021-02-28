@@ -8,14 +8,15 @@
 namespace eclipse {
     struct SpaceShip {
     private:
-        const int size = 3;      // TODO: the exact coordinates
-        int x = kWidth / 2 - size;//left corner coordinates
-        int y = kHeight - size;
+        int size = 3;
+        int x;
+        int y;
         std::string id = "ship";
         int speed = 2;
 
     public:
-        std::pair<int, int> find_ship() const;//x,y coordinates
+        SpaceShip(int width, int height) : x(width / 2 - size), y(height - size) {}
+        std::pair<int, int> find_ship() const;
         int get_size() const;
         void move(MoveDirection direction);
     };

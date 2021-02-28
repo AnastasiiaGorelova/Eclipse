@@ -3,22 +3,22 @@
 
 namespace eclipse {
     struct Game;
-    static const int kHeight = 10;
     static const int kWidth = 50;
+    static const int kHeight = 10;
     enum GameState { kOngoing,
-                      kFinished };
+                     kFinished };
     enum FieldState { kAsteroid,
-                       kLife,
-                       kSpaceShip,
-                       kShot,
-                       kNothing };
+                      kLife,
+                      kSpaceShip,
+                      kShot,
+                      kNothing };
     enum MoveDirection {
         kLeft,
         kRight,
         kNoMove
     };
     enum ObjectState { kAlive,
-                        kDead };
+                       kDead };
 
 }// namespace eclipse
 

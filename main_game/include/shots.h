@@ -16,7 +16,7 @@ namespace eclipse {
         std::string id;
 
     public:
-        Shot(int x, int y, std::string id) : x(x), y(y), id(id) {}
+        Shot(int x, int y, std::string id) : x(x), y(y), id(std::move(id)) {}
         std::pair<int, int> find_shot() const;
         void move();
     };

@@ -1,11 +1,10 @@
-
 #ifndef MAIN_GAME_GAME_H
 #define MAIN_GAME_GAME_H
+
 #include "asteroids.h"
 #include "game_fwd.h"
 #include "shots.h"
 #include "space_ship.h"
-#include <ctime>
 #include <random>
 #include <string>
 #include <vector>
@@ -17,9 +16,9 @@ namespace eclipse {
     private:
         GameState game_state = kOngoing;
         std::vector<std::vector<FieldState>> field;
+        SpaceShip ship = SpaceShip(kWidth, kHeight);
         int lives = 3;
         int asteroids_speed = 2;
-        SpaceShip ship;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
 
