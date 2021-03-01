@@ -1,5 +1,5 @@
 #include<QApplication>
-#include "../include/God.h"
+#include "include_qt/God.h"
 
 game_window *menu;
 main_window *game_view;

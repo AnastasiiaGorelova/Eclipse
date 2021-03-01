@@ -1,6 +1,6 @@
-#include <include/game_window.h>
+#include <include_qt/game_window.h>
 #include "ui_game_window.h"
-#include <include/God.h>
+#include <include_qt/God.h>
 
 game_window::game_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::game_window) {

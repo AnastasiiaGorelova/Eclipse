@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <unordered_map>
-#include <include/GameObject.h>
+#include <include_qt/GameObject.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class main_window; }

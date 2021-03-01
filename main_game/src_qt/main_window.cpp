@@ -1,6 +1,6 @@
-#include "include/main_window.h"
+#include "include_qt/main_window.h"
 #include "ui_main_window.h"
-#include "../include/God.h"
+#include "include_qt/God.h"
 #include <QKeyEvent>
 
 extern God damn;

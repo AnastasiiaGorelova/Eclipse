@@ -1,4 +1,4 @@
-#include "include/God.h"
+#include "include_qt/God.h"
 
 extern game_window *menu;
 extern main_window *game_view;

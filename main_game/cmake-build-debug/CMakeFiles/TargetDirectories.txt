@@ -1,4 +1,0 @@
-/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/main_game.dir
-/home/alena/Documents/Eclipse/main_game/cmake-build-debug/CMakeFiles/main_game_autogen.dir
