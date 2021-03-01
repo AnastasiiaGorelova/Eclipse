@@ -1,5 +1,5 @@
-#include "game.h"
-#include "game_fwd.h"
+#include "include/game.h"
+#include "include/game_fwd.h"
 #include <iostream>
 
 void print(eclipse::Game &game) {
@@ -19,7 +19,7 @@ void print(eclipse::Game &game) {
     std::cout << '\n';
 }
 
-int main() {
+/*int main() {
     eclipse::Game game;
 
     // only for debug
@@ -32,4 +32,4 @@ int main() {
     // finished
 
     return 0;
-}
+}*/

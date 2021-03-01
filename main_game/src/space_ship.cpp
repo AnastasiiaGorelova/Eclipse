@@ -1,5 +1,5 @@
-#include "space_ship.h"
-#include "game.h"
+#include "include/space_ship.h"
+#include "include/game.h"
 #include <utility>
 
 namespace eclipse {

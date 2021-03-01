@@ -1,4 +1,4 @@
-#include "shots.h"
+#include "include/shots.h"
 
 namespace eclipse {
     std::pair<int, int> Shot::get_coordinates() const {

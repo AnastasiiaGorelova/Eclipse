@@ -1,5 +1,5 @@
 
-#include "asteroids.h"
+#include "include/asteroids.h"
 
 namespace eclipse {
     ObjectState Asteroid::get_state() const {

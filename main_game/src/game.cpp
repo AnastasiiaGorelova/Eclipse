@@ -1,6 +1,6 @@
-#include "game.h"
-#include "game_fwd.h"
-#include "util.h"
+#include "include/game.h"
+#include "include/game_fwd.h"
+#include "include/util.h"
 #include <vector>
 
 namespace eclipse {
