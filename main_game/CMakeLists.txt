@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(main_game)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=address -Wall -Wextra -Werror")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -11,10 +12,11 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src)
 
-file(GLOB_RECURSE SOURCES "src_qt/*.cpp")
-file(GLOB_RECURSE HEADERS "include_qt/*.h")
+file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*cpp")
+file(GLOB_RECURSE HEADERS "include_qt/*.h" "include/*h")
 
 
 add_executable(main_game ${HEADERS} ${SOURCES})
 
 target_link_libraries(main_game Qt5::Widgets)
+
