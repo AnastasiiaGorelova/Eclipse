@@ -1,0 +1,59 @@
+# Build
+build/
+cmake-build*/
+cmake/
+
+# IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+local.properties
+
+# OS generated files
+.DS_Store
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Logs and databases
+log/
+*.log
+*.sql
+*.sqlite
+
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
