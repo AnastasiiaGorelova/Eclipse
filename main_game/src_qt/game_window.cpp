@@ -1,12 +1,14 @@
 #include <include_qt/game_window.h>
 #include "ui_game_window.h"
 #include <include_qt/God.h>
+#include <QStyle>
+#include <QDesktopWidget>
 
 game_window::game_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
     QPixmap pix("../../images/bakcgroung_2.0.jpg");
-    ui->label->setPixmap(pix.scaled(800, 600));
+    ui->label->setPixmap(pix.scaled(800, 630));
     ui->start->setStyleSheet("QPushButton{border: 1px solid transparent;text-align: center;"
                                   "color:rgba(255,255,255,255);"
                                   "border-radius: 8px;"
@@ -30,6 +32,7 @@ game_window::game_window(QWidget *parent) :
                             "QPushButton{border-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 200, 200, 200), stop:1 rgba(255, 200, 200, 200));}"
     );
     ui->textEdit->setStyleSheet("QTextEdit { background-color: QColor(255, 255, 255, 0)}");
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, (*this).size(), qApp->desktop()->availableGeometry()));
 }
 
 game_window::~game_window() {

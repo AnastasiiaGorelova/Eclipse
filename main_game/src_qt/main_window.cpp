@@ -2,6 +2,8 @@
 #include "ui_main_window.h"
 #include "include_qt/God.h"
 #include <QKeyEvent>
+#include <QStyle>
+#include <QDesktopWidget>
 
 extern God damn;
 
@@ -9,6 +11,7 @@ main_window::main_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::main_window) {
     ui->setupUi(this);
     qApp->installEventFilter(this);
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, (*this).size(), qApp->desktop()->availableGeometry()));
 }
 
 main_window::~main_window() {
@@ -16,12 +19,20 @@ main_window::~main_window() {
 }
 
 void main_window::make_field() {
+
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, width, height);
     ui->graphicsView->setScene(scene);
     scene->setBackgroundBrush(QBrush(QImage("../../images/background.jpeg")));
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    scene_info = new QGraphicsScene();
+    scene_info->setSceneRect(0, 0, width, height);
+    ui->graphicsView_2->setScene(scene_info);
+    //scene_info->setBackgroundBrush(Qt::black);
+    ui->graphicsView_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(800, 600);
     setWindowTitle("Eclipse");
 }
@@ -59,6 +70,30 @@ bool main_window::eventFilter(QObject *obj, QEvent *event) {
         }
     }
     return QObject::eventFilter(obj, event);
+}
+
+void main_window::set_timer() {
+
+}
+
+void main_window::set_lives() {
+    auto* object_1 = new GameObject();
+    object_1->setPixmap(QPixmap("../../images/heart.png").scaled(25, 25));
+    object_1->setPos(0, 0);
+    scene_info->addItem(object_1);
+    hash_table["heart_1"] = object_1;
+
+    auto* object_2 = new GameObject();
+    object_2->setPixmap(QPixmap("../../images/heart.png").scaled(25, 25));
+    object_2->setPos(745, 3.5);
+    scene_info->addItem(object_2);
+    hash_table["heart_2"] = object_2;
+
+    auto* object_3 = new GameObject();
+    object_3->setPixmap(QPixmap("../../images/heart.png").scaled(25, 25));
+    object_3->setPos(715, 3.5);
+    scene_info->addItem(object_3);
+    hash_table["heart_3"] = object_3;
 }
 
 

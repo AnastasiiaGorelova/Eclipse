@@ -18,11 +18,15 @@ public:
     ~main_window() override;
 
     QGraphicsScene* scene{};
+    QGraphicsScene* scene_info{};
 
     void make_field();
     void set(int x, int y, int size, const std::string& hash, const std::string& object_name);
     void delete_obj (const std::string& hash);
     void move(int x, int y, const std::string& hash);
+
+    void set_timer();
+    void set_lives();
 
 private:
     size_t width = 800;

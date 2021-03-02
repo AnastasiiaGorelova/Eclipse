@@ -4,8 +4,11 @@ project(main_game)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=address -Wall -Wextra -Werror")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
+
+include_directories(include include_qt)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_PREFIX_PATH "/home/alena/Qt/5.15.2") #set your local path to qt
+set(CMAKE_PREFIX_PATH "/home/alena/Qt/5.15.2/gcc_64") #set your local path to qt
 find_package(Qt5Widgets REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -14,7 +17,6 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src)
 
 file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*cpp")
 file(GLOB_RECURSE HEADERS "include_qt/*.h" "include/*h")
-
 
 add_executable(main_game ${HEADERS} ${SOURCES})
 

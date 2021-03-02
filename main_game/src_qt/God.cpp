@@ -44,6 +44,7 @@ void God::clicked_on_start() {
     close_menu();
     show_game_field();
     set_object(500, 200, 100, "aaa", "Ship");
+    game_view->set_lives();
     /*move_object(200, 200, "aaa");
     delete_object("aaa");*/
 }
