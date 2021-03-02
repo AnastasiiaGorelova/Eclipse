@@ -1,0 +1,11 @@
+os:
+  - linux
+  - osx
+language: cpp
+compiler:
+  - clang
+  - gcc
+install:
+  - scripts/install_dependencies.sh
+script:
+  - scripts/travis.sh
