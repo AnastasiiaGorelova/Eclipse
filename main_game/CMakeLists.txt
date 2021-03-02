@@ -5,8 +5,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=address 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_PREFIX_PATH "/home/alena/Qt/5.15.2") #set your local path to qt
-find_package(Qt5Widgets REQUIRED)
+set(CMAKE_PREFIX_PATH "/Users/katya/Qt/6.0.1/clang_64") #set your local path to qt
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -18,5 +18,5 @@ file(GLOB_RECURSE HEADERS "include_qt/*.h" "include/*h")
 
 add_executable(main_game ${HEADERS} ${SOURCES})
 
-target_link_libraries(main_game Qt5::Widgets)
+target_link_libraries(main_game Qt6::Widgets)
 
