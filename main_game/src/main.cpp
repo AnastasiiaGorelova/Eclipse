@@ -19,7 +19,7 @@ void print(eclipse::Game &game) {
     std::cout << '\n';
 }
 
-/*int main() {
+int main() {
     eclipse::Game game;
 
     // only for debug
@@ -32,4 +32,4 @@ void print(eclipse::Game &game) {
     // finished
 
     return 0;
-}*/
+}

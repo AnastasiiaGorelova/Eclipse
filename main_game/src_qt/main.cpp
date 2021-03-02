@@ -10,4 +10,4 @@ int main(int argc, char *argv[]) {
     God::show_menu();
     return QApplication::exec();
 }
-*/z
+*/
