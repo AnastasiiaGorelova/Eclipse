@@ -1,3 +1,0 @@
-[submodule "dependencies/serial"]
-	path = dependencies/serial
-	url = https://github.com/leamas/serial.git
