@@ -7,11 +7,14 @@
 #include "space_ship.h"
 #include <random>
 #include <string>
+#include <utility>
 #include <vector>
 
-//TODO: подключить таймер, функции запуска игры, почистить и потестить код, сделать список Shot??
+//TODO: подключить таймер, функции запуска игры, почистить и потестить код
 
 namespace eclipse {
+    struct Changes;
+
     struct Game {
     private:
         GameState game_state = kOngoing;
@@ -21,6 +24,7 @@ namespace eclipse {
         int asteroids_speed = 2;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
+        std::vector<Changes> changes;
 
         void change_field(int x_start, int x_finish, int y_start, int y_finish, FieldState value);
         void check_for_living();
@@ -45,7 +49,19 @@ namespace eclipse {
 
         FieldState get_field_state(int x, int y) const;
 
-        void make_move(MoveDirection direction = kNoMove);//TODO: add the interaction with the keyboard
+        void make_move(MoveDirection direction = kNoMove);
+
+        std::vector<Changes> change_ui() const;
+    };
+
+    struct Changes {
+        std::string id;
+        int size;
+        std::pair<int, int> old_coordinates;
+        std::pair<int, int> new_coordinates;
+
+        Changes(std::string id, int size, std::pair<int, int> old_, std::pair<int, int> new_) : id(std::move(id)), size(size),
+                                                                                                old_coordinates(std::move(old_)), new_coordinates(std::move(new_)) {}
     };
 
 }// namespace eclipse

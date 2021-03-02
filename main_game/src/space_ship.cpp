@@ -1,5 +1,5 @@
-#include "include/space_ship.h"
-#include "include/game.h"
+#include "space_ship.h"
+#include "game.h"
 #include <utility>
 
 namespace eclipse {
@@ -18,6 +18,10 @@ namespace eclipse {
         return {spaceship::x, spaceship::y};
     }
     int spaceship::get_size() const { return spaceship::size; }
+
+    std::string spaceship::get_id() const {
+        return id;
+    }
 
     void spaceship::move(MoveDirection direction = kNoMove) {
         switch (direction) {

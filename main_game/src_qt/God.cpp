@@ -1,4 +1,6 @@
 #include "include_qt/God.h"
+#include "game.h"
+#include "game_fwd.h"
 
 extern game_window *menu;
 extern main_window *game_view;
@@ -24,21 +26,22 @@ void God::close_game_field() {
     menu->show();
 }
 
-void God::set_object(int x, int y, int size, const std::string& hash, const std::string& object_name) {
+void God::set_object(int x, int y, int size, const std::string &hash, const std::string &object_name) {
     game_view->set(x, y, size, hash, object_name);
 }
 
-void God::move_object(int x, int y, const std::string& hash) {
+void God::move_object(int x, int y, const std::string &hash) {
     game_view->move(x, y, hash);
 }
 
-void God::delete_object(const std::string& hash) {
+void God::delete_object(const std::string &hash) {
     game_view->delete_obj(hash);
 }
 
 
 void God::clicked_on_start() {
     //тыкнутся функции в логике как-то запускающие игру для логики
+    //запустить таймер, создать объект Game??
 
     //JUST FOR DEBUG
     close_menu();
@@ -50,18 +53,25 @@ void God::clicked_on_start() {
 
 void God::clicked_on_exit() {
 
+    //просто вывести таймер??
     //JUST FOR DEBUG
     close_menu();
 }
 
-void God::pushed_button_left() {
+void God::pushed_button_left(eclipse::Game &game) {//в qt передать объект Game
+    game.make_move(eclipse::kLeft);
 
     //JUST FOR DEBUG
     move_object(200, 200, "aaa");
 }
 
-void God::pushed_button_right() {
+void God::pushed_button_right(eclipse::Game &game) {
+    game.make_move(eclipse::kRight);
 
     //JUST FOR DEBUG
     move_object(400, 200, "aaa");
+}
+
+void God::make_move_in_logic(eclipse::Game &game) {
+    game.make_move();
 }
