@@ -18,7 +18,7 @@ void print(eclipse::Game &game) {
     }
     std::cout << '\n';
 }
-
+/*
 int main() {
     eclipse::Game game;
 
@@ -32,4 +32,4 @@ int main() {
     // finished
 
     return 0;
-}
+}*/
