@@ -9,7 +9,11 @@ include_directories(include include_qt)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt5Widgets REQUIRED)
+if (APPLE)
+    find_package(Qt6Widgets REQUIRED)
+else ()
+    find_package(Qt5Widgets REQUIRED)
+endif ()
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -31,13 +35,9 @@ file(GLOB_RECURSE HEADERS "include_qt/*.h" "include/*h")
 add_executable(main_game ${HEADERS} ${SOURCES})
 
 # For Arduino and libs
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-find_package(Serial REQUIRED)
-include_directories(${Serial_INCLUDE_DIRS})
-
-add_executable(Arduino "src_arduino/main.cpp")
-target_link_libraries(Arduino ${Serial_LIBRARIES})
-
+add_subdirectory(dependencies)
+add_executable(arduino_example "src_arduino/main.cpp")
+target_link_libraries(arduino_example serial)
 
 if (APPLE)
     target_link_libraries(main_game Qt6::Widgets)
