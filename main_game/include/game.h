@@ -7,11 +7,23 @@
 #include "space_ship.h"
 #include <random>
 #include <string>
+#include <utility>
 #include <vector>
 
-//TODO: подключить таймер, функции запуска игры, почистить и потестить код, сделать список Shot??
+//TODO: подключить таймер, функции запуска игры, почистить и потестить код
 
 namespace eclipse {
+    struct Changes {
+        std::string id;
+        int size;
+        std::string object_name;
+        std::pair<int, int> new_coordinates;
+
+        Changes(std::string id, int size, std::string object_name, std::pair<int, int> new_) : id(std::move(id)),
+                                                                                               size(size), object_name(std::move(object_name)),
+                                                                                               new_coordinates(std::move(new_)) {}
+    };
+
     struct Game {
     private:
         GameState game_state = kOngoing;
@@ -41,11 +53,13 @@ namespace eclipse {
             }
         }
 
+        std::vector<Changes> changes = {Changes(ship.get_id(), ship.get_size(), "ship", ship.get_coordinates())};
+
         GameState get_game_state() const;
 
         FieldState get_field_state(int x, int y) const;
 
-        void make_move(MoveDirection direction = kNoMove);//TODO: add the interaction with the keyboard
+        void make_move(MoveDirection direction = kNoMove);
     };
 
 }// namespace eclipse

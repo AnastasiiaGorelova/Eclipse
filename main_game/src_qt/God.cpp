@@ -1,7 +1,12 @@
 #include "include_qt/God.h"
+#include "game.h"
+#include "game_fwd.h"
+#include <memory>
 
 extern game_window *menu;
 extern main_window *game_view;
+
+std::unique_ptr<eclipse::Game> game;
 
 void God::show_menu() {
     menu = new game_window();
@@ -24,21 +29,22 @@ void God::close_game_field() {
     menu->show();
 }
 
-void God::set_object(int x, int y, int size, const std::string& hash, const std::string& object_name) {
+void God::set_object(int x, int y, int size, const std::string &hash, const std::string &object_name) {
     game_view->set(x, y, size, hash, object_name);
 }
 
-void God::move_object(int x, int y, const std::string& hash) {
+void God::move_object(int x, int y, const std::string &hash) {
     game_view->move(x, y, hash);
 }
 
-void God::delete_object(const std::string& hash) {
+void God::delete_object(const std::string &hash) {
     game_view->delete_obj(hash);
 }
 
 
 void God::clicked_on_start() {
-    //тыкнутся функции в логике как-то запускающие игру для логики
+    game = std::make_unique<eclipse::Game>();//создаем новую игру
+    //запустить таймер???
 
     //JUST FOR DEBUG
     close_menu();
@@ -52,19 +58,37 @@ void God::clicked_on_start() {
 }
 
 void God::clicked_on_exit() {
-
+    game = nullptr;
+    //просто вывести таймер??
     //JUST FOR DEBUG
     close_menu();
 }
 
 void God::pushed_button_left() {
+    game->make_move(eclipse::kLeft);
 
     //JUST FOR DEBUG
     move_object(200, 450, "aaa");
 }
 
 void God::pushed_button_right() {
+    game->make_move(eclipse::kRight);
 
     //JUST FOR DEBUG
     move_object(350, 450, "aaa");
+}
+
+void God::make_move_in_logic() {//если из qt не пришло право/лево, то просто запускаем эту функцию раз в какое-то время в таймере
+    game->make_move();
+}
+
+void God::make_changes_in_qt() {
+    for (auto &i : game->changes) {
+        if (i.object_name.empty()) {
+            move_object(i.new_coordinates.first, i.new_coordinates.second, i.id);
+        } else {
+            set_object(i.new_coordinates.first, i.new_coordinates.second, i.size, i.id, i.object_name);
+        }
+    }
+    game->changes.clear();
 }

@@ -1,6 +1,6 @@
-#include "include/game.h"
-#include "include/game_fwd.h"
-#include "include/util.h"
+#include "game.h"
+#include "game_fwd.h"
+#include "util.h"
 #include <vector>
 
 namespace eclipse {
@@ -40,7 +40,7 @@ namespace eclipse {
     FieldState Game::get_field_state(int x, int y) const { return field[x][y]; }
 
     void Game::change_field(int x_start, int x_finish, int y_start, int y_finish, FieldState value) {
-        for (int i = x_start; i < x_finish; i++) {//проверить знак < или <=??
+        for (int i = x_start; i < x_finish; i++) {
             for (int j = y_start; j < y_finish; j++) {
                 field[i][j] = value;
             }
@@ -50,65 +50,79 @@ namespace eclipse {
     void Game::shoot() {
         int x = ship.get_coordinates().first + ship.get_size() / 2;
         int y = ship.get_coordinates().second - 1;
-        shots_in_the_field.emplace_back(Shot(x, y, new_uuid()));
+        Shot new_shot(x, y, new_uuid());
+        changes.emplace_back(Changes(new_shot.get_id(), 1, "shot", {new_shot.get_coordinates().first, new_shot.get_coordinates().second}));
+        shots_in_the_field.push_back(std::move(new_shot));
         field[x][y] = kShot;
     }
 
     void Game::generate_asteroid() {
-        int size = random_number(2, 3);
-        int x = random_number(0, kWidth - size);
-        while (!checker_for_nothing(x, x + size, 0, size, *this)) {
-            x = random_number(0, kWidth - size);
+        if (random_number(0, 2) % 2 == 0) {
+            int size = random_number(2, 3);
+            int x = random_number(0, kWidth - size);
+            while (!checker_for_nothing(x, x + size, 0, size, *this)) {
+                x = random_number(0, kWidth - size);
+            }
+            Asteroid new_asteroid(x, size, new_uuid());
+            changes.emplace_back(Changes(new_asteroid.get_id(), new_asteroid.get_size(),
+                                         "asteroid", {new_asteroid.get_coordinates().first, new_asteroid.get_coordinates().second}));
+            asteroids_in_the_field.push_back(std::move(new_asteroid));
+            change_field(x, x + size, 0, size, kAsteroid);
         }
-        asteroids_in_the_field.emplace_back(Asteroid(x, size, new_uuid()));
-        change_field(x, x + size, 0, size, kAsteroid);
     }
 
     void Game::moving_shots() {
         std::size_t id = 0;
         while (id < shots_in_the_field.size()) {
-            field[shots_in_the_field[id].get_coordinates().first][shots_in_the_field[id].get_coordinates().second] = kNothing;
-            if (shots_in_the_field[id].get_coordinates().second != 0) {
+            int old_x = shots_in_the_field[id].get_coordinates().first;
+            int old_y = shots_in_the_field[id].get_coordinates().second;
+            if (old_y != 0) {
                 shots_in_the_field[id].move();
             }
             int new_y = shots_in_the_field[id].get_coordinates().second;
             if (field[shots_in_the_field[id].get_coordinates().first][new_y] == kAsteroid ||
+                field[old_x][old_y] == kNothing ||
                 //field[shots_in_the_field[id].x][new_y - asteroids_speed] == ASTEROID ||          //утечка памяти??
                 shots_in_the_field[id].get_coordinates().second == 0) {//если сейчас столкнется с астероидом --> удаляем
                 std::swap(shots_in_the_field[id], shots_in_the_field[shots_in_the_field.size() - 1]);
                 shots_in_the_field.pop_back();
+                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), 1, "", {-1, -1}));
             } else {
                 field[shots_in_the_field[id].get_coordinates().first][new_y] = kShot;
+                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), 1, "", {old_x, new_y}));
                 id++;
             }
+            field[old_x][old_y] = kNothing;
         }
     }
 
     void Game::moving_asteroids() {
         std::size_t id = 0;
         while (id < asteroids_in_the_field.size()) {
-            int x = asteroids_in_the_field[id].get_coordinates().first;
+            int old_x = asteroids_in_the_field[id].get_coordinates().first;
             int old_y = asteroids_in_the_field[id].get_coordinates().second;
             int size = asteroids_in_the_field[id].get_size();
-            if (!checker_for_nothing(x, x + size, old_y + size, old_y + size + asteroids_speed, *this)) {
+            if (!checker_for_nothing(old_x, old_x + size, old_y + size, old_y + size + asteroids_speed, *this)) {
                 //не можем спокойно подвинуть астероид
                 asteroids_in_the_field[id].destroy();
                 if (old_y + size + asteroids_speed >= kHeight || asteroids_in_the_field[id].get_state() == kDead) {//врезались в землю
-                    change_field(x, x + size, old_y, old_y + size, kNothing);
+                    change_field(old_x, old_x + size, old_y, old_y + size, kNothing);
                     change_field(ship.get_coordinates().first, ship.get_coordinates().first + ship.get_size(), ship.get_coordinates().second,
                                  ship.get_coordinates().second + ship.get_size(), kSpaceShip);
                     // если в корабль врезался астероид, восстанавливаем  корабль
                     std::swap(asteroids_in_the_field[id], asteroids_in_the_field[asteroids_in_the_field.size() - 1]);
                     asteroids_in_the_field.pop_back();
                     check_for_living();
+                    changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(), size, "", {-1, -1}));
                     continue;
                 }
             } else {
                 //пусто, можно двигать
-                change_field(x, x + size, old_y, old_y + asteroids_speed, kNothing);
+                change_field(old_x, old_x + size, old_y, old_y + asteroids_speed, kNothing);
                 asteroids_in_the_field[id].move(asteroids_speed);
                 int new_y = asteroids_in_the_field[id].get_coordinates().second;
-                change_field(x, x + size, new_y, new_y + size, kAsteroid);
+                change_field(old_x, old_x + size, new_y, new_y + size, kAsteroid);
+                changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(), size, "", {old_x, new_y}));
                 id++;
             }
         }
@@ -121,9 +135,10 @@ namespace eclipse {
         ship.move(direction);
         int new_x = ship.get_coordinates().first;
         change_field(new_x, new_x + ship.get_size(), y, y + ship.get_size(), kSpaceShip);
+        changes.emplace_back(Changes(ship.get_id(), ship.get_size(), "", {new_x, y}));
     }
 
-    void Game::make_move(MoveDirection direction) {//лазеры летят по времени?
+    void Game::make_move(MoveDirection direction) {
         moving_ship(direction);
         moving_shots();
         moving_asteroids();

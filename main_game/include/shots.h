@@ -18,6 +18,7 @@ namespace eclipse {
     public:
         Shot(int x, int y, std::string id) : x(x), y(y), id(std::move(id)) {}
         std::pair<int, int> get_coordinates() const;
+        std::string get_id() const;
         void move();
     };
 }// namespace eclipse

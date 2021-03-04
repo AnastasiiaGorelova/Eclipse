@@ -25,6 +25,8 @@ namespace eclipse {
 
         std::pair<int, int> get_coordinates() const;//x,y coordinates
 
+        std::string get_id() const;
+
         int get_size() const;
 
         void destroy();

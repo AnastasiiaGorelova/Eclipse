@@ -9,6 +9,8 @@ include_directories(include include_qt)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_PREFIX_PATH "/home/alena/Qt/5.15.2/gcc_64") #set your local path to qt
+#set(CMAKE_PREFIX_PATH "/home/anastasia/Qt/5.15.2/gcc_64") #set your local path to qt
+
 find_package(Qt5Widgets REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
