@@ -1,5 +1,6 @@
 #include "space_ship.h"
 #include "game.h"
+#include <string>
 #include <utility>
 
 namespace eclipse {
@@ -17,6 +18,7 @@ namespace eclipse {
     std::pair<int, int> spaceship::get_coordinates() const {
         return {spaceship::x, spaceship::y};
     }
+
     int spaceship::get_size() const { return spaceship::size; }
 
     std::string spaceship::get_id() const {

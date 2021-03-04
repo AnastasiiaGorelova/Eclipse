@@ -51,7 +51,7 @@ namespace eclipse {
         int x = ship.get_coordinates().first + ship.get_size() / 2;
         int y = ship.get_coordinates().second - 1;
         Shot new_shot(x, y, new_uuid());
-        changes.emplace_back(Changes(new_shot.get_id(), 1, {-1, -1}, {new_shot.get_coordinates().first, new_shot.get_coordinates().second}));
+        changes.emplace_back(Changes(new_shot.get_id(), 1, "shot", {new_shot.get_coordinates().first, new_shot.get_coordinates().second}));
         shots_in_the_field.push_back(std::move(new_shot));
         field[x][y] = kShot;
     }
@@ -65,7 +65,7 @@ namespace eclipse {
             }
             Asteroid new_asteroid(x, size, new_uuid());
             changes.emplace_back(Changes(new_asteroid.get_id(), new_asteroid.get_size(),
-                                         {-1, -1}, {new_asteroid.get_coordinates().first, new_asteroid.get_coordinates().second}));
+                                         "asteroid", {new_asteroid.get_coordinates().first, new_asteroid.get_coordinates().second}));
             asteroids_in_the_field.push_back(std::move(new_asteroid));
             change_field(x, x + size, 0, size, kAsteroid);
         }
@@ -86,10 +86,10 @@ namespace eclipse {
                 shots_in_the_field[id].get_coordinates().second == 0) {//если сейчас столкнется с астероидом --> удаляем
                 std::swap(shots_in_the_field[id], shots_in_the_field[shots_in_the_field.size() - 1]);
                 shots_in_the_field.pop_back();
-                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), 1, {old_x, old_y}, {-1, -1}));
+                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), 1, "", {-1, -1}));
             } else {
                 field[shots_in_the_field[id].get_coordinates().first][new_y] = kShot;
-                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), 1, {old_x, old_y}, {old_x, new_y}));
+                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), 1, "", {old_x, new_y}));
                 id++;
             }
             field[old_x][old_y] = kNothing;
@@ -113,7 +113,7 @@ namespace eclipse {
                     std::swap(asteroids_in_the_field[id], asteroids_in_the_field[asteroids_in_the_field.size() - 1]);
                     asteroids_in_the_field.pop_back();
                     check_for_living();
-                    changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(), size, {old_x, old_y}, {-1, -1}));
+                    changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(), size, "", {-1, -1}));
                     continue;
                 }
             } else {
@@ -122,7 +122,7 @@ namespace eclipse {
                 asteroids_in_the_field[id].move(asteroids_speed);
                 int new_y = asteroids_in_the_field[id].get_coordinates().second;
                 change_field(old_x, old_x + size, new_y, new_y + size, kAsteroid);
-                changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(), size, {old_x, old_y}, {old_x, new_y}));
+                changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(), size, "", {old_x, new_y}));
                 id++;
             }
         }
@@ -135,7 +135,7 @@ namespace eclipse {
         ship.move(direction);
         int new_x = ship.get_coordinates().first;
         change_field(new_x, new_x + ship.get_size(), y, y + ship.get_size(), kSpaceShip);
-        changes.emplace_back(Changes(ship.get_id(), ship.get_size(), {old_x, y}, {new_x, y}));
+        changes.emplace_back(Changes(ship.get_id(), ship.get_size(), "", {new_x, y}));
     }
 
     void Game::make_move(MoveDirection direction) {
@@ -144,10 +144,6 @@ namespace eclipse {
         moving_asteroids();
         shoot();
         generate_asteroid();
-    }
-
-    std::vector<Changes> Game::change_ui() const {
-        return changes;
     }
 
     std::pair<int, int> get_field_size() {

@@ -13,7 +13,16 @@
 //TODO: подключить таймер, функции запуска игры, почистить и потестить код
 
 namespace eclipse {
-    struct Changes;
+    struct Changes {
+        std::string id;
+        int size;
+        std::string object_name;
+        std::pair<int, int> new_coordinates;
+
+        Changes(std::string id, int size, std::string object_name, std::pair<int, int> new_) : id(std::move(id)),
+                                                                                               size(size), object_name(std::move(object_name)),
+                                                                                               new_coordinates(std::move(new_)) {}
+    };
 
     struct Game {
     private:
@@ -24,7 +33,6 @@ namespace eclipse {
         int asteroids_speed = 2;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
-        std::vector<Changes> changes;
 
         void change_field(int x_start, int x_finish, int y_start, int y_finish, FieldState value);
         void check_for_living();
@@ -45,23 +53,13 @@ namespace eclipse {
             }
         }
 
+        std::vector<Changes> changes = {Changes(ship.get_id(), ship.get_size(), "ship", ship.get_coordinates())};
+
         GameState get_game_state() const;
 
         FieldState get_field_state(int x, int y) const;
 
         void make_move(MoveDirection direction = kNoMove);
-
-        std::vector<Changes> change_ui() const;
-    };
-
-    struct Changes {
-        std::string id;
-        int size;
-        std::pair<int, int> old_coordinates;
-        std::pair<int, int> new_coordinates;
-
-        Changes(std::string id, int size, std::pair<int, int> old_, std::pair<int, int> new_) : id(std::move(id)), size(size),
-                                                                                                old_coordinates(std::move(old_)), new_coordinates(std::move(new_)) {}
     };
 
 }// namespace eclipse

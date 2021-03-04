@@ -1,9 +1,12 @@
 #include "include_qt/God.h"
 #include "game.h"
 #include "game_fwd.h"
+#include <memory>
 
 extern game_window *menu;
 extern main_window *game_view;
+
+std::unique_ptr<eclipse::Game> game;
 
 void God::show_menu() {
     menu = new game_window();
@@ -40,8 +43,8 @@ void God::delete_object(const std::string &hash) {
 
 
 void God::clicked_on_start() {
-    //тыкнутся функции в логике как-то запускающие игру для логики
-    //запустить таймер, создать объект Game??
+    game = std::make_unique<eclipse::Game>();//создаем новую игру
+    //запустить таймер???
 
     //JUST FOR DEBUG
     close_menu();
@@ -52,26 +55,37 @@ void God::clicked_on_start() {
 }
 
 void God::clicked_on_exit() {
-
+    game = nullptr;
     //просто вывести таймер??
     //JUST FOR DEBUG
     close_menu();
 }
 
-void God::pushed_button_left(eclipse::Game &game) {//в qt передать объект Game
-    game.make_move(eclipse::kLeft);
+void God::pushed_button_left() {
+    game->make_move(eclipse::kLeft);
 
     //JUST FOR DEBUG
     move_object(200, 200, "aaa");
 }
 
-void God::pushed_button_right(eclipse::Game &game) {
-    game.make_move(eclipse::kRight);
+void God::pushed_button_right() {
+    game->make_move(eclipse::kRight);
 
     //JUST FOR DEBUG
     move_object(400, 200, "aaa");
 }
 
-void God::make_move_in_logic(eclipse::Game &game) {
-    game.make_move();
+void God::make_move_in_logic() {//если из qt не пришло право/лево, то просто запускаем эту функцию раз в какое-то время в таймере
+    game->make_move();
+}
+
+void God::make_changes_in_qt() {
+    for (auto &i : game->changes) {
+        if (i.object_name.empty()) {
+            move_object(i.new_coordinates.first, i.new_coordinates.second, i.id);
+        } else {
+            set_object(i.new_coordinates.first, i.new_coordinates.second, i.size, i.id, i.object_name);
+        }
+    }
+    game->changes.clear();
 }
