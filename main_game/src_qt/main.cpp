@@ -9,3 +9,4 @@ main_window *game_view;
     God::show_menu();
     return QApplication::exec();
 }*/
+
