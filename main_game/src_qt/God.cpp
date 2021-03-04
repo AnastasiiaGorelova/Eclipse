@@ -43,8 +43,10 @@ void God::clicked_on_start() {
     //JUST FOR DEBUG
     close_menu();
     show_game_field();
-    set_object(500, 200, 100, "aaa", "Ship");
+    set_object(500, 200, 125, "aaa", "Ship");
+    set_object(500, 200, 100, "bbb", "Big Asteroid");
     game_view->set_lives();
+    game_view->set_timer();
     /*move_object(200, 200, "aaa");
     delete_object("aaa");*/
 }
@@ -58,11 +60,11 @@ void God::clicked_on_exit() {
 void God::pushed_button_left() {
 
     //JUST FOR DEBUG
-    move_object(200, 200, "aaa");
+    move_object(200, 450, "aaa");
 }
 
 void God::pushed_button_right() {
 
     //JUST FOR DEBUG
-    move_object(400, 200, "aaa");
+    move_object(350, 450, "aaa");
 }

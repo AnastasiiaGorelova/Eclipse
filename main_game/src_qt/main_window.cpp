@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QStyle>
 #include <QDesktopWidget>
+#include <QGraphicsProxyWidget>
 
 extern God damn;
 
@@ -26,14 +27,17 @@ void main_window::make_field() {
     scene->setBackgroundBrush(QBrush(QImage("../../images/background.jpeg")));
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setFrameShape(QFrame::NoFrame);
 
     scene_info = new QGraphicsScene();
-    scene_info->setSceneRect(0, 0, width, height);
+    scene_info->setSceneRect(0, 0, width, 30);
     ui->graphicsView_2->setScene(scene_info);
-    //scene_info->setBackgroundBrush(Qt::black);
+    scene_info->setBackgroundBrush(Qt::black);
     ui->graphicsView_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(800, 600);
+    ui->graphicsView_2->setFrameShape(QFrame::NoFrame);
+
+    setFixedSize(800, 630);
     setWindowTitle("Eclipse");
 }
 
@@ -73,25 +77,40 @@ bool main_window::eventFilter(QObject *obj, QEvent *event) {
 }
 
 void main_window::set_timer() {
+    time = new QLabel("Time:");
+    number_for_time = new QLabel("00:00");
 
+    auto *item_1 = new QGraphicsRectItem;
+    item_1->setRect(QRect(0, 0, 80, 30));
+    scene_info->addItem(item_1);
+    auto *pMyProxy_1 = new QGraphicsProxyWidget(item_1);
+    pMyProxy_1->setWidget(time);
+    pMyProxy_1->setPos(10,7);
+
+    auto *item_2 = new QGraphicsRectItem;
+    item_2->setRect(QRect(0, 0, 80, 30));
+    scene_info->addItem(item_2);
+    auto *pMyProxy_2 = new QGraphicsProxyWidget(item_2);
+    pMyProxy_2->setWidget(number_for_time);
+    pMyProxy_2->setPos(60,7);
 }
 
 void main_window::set_lives() {
     auto* object_1 = new GameObject();
     object_1->setPixmap(QPixmap("../../images/heart.png").scaled(25, 25));
-    object_1->setPos(0, 0);
     scene_info->addItem(object_1);
+    object_1->setPos(760, 3.5);
     hash_table["heart_1"] = object_1;
 
     auto* object_2 = new GameObject();
     object_2->setPixmap(QPixmap("../../images/heart.png").scaled(25, 25));
-    object_2->setPos(745, 3.5);
+    object_2->setPos(730, 3.5);
     scene_info->addItem(object_2);
     hash_table["heart_2"] = object_2;
 
     auto* object_3 = new GameObject();
     object_3->setPixmap(QPixmap("../../images/heart.png").scaled(25, 25));
-    object_3->setPos(715, 3.5);
+    object_3->setPos(700, 3.5);
     scene_info->addItem(object_3);
     hash_table["heart_3"] = object_3;
 }
