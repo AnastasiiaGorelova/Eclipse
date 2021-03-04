@@ -4,11 +4,13 @@
 #include "main_window.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class game_window; }
+namespace Ui {
+class game_window;
+}
 QT_END_NAMESPACE
 
 class game_window : public QWidget {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     explicit game_window(QWidget *parent = nullptr);
@@ -21,10 +23,9 @@ private:
     size_t height = 600;
     Ui::game_window *ui;
 
-
 private slots:
     static void on_start_clicked();
     static void on_exit_clicked();
 };
 
-#endif //MAIN_GAME_GAME_WINDOW_H
+#endif  // MAIN_GAME_GAME_WINDOW_H

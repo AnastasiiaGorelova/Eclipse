@@ -1,6 +1,6 @@
+#include <iostream>
 #include "game.h"
 #include "game_fwd.h"
-#include <iostream>
 
 void print(eclipse::Game &game) {
     for (int j = 0; j < eclipse::kHeight; j++) {

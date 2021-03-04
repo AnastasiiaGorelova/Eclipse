@@ -1,56 +1,28 @@
-#include <serial/serial.h>
-#include <iostream>
+#include "Arduino.h"
 
 using namespace std;
-
-void enumerate_ports() {
-    cout << "=====================================================" << endl;
-
-    vector<serial::PortInfo> devices_found = serial::list_ports();
-
-    vector<serial::PortInfo>::iterator iter = devices_found.begin();
-
-    while (iter != devices_found.end()) {
-        serial::PortInfo device = *iter++;
-
-        cout << "port: " << device.port.c_str() << '\n';
-        cout << "description: " << device.description.c_str() << '\n';
-        cout << "hardware_id: " << device.hardware_id.c_str() << '\n' << endl;
-    }
-    cout << "=====================================================" << endl;
-}
 
 int main() {
     freopen("a.out", "w", stdout);
 
-    serial::Timeout timeout;
-    serial::Serial my_serial("/dev/tty.usbmodem143101", 9600,
-                             serial::Timeout::simpleTimeout(serial::Timeout::max()));
+    uint32_t baudrate = 9600;
+    const string port = "/dev/tty.usbmodem143101";
 
-    cout << "Is the serial port open?"
-         << "\n";
-    if (my_serial.isOpen()) {
-        cout << "-Yes." << endl;
-    } else {
-        cout << "-No." << endl;
-    }
-    cout << endl;
+    ReadingFromPort::Arduino my_arduino(port, baudrate);
 
-    enumerate_ports();
+    /// Получить порты
+    ReadingFromPort::Ports my_ports;
+    my_ports.enumerate_ports();
 
     string line;
+    my_ports.get_informarmation(my_arduino);
+    my_ports.is_port_open(my_arduino);
 
-    cout << "ReadLine: " << my_serial.readline() << '\n';
-    cout << "CTS: " << my_serial.getCTS() << '\n';
-    cout << "DSR: " << my_serial.getDSR() << '\n';
-    cout << "RI: " << my_serial.getRI() << '\n';
-    cout << "CD: " << my_serial.getCD() << '\n' << endl;
-
-    while(line != "MENU\n") {
-        line = my_serial.readline();
+    while (line != "MENU\n") {
+        line = my_arduino.serial_.readline();
         cout << "ReadLine: " << line;
     }
 
-    my_serial.close();
-    cout << my_serial.getPort() << '\n';
+    my_arduino.serial_.close();
+    cout << my_arduino.serial_.getPort() << '\n';
 }

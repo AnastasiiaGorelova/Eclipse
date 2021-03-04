@@ -22,7 +22,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src)
 
 if (APPLE)
     set(CMAKE_PREFIX_PATH "/Users/katya/Qt/6.0.1/clang_64")
-    find_package(Qt6 COMPONENTS Widgets REQUIRED)
+    find_package(Qt6Widgets REQUIRED)
 else ()
     #set(CMAKE_PREFIX_PATH "/home/alena/Qt/5.15.2/gcc_64")
     #set(CMAKE_PREFIX_PATH "/home/anastasia/Qt/5.15.2/gcc_64")
@@ -36,7 +36,7 @@ add_executable(main_game ${HEADERS} ${SOURCES})
 
 # For Arduino and libs
 add_subdirectory(dependencies)
-add_executable(arduino_example "src_arduino/main.cpp")
+add_executable(arduino_example "src_arduino/main.cpp" "src_arduino/Arduino.cpp" "src_arduino/Arduino.h")
 target_link_libraries(arduino_example serial)
 
 if (APPLE)
