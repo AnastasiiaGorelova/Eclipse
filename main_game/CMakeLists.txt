@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 
 include_directories(include)
 
-add_executable(main_game1 src/main.cpp src/asteroids.cpp src/space_ship.cpp src/game.cpp src/shots.cpp)
+add_executable(main_game1 src/main.cpp src/asteroids.cpp src/space_ship.cpp src/game.cpp src/shots.cpp src/util.cpp)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_PREFIX_PATH "/home/anastasia/Qt/5.15.2/gcc_64") #set your local path to qt
