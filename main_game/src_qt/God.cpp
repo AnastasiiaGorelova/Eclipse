@@ -3,11 +3,6 @@
 #include "game_fwd.h"
 #include <memory>
 
-extern game_window *menu;
-extern main_window *game_view;
-
-std::unique_ptr<eclipse::Game> game;
-
 void God::show_menu() {
     menu = new game_window();
     menu->show_menu_first();

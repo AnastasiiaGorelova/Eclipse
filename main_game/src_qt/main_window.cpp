@@ -49,10 +49,10 @@ bool main_window::eventFilter(QObject *obj, QEvent *event) {
         auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
         switch (keyEvent->key()){
             case Qt::Key_Left:
-                God::pushed_button_left();
+                damn.pushed_button_left();
                 break;
             case Qt::Key_Right:
-                God::pushed_button_right();
+                damn.pushed_button_right();
                 break;
             default:
                 break;

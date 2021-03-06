@@ -2,6 +2,8 @@
 #include "ui_game_window.h"
 #include <include_qt/God.h>
 
+extern God damn;
+
 game_window::game_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
@@ -43,11 +45,11 @@ void game_window::show_menu_first() {
 }
 
 void game_window::on_start_clicked() {
-    God::clicked_on_start();
+    damn.clicked_on_start();
 }
 
 void game_window::on_exit_clicked() {
-    God::clicked_on_exit();
+    damn.clicked_on_exit();
 }
 
 
