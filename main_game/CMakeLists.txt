@@ -9,24 +9,20 @@ include_directories(include include_qt)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (APPLE)
-    find_package(Qt6Widgets REQUIRED)
-else ()
-    find_package(Qt5Widgets REQUIRED)
-endif ()
+find_package(Qt5Widgets REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src)
 
+find_package(Qt5Widgets REQUIRED)
+
 if (APPLE)
-    set(CMAKE_PREFIX_PATH "/Users/katya/Qt/6.0.1/clang_64")
-    find_package(Qt6Widgets REQUIRED)
+    set(CMAKE_PREFIX_PATH "/Users/katya/Qt/5.15.2/clang_64")
 else ()
     #set(CMAKE_PREFIX_PATH "/home/alena/Qt/5.15.2/gcc_64")
     #set(CMAKE_PREFIX_PATH "/home/anastasia/Qt/5.15.2/gcc_64")
-    find_package(Qt5Widgets REQUIRED)
 endif ()
 
 file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*cpp")
@@ -39,8 +35,5 @@ add_subdirectory(dependencies)
 add_executable(arduino_example "src_arduino/main.cpp" "src_arduino/Arduino.cpp" "src_arduino/Arduino.h")
 target_link_libraries(arduino_example serial)
 
-if (APPLE)
-    target_link_libraries(main_game Qt6::Widgets)
-else ()
-    target_link_libraries(main_game Qt5::Widgets)
-endif ()
+target_link_libraries(main_game Qt5::Widgets)
+

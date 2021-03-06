@@ -3,15 +3,23 @@
 
 #include <serial/serial.h>
 #include <iostream>
+#include <stdexcept>
 
 namespace ReadingFromPort {
 
-using std::cin, std::cout, std::vector, std::endl;
+using std::cerr, std::string, std::cin, std::cout, std::vector, std::endl;
+
+enum Move{
+    menu,
+    left,
+    right
+};
 
 struct Arduino {
     serial::Serial serial_;
 
     Arduino(const std::string &port, uint32_t baudrate);
+    Move make_a_move();
     ~Arduino();
 };
 
@@ -20,9 +28,10 @@ struct Ports {
     vector<serial::PortInfo>::iterator iter_;
 
     Ports();
-    void enumerate_ports();
+    void show_ports();
     void is_port_open(Arduino &my_serial);
     void get_informarmation(Arduino &my_serial);
+    const string get_arduino();
 };
 
 }  // namespace ReadingFromPort

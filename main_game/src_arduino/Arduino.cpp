@@ -2,7 +2,11 @@
 
 namespace ReadingFromPort {
 
-void Ports::enumerate_ports() {
+Ports::Ports()
+    : devices_found_(serial::list_ports()), iter_(devices_found_.begin()) {
+}
+
+void Ports::show_ports() {
     cout << "=====================================================" << endl;
     while (iter_ != devices_found_.end()) {
         serial::PortInfo device = *iter_++;
@@ -25,9 +29,6 @@ void Ports::is_port_open(Arduino &my_serial) {
     cout << endl;
 }
 
-Ports::Ports()
-    : devices_found_(serial::list_ports()), iter_(devices_found_.begin()) {
-}
 void Ports::get_informarmation(Arduino &my_serial) {
     cout << "ReadLine: " << my_serial.serial_.readline() << '\n';
     cout << "CTS: " << my_serial.serial_.getCTS() << '\n';
@@ -35,14 +36,44 @@ void Ports::get_informarmation(Arduino &my_serial) {
     cout << "RI: " << my_serial.serial_.getRI() << '\n';
     cout << "CD: " << my_serial.serial_.getCD() << '\n' << endl;
 }
+const string Ports::get_arduino() {
+    string path = "FAIL";
+    for (serial::PortInfo u : devices_found_) {
+        if (u.description.find("Arduino") != -1) {
+            path = u.port;
+        }
+    }
+    try {
+        if (path == "FAIL") {
+            throw "There is no Arduino plugged into port";
+        }
+        return path;
+    } catch (const char *exception) {
+        cerr << exception << '\n';
+    }
+}
 
-Arduino::Arduino(const std::string &port, uint32_t baudrate) {
+Arduino::Arduino(const std::string &port, uint32_t baudrate = 9600) {
     serial::Timeout timeout(
         serial::Timeout::simpleTimeout(serial::Timeout::max()));
     serial_.setBaudrate(baudrate);
     serial_.setPort(port);
     serial_.setTimeout(timeout);
     serial_.open();
+}
+
+Move Arduino::make_a_move() {
+    string line;
+    line = serial_.readline();
+    if (line == "MENU\n") {
+        return menu;
+    }
+    if (line == "RIGHT\n") {
+        return right;
+    }
+    if (line == "LEFT\n") {
+        return left;
+    }
 }
 
 Arduino::~Arduino() {

@@ -5,22 +5,33 @@ using namespace std;
 int main() {
     freopen("a.out", "w", stdout);
 
+    ReadingFromPort::Ports my_ports;
     uint32_t baudrate = 9600;
-    const string port = "/dev/tty.usbmodem143101";
+
+    /// Получить порты
+    my_ports.show_ports();
+
+    /// поиск Ардуино
+    const string port = my_ports.get_arduino();
 
     ReadingFromPort::Arduino my_arduino(port, baudrate);
 
-    /// Получить порты
-    ReadingFromPort::Ports my_ports;
-    my_ports.enumerate_ports();
-
-    string line;
     my_ports.get_informarmation(my_arduino);
     my_ports.is_port_open(my_arduino);
 
-    while (line != "MENU\n") {
-        line = my_arduino.serial_.readline();
-        cout << "ReadLine: " << line;
+    while (true) {
+        ReadingFromPort::Move move = my_arduino.make_a_move();
+        if (move == ReadingFromPort::menu) {
+            my_arduino.serial_.close();
+            cout << my_arduino.serial_.getPort() << '\n';
+            return 0;
+        }
+        if (move == ReadingFromPort::right) {
+            cout << "RIGHT" << endl;
+        }
+        if (move == ReadingFromPort::left) {
+            cout << "LEFT" << endl;
+        }
     }
 
     my_arduino.serial_.close();
