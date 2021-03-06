@@ -1,37 +1,39 @@
 #ifndef MAIN_GAME_ASTEROIDS_H
 #define MAIN_GAME_ASTEROIDS_H
 
-#include "game_fwd.h"
 #include <cstdlib>
 #include <string>
 #include <utility>
+#include "game_fwd.h"
 
 namespace eclipse {
-    struct Asteroid {
-    private:
-        int x;
-        int y = 0;
-        int size = 0;
-        int lives;
-        ObjectState state = kAlive;
-        std::string id;
+struct Asteroid {
+private:
+    int x;
+    int y = 0;
+    int size = 0;
+    int lives;
+    ObjectState state = kAlive;
+    std::string id;
 
-    public:
-        Asteroid(int x, int size, std::string id) : x(x), size(size), lives(size), id(std::move(id)) {}
+public:
+    Asteroid(int x, int size, std::string id)
+        : x(x), size(size), lives(size), id(std::move(id)) {
+    }
 
-        ObjectState get_state() const;
+    ObjectState get_state() const;
 
-        void move(int speed);
+    void move(int speed);
 
-        std::pair<int, int> get_coordinates() const;//x,y coordinates
+    std::pair<int, int> get_coordinates() const;  // x,y coordinates
 
-        std::string get_id() const;
+    std::string get_id() const;
 
-        int get_size() const;
+    int get_size() const;
 
-        void destroy();
-    };
+    void destroy();
+};
 
-}// namespace eclipse
+}  // namespace eclipse
 
-#endif//MAIN_GAME_ASTEROIDS_H
+#endif  // MAIN_GAME_ASTEROIDS_H

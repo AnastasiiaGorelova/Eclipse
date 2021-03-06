@@ -1,0 +1,6 @@
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW CACHE STRING "option() honors normal variables")
+set_property(CACHE CMAKE_POLICY_DEFAULT_CMP0077 PROPERTY STRINGS NEW OLD)
+
+set(DISABLE_CATKIN ON)
+set(CATKIN_ENABLE_TESTING OFF)
+add_subdirectory(serial)

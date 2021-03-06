@@ -1,11 +1,9 @@
 #ifndef MAIN_GAME_GAMEOBJECT_H
 #define MAIN_GAME_GAMEOBJECT_H
 
-#include "QObject"
 #include "QGraphicsPixmapItem"
+#include "QObject"
 
-struct GameObject :  public QObject, public QGraphicsPixmapItem {
+struct GameObject : public QObject, public QGraphicsPixmapItem {};
 
-};
-
-#endif //MAIN_GAME_GAMEOBJECT_H
+#endif  // MAIN_GAME_GAMEOBJECT_H

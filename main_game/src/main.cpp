@@ -1,6 +1,6 @@
+#include <iostream>
 #include "game.h"
 #include "game_fwd.h"
-#include <iostream>
 
 #include<QApplication>
 #include "include_qt/God.h"
@@ -42,3 +42,4 @@ int main(int argc, char *argv[]) {
 
     return QApplication::exec();
 }
+
