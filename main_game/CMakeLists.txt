@@ -32,7 +32,7 @@ endif ()
 file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*cpp")
 file(GLOB_RECURSE HEADERS "include_qt/*.h" "include/*h")
 
-add_executable(main_game ${HEADERS} ${SOURCES})
+add_executable(main_game ${HEADERS} ${SOURCES} src_qt/GameObject.cpp)
 
 # For Arduino and libs
 add_subdirectory(dependencies)

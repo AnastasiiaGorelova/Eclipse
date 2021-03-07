@@ -12,13 +12,13 @@ private:
     int x;
     int y = 0;
     int size = 0;
-    int lives;
+    int lives = 2;
     ObjectState state = kAlive;
     std::string id;
 
 public:
     Asteroid(int x, int size, std::string id)
-        : x(x), size(size), lives(size), id(std::move(id)) {
+        : x(x), size(size), id(std::move(id)) {
     }
 
     ObjectState get_state() const;

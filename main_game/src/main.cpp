@@ -32,12 +32,12 @@ int main(int argc, char *argv[]) {
     eclipse::Game game;
 
     // only for debug
-    print(game);
-    while (game.get_game_state() != eclipse::kFinished) {
-        game.make_move(eclipse::kLeft);
-        print(game);
-    }
-    print(game);
+    //print(game);
+//    while (game.get_game_state() != eclipse::kFinished) {
+//        game.make_move(eclipse::kLeft);
+//        print(game);
+//    }
+//    print(game);
     // finished
 
     return QApplication::exec();

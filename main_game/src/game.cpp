@@ -3,6 +3,10 @@
 #include "game_fwd.h"
 #include "util.h"
 
+#include "God.h"
+extern ::God damn;
+
+
 namespace eclipse {
 namespace {
 bool checker_for_nothing(int x_start,
@@ -63,15 +67,15 @@ void Game::shoot() {
     int y = ship.get_coordinates().second - 1;
     Shot new_shot(x, y, new_uuid());
     changes.emplace_back(Changes(
-        new_shot.get_id(), 1, "shot",
+        new_shot.get_id(), new_shot.get_size(), "shot",
         {new_shot.get_coordinates().first, new_shot.get_coordinates().second}));
     shots_in_the_field.push_back(std::move(new_shot));
     field[x][y] = kShot;
 }
 
 void Game::generate_asteroid() {
-    if (random_number(0, 2) % 2 == 0) {
-        int size = random_number(2, 3);
+    if (random_number(0, 30) == 5) {
+        int size = random_number(70, 100);
         int x = random_number(0, kWidth - size);
         while (!checker_for_nothing(x, x + size, 0, size, *this)) {
             x = random_number(0, kWidth - size);
@@ -98,13 +102,13 @@ void Game::moving_shots() {
         if (field[shots_in_the_field[id].get_coordinates().first][new_y] ==
                 kAsteroid ||
             field[old_x][old_y] == kNothing ||
-            // field[shots_in_the_field[id].x][new_y - asteroids_speed] ==
-            // ASTEROID ||          //утечка памяти??
             shots_in_the_field[id].get_coordinates().second ==
                 0) {  //если сейчас столкнется с астероидом --> удаляем
-            std::swap(shots_in_the_field[id],
-                      shots_in_the_field[shots_in_the_field.size() - 1]);
-            shots_in_the_field.pop_back();
+
+            shots_in_the_field.erase(shots_in_the_field.begin() + id);
+//            std::swap(shots_in_the_field[id],
+//                      shots_in_the_field[shots_in_the_field.size() - 1]);
+//            shots_in_the_field.pop_back();
             changes.emplace_back(
                 Changes(shots_in_the_field[id].get_id(), 1, "", {-1, -1}));
         } else {
@@ -139,10 +143,12 @@ void Game::moving_asteroids() {
                              ship.get_coordinates().second + ship.get_size(),
                              kSpaceShip);
                 // если в корабль врезался астероид, восстанавливаем  корабль
-                std::swap(
-                    asteroids_in_the_field[id],
-                    asteroids_in_the_field[asteroids_in_the_field.size() - 1]);
-                asteroids_in_the_field.pop_back();
+
+                asteroids_in_the_field.erase(asteroids_in_the_field.begin() + id);
+//                std::swap(
+//                    asteroids_in_the_field[id],
+//                    asteroids_in_the_field[asteroids_in_the_field.size() - 1]);
+//                asteroids_in_the_field.pop_back();
                 check_for_living();
                 changes.emplace_back(Changes(
                     asteroids_in_the_field[id].get_id(), size, "", {-1, -1}));
@@ -175,12 +181,16 @@ void Game::moving_ship(MoveDirection direction) {
         Changes(ship.get_id(), ship.get_size(), "", {new_x, y}));
 }
 
+
 void Game::make_move(MoveDirection direction) {
     moving_ship(direction);
     moving_shots();
     moving_asteroids();
     shoot();
     generate_asteroid();
+    //!!!!!!!!!!!!УБРАТЬ
+    damn.make_changes_in_qt();
+
 }
 
 std::pair<int, int> get_field_size() {

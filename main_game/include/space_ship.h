@@ -8,10 +8,10 @@
 namespace eclipse {
 struct spaceship {
 private:
-    int size = 3;
+    int size = 150;
     int x;
     int y;
-    std::string id = "ship";
+    std::string id = "abcd";
     int speed = 2;
 
 public:

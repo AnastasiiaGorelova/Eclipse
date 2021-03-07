@@ -9,15 +9,16 @@
 namespace eclipse {
 struct Shot {
 private:
-    int size = 1;
+    int size = 20;
     int x;
     int y;
-    int speed = 1;
+    int speed = 50;
     std::string id;
 
 public:
     Shot(int x, int y, std::string id) : x(x), y(y), id(std::move(id)) {
     }
+    int get_size() const;
     std::pair<int, int> get_coordinates() const;
     std::string get_id() const;
     void move();

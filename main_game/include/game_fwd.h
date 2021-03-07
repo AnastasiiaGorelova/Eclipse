@@ -3,8 +3,8 @@
 
 namespace eclipse {
 struct Game;
-static const int kWidth = 50;
-static const int kHeight = 10;
+static const int kWidth = 800;
+static const int kHeight = 600;
 enum GameState { kOngoing, kFinished };
 enum FieldState { kAsteroid, kLife, kSpaceShip, kShot, kNothing };
 enum MoveDirection { kLeft, kRight, kNoMove };
