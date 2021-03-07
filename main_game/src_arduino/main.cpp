@@ -12,7 +12,7 @@ int main() {
     my_ports.show_ports();
 
     /// поиск Ардуино
-    const string port = my_ports.get_arduino();
+    string port = my_ports.get_arduino();
 
     ReadingFromPort::Arduino my_arduino(port, baudrate);
 

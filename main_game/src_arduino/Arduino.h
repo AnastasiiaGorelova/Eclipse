@@ -31,7 +31,7 @@ struct Ports {
     void show_ports();
     void is_port_open(Arduino &my_serial);
     void get_informarmation(Arduino &my_serial);
-    const string get_arduino();
+    std::string get_arduino() const;
 };
 
 }  // namespace ReadingFromPort

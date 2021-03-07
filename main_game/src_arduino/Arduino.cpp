@@ -36,21 +36,13 @@ void Ports::get_informarmation(Arduino &my_serial) {
     cout << "RI: " << my_serial.serial_.getRI() << '\n';
     cout << "CD: " << my_serial.serial_.getCD() << '\n' << endl;
 }
-const string Ports::get_arduino() {
-    string path = "FAIL";
-    for (serial::PortInfo u : devices_found_) {
-        if (u.description.find("Arduino") != -1) {
-            path = u.port;
+std::string Ports::get_arduino() const {
+    for (const auto& device : devices_found_) {
+        if (device.description.find("Arduino") != std::string::npos) {
+            return device.port;
         }
     }
-    try {
-        if (path == "FAIL") {
-            throw "There is no Arduino plugged into port";
-        }
-        return path;
-    } catch (const char *exception) {
-        cerr << exception << '\n';
-    }
+    throw std::runtime_error("There is no Arduino plugged into port");
 }
 
 Arduino::Arduino(const std::string &port, uint32_t baudrate = 9600) {
