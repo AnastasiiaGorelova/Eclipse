@@ -57,12 +57,17 @@ void main_window::set(int x,
 }
 
 void main_window::move(int x, int y, const std::string &hash) {
-    hash_table[hash]->setPos(x, y);
+    if (hash_table[hash] != nullptr){
+        hash_table[hash]->setPos(x, y);
+    }
 }
 
 void main_window::delete_obj(const std::string &hash) {
-    delete hash_table[hash];
-    hash_table.erase(hash);
+    if (hash_table[hash] != nullptr) {
+        hash_table[hash]->del();
+        hash_table[hash] = nullptr;
+    }
+
 }
 
 bool main_window::eventFilter(QObject *obj, QEvent *event) {
@@ -70,10 +75,10 @@ bool main_window::eventFilter(QObject *obj, QEvent *event) {
         auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
         switch (keyEvent->key()) {
             case Qt::Key_Left:
-                God::pushed_button_left();
+                damn.pushed_button_left();
                 break;
             case Qt::Key_Right:
-                God::pushed_button_right();
+                damn.pushed_button_right();
                 break;
             default:
                 break;

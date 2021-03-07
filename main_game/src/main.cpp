@@ -2,6 +2,11 @@
 #include "game.h"
 #include "game_fwd.h"
 
+#include<QApplication>
+#include "include_qt/God.h"
+
+God damn;
+
 void print(eclipse::Game &game) {
     for (int j = 0; j < eclipse::kHeight; j++) {
         for (int i = 0; i < eclipse::kWidth; i++) {
@@ -19,19 +24,22 @@ void print(eclipse::Game &game) {
     std::cout << '\n';
 }
 
-/*
-int main() {
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    damn.show_menu();
+
     eclipse::Game game;
 
     // only for debug
-    print(game);
-    while (game.get_game_state() != eclipse::kFinished) {
-        game.make_move(eclipse::kLeft);
-        print(game);
-    }
-    print(game);
+    //print(game);
+//    while (game.get_game_state() != eclipse::kFinished) {
+//        game.make_move(eclipse::kLeft);
+//        print(game);
+//    }
+//    print(game);
     // finished
 
-    return 0;
+    return QApplication::exec();
 }
- */
+

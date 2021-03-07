@@ -4,8 +4,10 @@
 #include <QStyle>
 #include "ui_game_window.h"
 
-game_window::game_window(QWidget *parent)
-    : QWidget(parent), ui(new Ui::game_window) {
+extern God damn;
+
+game_window::game_window(QWidget *parent) :
+        QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
     QPixmap pix("../../images/bakcgroung_2.0.jpg");
     ui->label->setPixmap(pix.scaled(800, 630));
@@ -59,9 +61,9 @@ void game_window::show_menu_first() {
 }
 
 void game_window::on_start_clicked() {
-    God::clicked_on_start();
+    damn.clicked_on_start();
 }
 
 void game_window::on_exit_clicked() {
-    God::clicked_on_exit();
+    damn.clicked_on_exit();
 }

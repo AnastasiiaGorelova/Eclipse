@@ -2,11 +2,7 @@
 #include <memory>
 #include "game.h"
 #include "game_fwd.h"
-
-extern game_window *menu;
-extern main_window *game_view;
-
-std::unique_ptr<eclipse::Game> game;
+#include <iostream>
 
 void God::show_menu() {
     menu = new game_window();
@@ -38,22 +34,28 @@ void God::set_object(int x,
 }
 
 void God::move_object(int x, int y, const std::string &hash) {
+    std::cerr << "Yep2";
     game_view->move(x, y, hash);
 }
 
 void God::delete_object(const std::string &hash) {
+    std::cerr << "Yep";
     game_view->delete_obj(hash);
+
 }
 
 void God::clicked_on_start() {
+    std::cerr << "Yep3";
     game = std::make_unique<eclipse::Game>();  //создаем новую игру
     //запустить таймер???
 
     // JUST FOR DEBUG
     close_menu();
     show_game_field();
-    set_object(500, 200, 125, "aaa", "Ship");
-    set_object(500, 200, 100, "bbb", "Big Asteroid");
+    make_changes_in_qt();
+
+//    set_object(500, 200, 125, "aaa", "ship");
+//    set_object(500, 200, 100, "bbb", "asteroid");
     game_view->set_lives();
     game_view->set_timer();
     /*move_object(200, 200, "aaa");
@@ -71,14 +73,14 @@ void God::pushed_button_left() {
     game->make_move(eclipse::kLeft);
 
     // JUST FOR DEBUG
-    move_object(200, 450, "aaa");
+   // move_object(200, 450, "aaa");
 }
 
 void God::pushed_button_right() {
     game->make_move(eclipse::kRight);
 
     // JUST FOR DEBUG
-    move_object(350, 450, "aaa");
+    //move_object(350, 450, "aaa");
 }
 
 void God::make_move_in_logic() {  //если из qt не пришло право/лево, то просто
@@ -89,7 +91,10 @@ void God::make_move_in_logic() {  //если из qt не пришло прав�
 
 void God::make_changes_in_qt() {
     for (auto &i : game->changes) {
-        if (i.object_name.empty()) {
+        if(i.new_coordinates.first == -1 && i.new_coordinates.second == -1) {
+            delete_object(i.id);
+            std::cerr << "(";
+        } else if (i.object_name.empty()) {
             move_object(i.new_coordinates.first, i.new_coordinates.second,
                         i.id);
         } else {

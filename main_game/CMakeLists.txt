@@ -28,12 +28,13 @@ endif ()
 file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*cpp")
 file(GLOB_RECURSE HEADERS "include_qt/*.h" "include/*h")
 
-add_executable(main_game ${HEADERS} ${SOURCES})
+add_executable(main_game ${HEADERS} ${SOURCES} src_qt/GameObject.cpp)
 
 # For Arduino and libs
 add_subdirectory(dependencies)
 add_executable(arduino_example "src_arduino/main.cpp" "src_arduino/Arduino.cpp" "src_arduino/Arduino.h")
 target_link_libraries(arduino_example serial)
+
 
 target_link_libraries(main_game Qt5::Widgets)
 
