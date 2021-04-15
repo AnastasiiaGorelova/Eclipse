@@ -2,10 +2,13 @@
 #include "game.h"
 #include "game_fwd.h"
 
+#include <Modification_store.h>
+
 #include<QApplication>
-#include "include_qt/God.h"
+#include "God.h"
 
 God damn;
+Modification_store train;
 
 void print(eclipse::Game &game) {
     for (int j = 0; j < eclipse::kHeight; j++) {
@@ -25,11 +28,12 @@ void print(eclipse::Game &game) {
 }
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
 
+    QApplication app(argc, argv);
     damn.show_menu();
 
     eclipse::Game game;
+    //может не в main будем создавать, а из боженьки? вдруг несколько сессий игры понадобится
 
     // only for debug
     //print(game);

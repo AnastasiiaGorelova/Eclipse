@@ -1,15 +1,18 @@
-#include "include_qt/God.h"
+#include "God.h"
 #include "game.h"
 #include "game_fwd.h"
 #include <iostream>
 #include <memory>
+#include <Modification_store.h>
+
+extern Modification_store train;
 
 void God::show_menu() {
     menu = new game_window();
     menu->show_menu_first();
 }
 
-void God::close_menu() {
+void God::close_menu() const {
     menu->close();
 }
 
@@ -18,9 +21,11 @@ void God::show_game_field() {
     game_view->make_field();
     menu->hide();
     game_view->show();
+    selection_window = new Selection();
+    selection_window -> show();
 }
 
-void God::close_game_field() {
+void God::close_game_field() const {
     game_view->close();
     menu->show();
 }
@@ -29,70 +34,40 @@ void God::set_object(int x,
                      int y,
                      int size,
                      const std::string &hash,
-                     const std::string &object_name) {
+                     const std::string &object_name) const {
     game_view->set(x, y, size, hash, object_name);
 }
 
-void God::move_object(int x, int y, const std::string &hash) {
-    //std::cerr << "Yep2";
+void God::move_object(int x, int y, const std::string &hash) const {
     game_view->move(x, y, hash);
 }
 
-void God::delete_object(const std::string &hash) {
-    //std::cerr << "Yep";
+void God::delete_object(const std::string &hash) const {
     game_view->delete_obj(hash);
 }
 
 void God::clicked_on_start() {
-    //std::cerr << "Yep3";
     game = std::make_unique<eclipse::Game>();//создаем новую игру
     //запустить таймер???
 
-    // JUST FOR DEBUG
     close_menu();
     show_game_field();
     make_changes_in_qt();
 
-    //    set_object(500, 200, 125, "aaa", "ship");
-    //    set_object(500, 200, 100, "bbb", "asteroid");
     game_view->set_lives();
     game_view->set_timer();
-    /*move_object(200, 200, "aaa");
-    delete_object("aaa");*/
 }
 
 void God::clicked_on_exit() {
     game = nullptr;
     //просто вывести таймер??
-    // JUST FOR DEBUG
     close_menu();
 }
 
-void God::pushed_button_left() {
-    game->make_move(eclipse::kLeft);
-
-    // JUST FOR DEBUG
-    // move_object(200, 450, "aaa");
-}
-
-void God::pushed_button_right() {
-    game->make_move(eclipse::kRight);
-
-    // JUST FOR DEBUG
-    //move_object(350, 450, "aaa");
-}
-
-void God::make_move_in_logic() {//если из qt не пришло право/лево, то просто
-                                //запускаем эту функцию раз в какое-то время в
-                                //таймере
-    game->make_move();
-}
-
-void God::make_changes_in_qt() {
+void God::make_changes_in_qt() const {
     for (auto &i : game->changes) {
         if (i.new_coordinates.first == -1 && i.new_coordinates.second == -1) {
             delete_object(i.id);
-            //std::cerr << "del";
         } else if (i.object_name.empty()) {
             move_object(i.new_coordinates.first, i.new_coordinates.second,
                         i.id);
@@ -103,3 +78,31 @@ void God::make_changes_in_qt() {
     }
     game->changes.clear();
 }
+
+void God::make_move_in_logic() const {
+    auto [direction, steps] = train.give_changes();
+    for (int i = 0; i < steps; i++) {
+        game->make_move(direction); //наверное, потом стоит убрать цикл
+    }
+}
+
+void God::select_game_controller(eclipse::Controllers controller_) {
+    switch (controller_) {
+        case eclipse::Key:
+            controller.key_controller = new Key_Controller();
+            break;
+        case eclipse::Arduino:
+            //тут можно создать все необходимое для контроллера ардуино
+            break;
+        default:
+            break;
+    }
+    //подумать откуда еще можно запустить, пока нелогично
+    game_view->start_timer();
+}
+
+void God::decrease_lives_ui() const {
+    game_view->decrease_lives();
+}
+
+

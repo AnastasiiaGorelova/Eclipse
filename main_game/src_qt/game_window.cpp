@@ -1,7 +1,8 @@
-#include <include_qt/God.h>
-#include <include_qt/game_window.h>
+#include <God.h>
+#include <game_window.h>
 #include <QDesktopWidget>
 #include <QStyle>
+#include <QLineEdit>
 #include "ui_game_window.h"
 
 extern God damn;
@@ -43,8 +44,15 @@ game_window::game_window(QWidget *parent) :
         "QPushButton{border-color:qlineargradient(spread:pad, x1:0, y1:0, "
         "x2:1, y2:1, stop:0 rgba(255, 200, 200, 200), stop:1 rgba(255, 200, "
         "200, 200));}");
-    ui->textEdit->setStyleSheet(
-        "QTextEdit { background-color: QColor(255, 255, 255, 0)}");
+
+    ui->Eclipse->setText("Eclipse");
+    ui->Eclipse->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
+    QFont font;
+    font.setWeight(QFont::ExtraBold);
+    font.setPixelSize(120);
+    ui->Eclipse->setFont(font);
+    ui->Eclipse->setAlignment(Qt::AlignCenter);
+
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
