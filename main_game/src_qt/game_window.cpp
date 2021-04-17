@@ -10,7 +10,7 @@ extern God damn;
 game_window::game_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
-    QPixmap pix("../../images/bakcgroung_2.0.jpg");
+    QPixmap pix("../../images/main.jpg");
     ui->label->setPixmap(pix.scaled(800, 630));
     ui->start->setStyleSheet(
         "QPushButton{border: 1px solid transparent;text-align: center;"

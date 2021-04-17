@@ -18,7 +18,7 @@ Selection::Selection(QWidget *parent) :
 
     //установка фона
     ui->setupUi(this);
-    QPixmap backgroung("../../images/background.jpeg"); //поменять картинку
+    QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, backgroung);
