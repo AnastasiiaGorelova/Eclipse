@@ -24,7 +24,7 @@ void main_window::make_field() {
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, width, height);
     ui->graphicsView->setScene(scene);
-    scene->setBackgroundBrush(QBrush(QImage("../../images/background.jpeg")));
+    scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(width, height)));
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setFrameShape(QFrame::NoFrame);
