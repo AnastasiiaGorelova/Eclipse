@@ -7,31 +7,28 @@
 
 namespace ReadingFromPort {
 
-using std::cerr, std::string, std::cin, std::cout, std::vector, std::endl;
-
-enum Move{
-    menu,
-    left,
-    right
-};
+enum Move { menu, left, right, exception };
 
 struct Arduino {
     serial::Serial serial_;
 
-    Arduino(const std::string &port, uint32_t baudrate);
+    Arduino(const std::string &port, uint32_t baudrate = 9600);
     Move make_a_move();
     ~Arduino();
 };
 
 struct Ports {
-    vector<serial::PortInfo> devices_found_;
-    vector<serial::PortInfo>::iterator iter_;
+    std::vector<serial::PortInfo> devices_found_;
 
     Ports();
-    void show_ports();
+
+    /// Printing only
+    void print_ports();
     void is_port_open(Arduino &my_serial);
-    void get_informarmation(Arduino &my_serial);
-    std::string get_arduino() const;
+    void print_information(Arduino &my_serial);
+
+    /// Get arduino port
+    std::string get_arduino_port() const;
 };
 
 }  // namespace ReadingFromPort

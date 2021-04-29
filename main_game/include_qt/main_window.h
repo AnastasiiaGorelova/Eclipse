@@ -1,11 +1,12 @@
 #ifndef MAIN_GAME_MAIN_WINDOW_H
 #define MAIN_GAME_MAIN_WINDOW_H
 
-#include <include_qt/GameObject.h>
+#include <GameObject.h>
 #include <QGraphicsScene>
 #include <QLabel>
 #include <QWidget>
 #include <unordered_map>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,6 +27,8 @@ public:
     QLabel *time;
     QLabel *number_for_time;
 
+    QTimer *timer;
+
     void make_field();
     void set(int x,
              int y,
@@ -35,8 +38,15 @@ public:
     void delete_obj(const std::string &hash);
     void move(int x, int y, const std::string &hash);
 
+    void start_timer();
+
     void set_timer();
     void set_lives();
+
+    void decrease_lives();
+
+private slots:
+    void change_timer();
 
 private:
     size_t width = 800;
@@ -44,8 +54,8 @@ private:
     std::unordered_map<std::string, GameObject *> hash_table;
     Ui::main_window *ui;
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
+    int cur_time = 0;
+    static std::pair<std::string, std::string> find_time_string(int x);
 };
 
 #endif  // MAIN_GAME_MAIN_WINDOW_H

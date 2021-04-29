@@ -1,4 +1,3 @@
-
 #include "asteroids.h"
 
 namespace eclipse {

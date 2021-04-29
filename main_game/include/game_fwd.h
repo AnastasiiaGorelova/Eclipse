@@ -9,6 +9,7 @@ enum GameState { kOngoing, kFinished };
 enum FieldState { kAsteroid, kLife, kSpaceShip, kShot, kNothing };
 enum MoveDirection { kLeft, kRight, kNoMove };
 enum ObjectState { kAlive, kDead };
+enum Controllers {Key, Arduino};
 
 }  // namespace eclipse
 
