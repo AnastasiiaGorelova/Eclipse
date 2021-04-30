@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     damn.show_menu();
 
-    eclipse::Game game;
+    //eclipse::Game game;
     //может не в main будем создавать, а из боженьки? вдруг несколько сессий игры понадобится
 
     // only for debug

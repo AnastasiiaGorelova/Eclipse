@@ -79,8 +79,8 @@ Selection::Selection(QWidget *parent) :
     wdg->setLayout(vlay);
     setCentralWidget(wdg);
 
-    connect(key, &QPushButton::released, this, &Selection::on_key_clicked);
-    connect(ard, &QPushButton::released, this, &Selection::on_ard_clicked);
+    connect(key, &QPushButton::released, this, &Selection::_on_key_clicked);
+    connect(ard, &QPushButton::released, this, &Selection::_on_ard_clicked);
 
     setWindowTitle("Set Controller");
     setFixedSize(400, 300);
@@ -90,12 +90,12 @@ Selection::~Selection() {
     delete ui;
 }
 
-void Selection::on_key_clicked() {
+void Selection::_on_key_clicked() {
     damn.select_game_controller(eclipse::Key);
     this->close();
 }
 
-void Selection::on_ard_clicked() {
+void Selection::_on_ard_clicked() {
     damn.select_game_controller(eclipse::Arduino);
     this->close();
 }

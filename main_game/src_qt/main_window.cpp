@@ -66,7 +66,6 @@ void main_window::delete_obj(const std::string &hash) {
         hash_table[hash]->del();
         hash_table[hash] = nullptr;
     }
-
 }
 
 void main_window::set_timer() {
@@ -152,7 +151,14 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 
 void main_window::start_timer() {
     timer = new QTimer();
+    tic = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
+    connect(tic, SIGNAL(timeout()), this, SLOT(tic_god()));
     timer->start(1000);
+    tic->start(1000/60);
+}
+
+void main_window::tic_god() {
+    damn.make_move_in_logic();
 }
 

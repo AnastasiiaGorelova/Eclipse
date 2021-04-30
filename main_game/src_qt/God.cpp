@@ -81,7 +81,8 @@ void God::make_changes_in_qt() const {
 
 void God::make_move_in_logic() const {
     auto [direction, steps] = train.give_changes();
-    for (int i = 0; i < steps; i++) {
+    std::cerr << "train" << " " << direction << '\n';
+    for (int i = 0; i <= steps; i++) {
         game->make_move(direction); //наверное, потом стоит убрать цикл
     }
 }

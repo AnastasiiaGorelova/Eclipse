@@ -1,6 +1,7 @@
 
 #include <Key_Controller_.h>
 #include <QApplication>
+#include <iostream>
 
 extern Modification_store train;
 
@@ -10,9 +11,11 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
         switch (keyEvent->key()) {
             case Qt::Key_Left:
                 train.pushed_button_left();
+                std::cerr << "l";
                 break;
             case Qt::Key_Right:
                 train.pushed_button_right();
+                std::cerr << "r";
                 break;
             default:
                 break;

@@ -74,7 +74,8 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 80) == 5) {
+        //if (random_number(0, 80) == 5) {
+        if (true) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (!checker_for_nothing(x, x + size, 0, size, *this)) {

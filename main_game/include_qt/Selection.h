@@ -26,8 +26,8 @@ private:
     QPushButton *ard;
 
 private slots:
-    void on_key_clicked();
-    void on_ard_clicked();
+    void _on_key_clicked();
+    void _on_ard_clicked();
 
 };
 
