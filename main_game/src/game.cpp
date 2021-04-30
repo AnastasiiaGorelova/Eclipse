@@ -74,8 +74,8 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        //if (random_number(0, 80) == 5) {
-        if (true) {
+        if (random_number(0, 80) == 5) {
+        //if (true) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (!checker_for_nothing(x, x + size, 0, size, *this)) {
@@ -174,10 +174,10 @@ namespace eclipse {
         moving_ship(direction);
         moving_shots();
         moving_asteroids();
-        shoot();
+   //     shoot();
         generate_asteroid();
-        //!!!!!!!!!!!!УБРАТЬ
-        damn.make_changes_in_qt();
+//        //!!!!!!!!!!!!УБРАТЬ
+//        damn.make_changes_in_qt();
     }
 
     std::pair<int, int> get_field_size() {

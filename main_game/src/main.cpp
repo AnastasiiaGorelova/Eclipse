@@ -31,6 +31,9 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
     damn.show_menu();
+    damn.clicked_on_start();
+    //damn.show_game_field();
+
 
     //eclipse::Game game;
     //может не в main будем создавать, а из боженьки? вдруг несколько сессий игры понадобится
