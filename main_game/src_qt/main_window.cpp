@@ -1,10 +1,10 @@
 #include "main_window.h"
+#include "God.h"
+#include "ui_main_window.h"
 #include <QDesktopWidget>
 #include <QGraphicsProxyWidget>
 #include <QKeyEvent>
 #include <QStyle>
-#include "God.h"
-#include "ui_main_window.h"
 
 extern God damn;
 
@@ -48,7 +48,7 @@ void main_window::set(int x,
                       const std::string &object_name) {
     auto *object = new GameObject();
     QString filename =
-        "../../images/" + QString::fromStdString(object_name) + ".png";
+            "../../images/" + QString::fromStdString(object_name) + ".png";
     object->setPixmap(QPixmap(filename).scaled(size, size));
     object->setPos(x, y);
     scene->addItem(object);
@@ -56,7 +56,7 @@ void main_window::set(int x,
 }
 
 void main_window::move(int x, int y, const std::string &hash) {
-    if (hash_table[hash] != nullptr){
+    if (hash_table[hash] != nullptr) {
         hash_table[hash]->setPos(x, y);
     }
 }
@@ -66,14 +66,13 @@ void main_window::delete_obj(const std::string &hash) {
         hash_table[hash]->del();
         hash_table[hash] = nullptr;
     }
-
 }
 
 void main_window::set_timer() {
     time = new QLabel("Time:");
-    time-> setStyleSheet("background-color: black; color : white;");
+    time->setStyleSheet("background-color: black; color : white;");
     number_for_time = new QLabel("00:00");
-    number_for_time -> setStyleSheet("background-color: black; color : white;");
+    number_for_time->setStyleSheet("background-color: black; color : white;");
 
     auto *item_1 = new QGraphicsRectItem;
     item_1->setRect(QRect(0, 0, 80, 30));
@@ -130,7 +129,7 @@ void main_window::change_timer() {
     auto [min, sec] = find_time_string(cur_time);
     QString time_string =
             QString::fromStdString(min) + ":" + QString::fromStdString(sec);
-    number_for_time -> setText(time_string);
+    number_for_time->setText(time_string);
 }
 
 
@@ -154,15 +153,18 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 
 void main_window::start_timer() {
     timer = new QTimer();
-    ticks = new QTimer();
-    //timer->moveToThread(reinterpret_cast<QThread *>(this));
+    tic = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
-    connect(ticks, SIGNAL(timeout()), this, SLOT(tick_God()));
+    connect(tic, SIGNAL(timeout()), this, SLOT(tic_god()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(make_shot()));
     timer->start(1000);
-    ticks->start(1000 / 60);
+    tic->start(1000 / 60);
 }
 
-void main_window::tick_God() {
+void main_window::tic_god() {
     damn.make_move_in_logic();
 }
 
+void main_window::make_shot() {
+    damn.shoot_in_God();
+}

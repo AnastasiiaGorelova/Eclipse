@@ -46,7 +46,6 @@ private:
                       int y_finish,
                       FieldState value);
     void check_for_living();
-    void shoot();
     void generate_asteroid();
     void moving_shots();
     void moving_asteroids();
@@ -73,6 +72,7 @@ public:
     FieldState get_field_state(int x, int y) const;
 
     void make_move(MoveDirection direction = kNoMove);
+    void shoot();
 };
 
 }  // namespace eclipse

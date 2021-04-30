@@ -16,7 +16,7 @@ namespace eclipse {
                                  const Game &g) {
             for (int i = x_start; i < x_finish; i++) {
                 for (int j = y_start; j < y_finish; j++) {
-                    if (j >= kHeight) {
+                    if (j >= kHeight || j < 0) {
                         return false;
                     }
                     if (g.get_field_state(i, j) != kNothing) {
@@ -75,6 +75,7 @@ namespace eclipse {
 
     void Game::generate_asteroid() {
         if (random_number(0, 80) == 5) {
+            //if (true) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (!checker_for_nothing(x, x + size, 0, size, *this)) {
@@ -173,7 +174,7 @@ namespace eclipse {
         moving_ship(direction);
         moving_shots();
         moving_asteroids();
-        shoot();
+        //shoot();
         generate_asteroid();
     }
 

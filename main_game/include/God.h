@@ -1,13 +1,13 @@
 #ifndef MAIN_GAME_GOD_H
 #define MAIN_GAME_GOD_H
 
-#include <memory>
+#include "Key_Controller_.h"
+#include "Selection.h"
 #include "game.h"
 #include "game_fwd.h"
 #include "game_window.h"
 #include "main_window.h"
-#include "Selection.h"
-#include "Key_Controller_.h"
+#include <memory>
 
 class God {
 public:
@@ -34,19 +34,18 @@ public:
     void decrease_lives_ui() const;
 
     //controllers_in
-    void select_game_controller(eclipse::Controllers controller_); //запрос приходит из диалогового окна выбора контроллера
+    void select_game_controller(eclipse::Controllers controller_);//запрос приходит из диалогового окна выбора контроллера
 
     //for logic
     void clicked_on_start();
     void clicked_on_exit();
-    void make_move_in_logic() const; //принимает измнения из стора, работает на тиках
+    void make_move_in_logic() const;//принимает измнения из стора, работает на тиках
 
     //both
     void make_changes_in_qt() const;//боженька принимает изменения из логики, тыкает qt подвинуть/создать объект
     //timer?
 
-private:
-
+    void shoot_in_God() const;
 };
 
-#endif  // MAIN_GAME_GOD_H
+#endif// MAIN_GAME_GOD_H

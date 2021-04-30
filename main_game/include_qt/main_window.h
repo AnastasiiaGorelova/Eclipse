@@ -4,13 +4,13 @@
 #include <GameObject.h>
 #include <QGraphicsScene>
 #include <QLabel>
+#include <QTimer>
 #include <QWidget>
 #include <unordered_map>
-#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class main_window;
+    class main_window;
 }
 QT_END_NAMESPACE
 
@@ -28,7 +28,7 @@ public:
     QLabel *number_for_time;
 
     QTimer *timer;
-    QTimer *ticks;
+    QTimer *tic;
 
     void make_field();
     void set(int x,
@@ -49,7 +49,12 @@ public:
 
 private slots:
     void change_timer();
+<<<<<<< HEAD
     void tick_God();
+=======
+    void tic_god();
+    void make_shot();
+>>>>>>> for_nastya
 
 private:
     size_t width = 800;
@@ -61,4 +66,4 @@ private:
     static std::pair<std::string, std::string> find_time_string(int x);
 };
 
-#endif  // MAIN_GAME_MAIN_WINDOW_H
+#endif// MAIN_GAME_MAIN_WINDOW_H
