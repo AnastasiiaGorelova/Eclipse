@@ -175,8 +175,6 @@ namespace eclipse {
         moving_asteroids();
         shoot();
         generate_asteroid();
-        //!!!!!!!!!!!!УБРАТЬ
-        damn.make_changes_in_qt();
     }
 
     std::pair<int, int> get_field_size() {

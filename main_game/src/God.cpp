@@ -99,6 +99,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     }
     //подумать откуда еще можно запустить, пока нелогично
     game_view->start_timer();
+
 }
 
 void God::decrease_lives_ui() const {

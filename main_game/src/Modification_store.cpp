@@ -14,7 +14,7 @@ void Modification_store::pushed_button_right() {
 std::pair<eclipse::MoveDirection, int> Modification_store::give_changes() {
     int all_right = 0;
     int all_left = 0;
-    for (eclipse::MoveDirection x : modifications) {
+    for (auto x : modifications) {
         switch (x) {
             case eclipse::kRight:
                 all_right++;
@@ -30,6 +30,7 @@ std::pair<eclipse::MoveDirection, int> Modification_store::give_changes() {
     int result = all_right - all_left;
     if (result == 0) {
         return std::make_pair(eclipse::kNoMove, 0);
+        //return std::make_pair(eclipse::kRight, 3);
     }
     if (result > 0) {
         return std::make_pair(eclipse::kRight, result);

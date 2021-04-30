@@ -28,6 +28,7 @@ public:
     QLabel *number_for_time;
 
     QTimer *timer;
+    QTimer *ticks;
 
     void make_field();
     void set(int x,
@@ -45,8 +46,10 @@ public:
 
     void decrease_lives();
 
+
 private slots:
     void change_timer();
+    void tick_God();
 
 private:
     size_t width = 800;

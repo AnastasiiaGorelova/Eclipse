@@ -88,6 +88,7 @@ void main_window::set_timer() {
     auto *pMyProxy_2 = new QGraphicsProxyWidget(item_2);
     pMyProxy_2->setWidget(number_for_time);
     pMyProxy_2->setPos(60, 7);
+    start_timer();
 }
 
 void main_window::set_lives() {
@@ -132,6 +133,7 @@ void main_window::change_timer() {
     number_for_time -> setText(time_string);
 }
 
+
 std::pair<std::string, std::string> main_window::find_time_string(int x) {
     std::string min = std::to_string(x / 60);
     if (min.size() == 0) {
@@ -152,7 +154,15 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 
 void main_window::start_timer() {
     timer = new QTimer();
+    ticks = new QTimer();
+    //timer->moveToThread(reinterpret_cast<QThread *>(this));
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
+    connect(ticks, SIGNAL(timeout()), this, SLOT(tick_God()));
     timer->start(1000);
+    ticks->start(1000 / 60);
+}
+
+void main_window::tick_God() {
+    damn.make_move_in_logic();
 }
 

@@ -4,7 +4,7 @@ project(main_game)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=address -Wall -Wextra")
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Qt5 REQUIRED QUIET COMPONENTS Core Widgets)
+find_package(Qt5Widgets REQUIRED QUIET COMPONENTS Core Widgets)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)

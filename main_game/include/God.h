@@ -21,6 +21,8 @@ public:
         //one_more_for_arduino
     } controller;
 
+    //God(const eclipse::Game &game): game(std::make_unique<eclipse::Game>(game)){}
+
     //controller_out (qt)
     void show_menu();
     void close_menu() const;
@@ -40,8 +42,10 @@ public:
     void make_move_in_logic() const; //принимает измнения из стора, работает на тиках
 
     //both
-    void make_changes_in_qt() const;//боженька приниает изменения из логики, тыкает qt подвинуть/создать объект
+    void make_changes_in_qt() const;//боженька принимает изменения из логики, тыкает qt подвинуть/создать объект
     //timer?
+
+private:
 
 };
 
