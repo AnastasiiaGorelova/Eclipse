@@ -89,6 +89,10 @@ void God::make_move_in_logic() const {
     make_changes_in_qt();
 }
 
+void God::shoot_in_God() const {
+    game->shoot();
+}
+
 void God::select_game_controller(eclipse::Controllers controller_) {
     switch (controller_) {
         case eclipse::Key:

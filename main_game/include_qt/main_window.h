@@ -4,13 +4,13 @@
 #include <GameObject.h>
 #include <QGraphicsScene>
 #include <QLabel>
+#include <QTimer>
 #include <QWidget>
 #include <unordered_map>
-#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class main_window;
+    class main_window;
 }
 QT_END_NAMESPACE
 
@@ -49,6 +49,7 @@ public:
 private slots:
     void change_timer();
     void tic_god();
+    void make_shot();
 
 private:
     size_t width = 800;
@@ -60,4 +61,4 @@ private:
     static std::pair<std::string, std::string> find_time_string(int x);
 };
 
-#endif  // MAIN_GAME_MAIN_WINDOW_H
+#endif// MAIN_GAME_MAIN_WINDOW_H
