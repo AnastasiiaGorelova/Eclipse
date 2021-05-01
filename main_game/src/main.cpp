@@ -1,11 +1,11 @@
-#include <iostream>
 #include "game.h"
 #include "game_fwd.h"
+#include <iostream>
 
 #include <Modification_store.h>
 
-#include<QApplication>
 #include "God.h"
+#include <QApplication>
 
 God damn;
 Modification_store train;
@@ -30,23 +30,20 @@ void print(eclipse::Game &game) {
 int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
+
     damn.show_menu();
-    damn.clicked_on_start();
+    //damn.clicked_on_start();
     //damn.show_game_field();
 
 
-    //eclipse::Game game;
-    //может не в main будем создавать, а из боженьки? вдруг несколько сессий игры понадобится
-
     // only for debug
     //print(game);
-//    while (game.get_game_state() != eclipse::kFinished) {
-//        game.make_move(eclipse::kLeft);
-//        print(game);
-//    }
-//    print(game);
+    //    while (game.get_game_state() != eclipse::kFinished) {
+    //        game.make_move(eclipse::kLeft);
+    //        print(game);
+    //    }
+    //    print(game);
     // finished
 
     return QApplication::exec();
 }
-

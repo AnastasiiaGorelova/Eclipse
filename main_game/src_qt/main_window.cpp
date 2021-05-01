@@ -151,15 +151,15 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 
 void main_window::start_timer() {
     timer = new QTimer();
-    tic = new QTimer();
+    tick = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
-    connect(tic, SIGNAL(timeout()), this, SLOT(tic_god()));
+    connect(tick, SIGNAL(timeout()), this, SLOT(tick_god()));
     connect(timer, SIGNAL(timeout()), this, SLOT(make_shot()));
     timer->start(1000);
-    tic->start(1000 / 60);
+    tick->start(1000 / 60);
 }
 
-void main_window::tic_god() {
+void main_window::tick_god() {
     damn.make_move_in_logic();
 }
 

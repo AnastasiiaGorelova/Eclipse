@@ -28,7 +28,7 @@ public:
     QLabel *number_for_time;
 
     QTimer *timer;
-    QTimer *tic;
+    QTimer *tick;
 
     void make_field();
     void set(int x,
@@ -48,7 +48,7 @@ public:
 
 private slots:
     void change_timer();
-    void tic_god();
+    void tick_god();
     void make_shot();
 
 private:
