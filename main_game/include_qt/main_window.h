@@ -28,7 +28,7 @@ public:
     QLabel *number_for_time;
 
     QTimer *timer;
-    QTimer *tic;
+    QTimer *tick;
 
     void make_field();
     void set(int x,
@@ -49,12 +49,8 @@ public:
 
 private slots:
     void change_timer();
-<<<<<<< HEAD
-    void tick_God();
-=======
-    void tic_god();
+    void tick_god();
     void make_shot();
->>>>>>> for_nastya
 
 private:
     size_t width = 800;

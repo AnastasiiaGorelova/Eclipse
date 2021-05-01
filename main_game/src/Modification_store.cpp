@@ -30,7 +30,6 @@ std::pair<eclipse::MoveDirection, int> Modification_store::give_changes() {
     int result = all_right - all_left;
     if (result == 0) {
         return std::make_pair(eclipse::kNoMove, 0);
-        //return std::make_pair(eclipse::kRight, 4);
     }
     if (result > 0) {
         return std::make_pair(eclipse::kRight, result);

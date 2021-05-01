@@ -33,20 +33,10 @@ void print(eclipse::Game &game) {
 int main(int argc, char *argv[]) {
     //m.lock();
     QApplication app(argc, argv);
+
     damn.show_menu();
-    damn.clicked_on_start();
+    //damn.clicked_on_start();
     //damn.show_game_field();
-    //eclipse::Game game;
-
-    //может не в main будем создавать, а из боженьки? вдруг несколько сессий игры понадобится
-//    std::thread thread([&]() {
-//        while (damn.game->get_game_state() != eclipse::kFinished) {
-//            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-//            damn.make_move_in_logic();
-//        }
-//    });
-//    damn.make_changes_in_qt();
-
 
     // only for debug
     //print(game);
