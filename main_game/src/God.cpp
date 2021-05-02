@@ -47,8 +47,7 @@ void God::delete_object(const std::string &hash) const {
 }
 
 void God::clicked_on_start() {
-    game = std::make_unique<eclipse::Game>();//создаем новую игру
-    //запустить таймер???
+    game = std::make_unique<eclipse::Game>();
 
     close_menu();
     show_game_field();
