@@ -25,7 +25,7 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
 
 Move Arduino::make_a_move() {
     std::string line;
-    line = serial_.readline(); // get line from arduino
+    line = serial_.readline();  // get line from arduino
     if (line == "MENU\n") {
         /// тыкнуть функцию выхода в меню
         return menu;
