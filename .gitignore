@@ -33,3 +33,5 @@
 
 cmake-build-debug/
 main_game/cmake-build-debug/
+
+.idea/
