@@ -11,7 +11,6 @@
 
 God damn;
 Modification_store train;
-std::mutex m;
 
 void print(eclipse::Game &game) {
     for (int j = 0; j < eclipse::kHeight; j++) {
@@ -31,21 +30,9 @@ void print(eclipse::Game &game) {
 }
 
 int main(int argc, char *argv[]) {
-    //m.lock();
     QApplication app(argc, argv);
 
     damn.show_menu();
-    //damn.clicked_on_start();
-    //damn.show_game_field();
-
-    // only for debug
-    //print(game);
-    //    while (game.get_game_state() != eclipse::kFinished) {
-    //        game.make_move(eclipse::kLeft);
-    //        print(game);
-    //    }
-    //    print(game);
-    // finished
 
     return QApplication::exec();
 }

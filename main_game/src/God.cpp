@@ -1,10 +1,11 @@
 #include "God.h"
+#include "game.h"
+#include "game_fwd.h"
 #include <Modification_store.h>
 #include <iostream>
 #include <memory>
 #include <thread>
-#include "game.h"
-#include "game_fwd.h"
+
 
 extern Modification_store train;
 
@@ -83,9 +84,7 @@ void God::make_changes_in_qt() const {
 
 void God::make_move_in_logic() const {
     auto [direction, steps] = train.give_changes();
-    std::cerr << "train"
-              << " " << direction << '\n';
-    game->make_move(direction);  //наверное, потом стоит убрать цикл
+    game->make_move(direction);
     make_changes_in_qt();
 }
 
@@ -113,7 +112,6 @@ void God::select_game_controller(eclipse::Controllers controller_) {
         default:
             break;
     }
-
     //подумать откуда еще можно запустить, пока нелогично
     game_view->start_timer();
 }

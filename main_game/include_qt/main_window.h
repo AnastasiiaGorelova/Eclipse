@@ -28,7 +28,8 @@ public:
     QLabel *number_for_time;
 
     QTimer *timer;
-    QTimer *tick;
+    QTimer *timer_for_ticks;
+    QTimer *timer_for_shots;
 
     void make_field();
     void set(int x,
