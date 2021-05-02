@@ -15,7 +15,7 @@ namespace eclipse {
         int speed = 8;
 
     public:
-        spaceship(int width, int height) : x(width / 2 - size), y(height - size) {
+        spaceship(int width, int height) : x(width / 2 - size / 2), y(height - size) {
         }
         std::pair<int, int> get_coordinates() const;
         std::string get_id() const;

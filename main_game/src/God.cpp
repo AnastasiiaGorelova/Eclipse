@@ -24,7 +24,6 @@ void God::show_game_field() {
     menu->hide();
     game_view->show();
     selection_window = new Selection();
-    // select_game_controller(eclipse::Key);
     selection_window->show();
 }
 
