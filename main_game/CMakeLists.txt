@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(main_game)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=address -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra")
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(Qt5Widgets REQUIRED QUIET COMPONENTS Core Widgets)

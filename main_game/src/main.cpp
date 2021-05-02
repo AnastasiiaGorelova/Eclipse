@@ -31,8 +31,6 @@ void print(eclipse::Game &game) {
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-
     damn.show_menu();
-
-    return QApplication::exec();
+    return  QApplication::exec();
 }
