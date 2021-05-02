@@ -22,7 +22,6 @@ void God::show_game_field() {
     menu->hide();
     game_view->show();
     selection_window = new Selection();
-    //select_game_controller(eclipse::Key);
     selection_window->show();
 }
 
@@ -82,9 +81,7 @@ void God::make_changes_in_qt() const {
 
 void God::make_move_in_logic() const {
     auto [direction, steps] = train.give_changes();
-    std::cerr << "train"
-              << " " << direction << '\n';
-    game->make_move(direction);//наверное, потом стоит убрать цикл
+    game->make_move(direction);
     make_changes_in_qt();
 }
 
@@ -103,7 +100,6 @@ void God::select_game_controller(eclipse::Controllers controller_) {
         default:
             break;
     }
-    //подумать откуда еще можно запустить, пока нелогично
     game_view->start_timer();
 
 }

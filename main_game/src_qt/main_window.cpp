@@ -87,7 +87,6 @@ void main_window::set_timer() {
     auto *pMyProxy_2 = new QGraphicsProxyWidget(item_2);
     pMyProxy_2->setWidget(number_for_time);
     pMyProxy_2->setPos(60, 7);
-    start_timer();
 }
 
 void main_window::set_lives() {
@@ -153,12 +152,14 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 
 void main_window::start_timer() {
     timer = new QTimer();
-    tick = new QTimer();
+    timer_for_ticks = new QTimer();
+    timer_for_shots = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
-    connect(tick, SIGNAL(timeout()), this, SLOT(tick_god()));
-    connect(timer, SIGNAL(timeout()), this, SLOT(make_shot()));
+    connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
+    connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
     timer->start(1000);
-    tick->start(1000 / 60);
+    timer_for_ticks->start(1000 / 60);
+    timer_for_shots->start(1000 / 1.5);
 }
 
 void main_window::tick_god() {
