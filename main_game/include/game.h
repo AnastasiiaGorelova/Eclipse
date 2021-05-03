@@ -30,6 +30,10 @@ namespace eclipse {
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
 
+        bool checker_for_nothing(int x_start,
+                                 int x_finish,
+                                 int y_start,
+                                 int y_finish) const;
         void change_field(int x_start,
                           int x_finish,
                           int y_start,

@@ -9,24 +9,6 @@ extern ::God damn;
 
 namespace eclipse {
     namespace {
-        bool checker_for_nothing(int x_start,
-                                 int x_finish,
-                                 int y_start,
-                                 int y_finish,
-                                 const Game &g) {
-            for (int i = x_start; i < x_finish; i++) {
-                for (int j = y_start; j < y_finish; j++) {
-                    if (j >= kHeight || j < 0) {
-                        return false;
-                    }
-                    if (g.get_field_state(i, j) != kNothing) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
         int random_number(int l, int r) {
             std::mt19937 gen{std::random_device{}()};
             std::uniform_int_distribution<> dist(l, r);
@@ -34,6 +16,23 @@ namespace eclipse {
         }
 
     }// namespace
+
+    bool Game::checker_for_nothing(int x_start,
+                                   int x_finish,
+                                   int y_start,
+                                   int y_finish) const {
+        for (int i = x_start; i < x_finish; i++) {
+            for (int j = y_start; j < y_finish; j++) {
+                if (j >= kHeight || j < 0) {
+                    return false;
+                }
+                if (get_field_state(i, j) != kNothing) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     void Game::check_for_living() {
         --lives;
@@ -79,10 +78,9 @@ namespace eclipse {
 
     void Game::generate_asteroid() {
         if (random_number(0, 90) == 5) {
-            //if (true) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
-            while (!checker_for_nothing(x, x + size, 0, size, *this)) {
+            while (!checker_for_nothing(x, x + size, 0, size)) {
                 x = random_number(0, kWidth - size);
             }
             Asteroid new_asteroid(x, size, new_uuid());
@@ -91,8 +89,8 @@ namespace eclipse {
                                          {new_asteroid.get_coordinates().first,
                                           new_asteroid.get_coordinates().second},
                                          new_asteroid.get_size()});
-            asteroids_in_the_field.push_back(std::move(new_asteroid));
             change_field(x, x + size, 0, size, kAsteroid);
+            asteroids_in_the_field.push_back(std::move(new_asteroid));
         }
     }
 
@@ -106,9 +104,11 @@ namespace eclipse {
             shots_in_the_field[id].move();
             int new_y = shots_in_the_field[id].get_coordinates().second;
             if (!checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
-                                     new_y + shots_in_the_field[id].get_size(), *this) ||
-                shots_in_the_field[id].get_coordinates().second <=
-                        0) {//если сейчас столкнется с астероидом --> удаляем
+                                     new_y + shots_in_the_field[id].get_size())
+//                || !checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(),
+//                                     new_y - asteroids_speed, new_y - asteroids_speed +
+//                                                                      shots_in_the_field[id].get_size())
+                ) {//если сейчас столкнется с астероидом --> удаляем
                 changes.emplace_back(
                         Changes{Delete_object,
                                 shots_in_the_field[id].get_id()});
@@ -135,7 +135,7 @@ namespace eclipse {
             asteroids_in_the_field[id].move(asteroids_speed);
             int new_y = asteroids_in_the_field[id].get_coordinates().second;
             if (!checker_for_nothing(old_x, old_x + size, new_y,
-                                     new_y + size, *this)) {
+                                     new_y + size)) {
                 //не можем спокойно подвинуть астероид
                 asteroids_in_the_field[id].destroy();
                 if (new_y + size >= kHeight ||
@@ -188,7 +188,6 @@ namespace eclipse {
         moving_ship(direction);
         moving_shots();
         moving_asteroids();
-        //shoot();
         generate_asteroid();
     }
 
