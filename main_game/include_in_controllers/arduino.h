@@ -15,6 +15,7 @@ struct Arduino {
 
     Arduino(const std::string &port, uint32_t baudrate = 9600);
     Move make_a_move();
+    [[noreturn]] void make_a_move_for_thread();
     ~Arduino();
 };
 

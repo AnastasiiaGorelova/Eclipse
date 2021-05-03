@@ -83,8 +83,8 @@ void God::make_changes_in_qt() const {
 
 void God::make_move_in_logic() const {
     auto [direction, steps] = train.give_changes();
-    //    std::cerr << "train"
-    //              << " " << direction << '\n';
+    std::cerr << "train"
+              << " " << direction << '\n';
     game->make_move(direction);  //наверное, потом стоит убрать цикл
     make_changes_in_qt();
 }
@@ -94,35 +94,26 @@ void God::shoot_in_God() const {
 }
 
 void God::select_game_controller(eclipse::Controllers controller_) {
-    /*
-      switch (controller_) {
-          case eclipse::Key:
-              controller.key_controller = new Key_Controller();
-              break;
-          case eclipse::Arduino: {
-              ReadingFromPort::Ports my_ports;
-              std::string port = my_ports.get_arduino_port();
-              controller.arduino_controller = new
-      ReadingFromPort::Arduino(port); } break; default: break;
-      }
-      */
-    if (controller_ == eclipse::Key) {
-        controller.key_controller = new Key_Controller();
-    } else {
-        ReadingFromPort::Ports my_ports;
-        std::string port = my_ports.get_arduino_port();
-        controller.arduino_controller = new ReadingFromPort::Arduino(port);
-        //            controller.arduino_controller->make_a_move();
-        //        auto w = [&](){
-        //          for(;;){
-        //              std::cerr << "!!" << std::endl;
-        //          }
-        //        };
-
-        std::thread ta([]() {
-
-        });
+    switch (controller_) {
+        case eclipse::Key:
+            controller.key_controller = new Key_Controller();
+            break;
+        case eclipse::Arduino: {
+            ReadingFromPort::Ports my_ports;
+            std::string port = my_ports.get_arduino_port();
+            controller.arduino_controller = new ReadingFromPort::Arduino(port);
+            auto worker = [&]() {
+                while (true) {
+                    controller.arduino_controller->make_a_move();
+                }
+            };
+            std::thread ta(worker);
+            ta.detach();
+        } break;
+        default:
+            break;
     }
+
     //подумать откуда еще можно запустить, пока нелогично
     game_view->start_timer();
 }

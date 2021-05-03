@@ -31,14 +31,15 @@ Move Arduino::make_a_move() {
     std::string line;
     line = serial_.readline();  // get line from arduino
     if (line == "MENU\n") {
-        //TODO тыкнуть функцию выхода в меню
+        // TODO тыкнуть функцию выхода в меню
         return menu;
     } else if (line == "RIGHT\n") {
-        train.pushed_button_right(); // тык
+        train.pushed_button_right();  // тык
+
         std::cerr << "r" << std::endl;
         return right;
     } else if (line == "LEFT\n") {
-        train.pushed_button_left(); // тык
+        train.pushed_button_left();  // тык
         std::cerr << "l" << std::endl;
         return left;
     } else {

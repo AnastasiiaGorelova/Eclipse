@@ -9,7 +9,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-#find_package(Boost 1.75.0 REQUIRED) # boost
+find_package(Boost 1.75.0 COMPONENTS program_options REQUIRED) # boost
 find_package(nlohmann_json 3.2.0 REQUIRED) # json
 
 file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*.cpp" "src_in_controllers/*.cpp" "src_local_leaderboard/*.cpp")
@@ -21,6 +21,7 @@ add_executable(main_game ${SOURCES})
 target_include_directories(main_game PUBLIC "include" "include_qt")
 target_link_libraries(main_game serial)
 #target_link_libraries(main_game nlohmann_json::nlohmann_json) # json
+#target_link_libraries(main_game Boost::program_options)
 target_link_libraries(main_game Qt5::Widgets)
 
 # For Leaderboard test
