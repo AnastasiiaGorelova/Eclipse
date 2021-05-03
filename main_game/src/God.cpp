@@ -4,6 +4,7 @@
 #include <Modification_store.h>
 #include <iostream>
 #include <memory>
+#include "name_enter_qt.h"
 
 extern Modification_store train;
 
@@ -21,6 +22,11 @@ void God::show_game_field() {
     game_view->make_field();
     menu->hide();
     game_view->show();
+    new_name = new name_enter_qt();
+    new_name->show();
+}
+
+void God::show_selection_window() {
     selection_window = new Selection();
     selection_window->show();
 }

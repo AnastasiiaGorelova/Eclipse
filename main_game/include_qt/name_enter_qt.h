@@ -6,6 +6,8 @@
 #define MAIN_GAME_NAME_ENTER_QT_H
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QDialogButtonBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class name_enter_qt; }
@@ -21,6 +23,12 @@ public:
 
 private:
     Ui::name_enter_qt *ui;
+
+    QLineEdit *echoLineEdit;
+
+    QPushButton* Button_Box;
+
+    void _line_edit();
 };
 
 #endif //MAIN_GAME_NAME_ENTER_QT_H
