@@ -14,4 +14,4 @@ private:
     std::vector<eclipse::MoveDirection> modifications;
 };
 
-#endif //MAIN_GAME_MODIFICATION_STORE_H
+#endif  // MAIN_GAME_MODIFICATION_STORE_H

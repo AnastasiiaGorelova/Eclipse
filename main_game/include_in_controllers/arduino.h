@@ -3,6 +3,7 @@
 
 #include <serial/serial.h>
 #include <iostream>
+#include <thread>
 #include <stdexcept>
 
 namespace ReadingFromPort {

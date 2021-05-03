@@ -10,12 +10,12 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
         auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
         switch (keyEvent->key()) {
             case Qt::Key_Left:
-                std::cout <<"l";
+                std::cout << "l";
                 train.pushed_button_left();
                 std::cerr << "l";
                 break;
             case Qt::Key_Right:
-                std::cout <<"r";
+                std::cout << "r";
                 train.pushed_button_right();
                 std::cerr << "r";
                 break;
@@ -29,4 +29,3 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
 Key_Controller::Key_Controller(QObject *parent) : QObject(parent) {
     qApp->installEventFilter(this);
 }
-

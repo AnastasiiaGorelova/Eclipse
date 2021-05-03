@@ -1,9 +1,10 @@
 #include "God.h"
-#include "game.h"
-#include "game_fwd.h"
 #include <Modification_store.h>
 #include <iostream>
 #include <memory>
+#include <thread>
+#include "game.h"
+#include "game_fwd.h"
 
 extern Modification_store train;
 
@@ -22,7 +23,7 @@ void God::show_game_field() {
     menu->hide();
     game_view->show();
     selection_window = new Selection();
-    //select_game_controller(eclipse::Key);
+    // select_game_controller(eclipse::Key);
     selection_window->show();
 }
 
@@ -48,7 +49,7 @@ void God::delete_object(const std::string &hash) const {
 }
 
 void God::clicked_on_start() {
-    game = std::make_unique<eclipse::Game>();//создаем новую игру
+    game = std::make_unique<eclipse::Game>();  //создаем новую игру
     //запустить таймер???
 
     close_menu();
@@ -82,9 +83,9 @@ void God::make_changes_in_qt() const {
 
 void God::make_move_in_logic() const {
     auto [direction, steps] = train.give_changes();
-    std::cerr << "train"
-              << " " << direction << '\n';
-    game->make_move(direction);//наверное, потом стоит убрать цикл
+    //    std::cerr << "train"
+    //              << " " << direction << '\n';
+    game->make_move(direction);  //наверное, потом стоит убрать цикл
     make_changes_in_qt();
 }
 
@@ -93,19 +94,37 @@ void God::shoot_in_God() const {
 }
 
 void God::select_game_controller(eclipse::Controllers controller_) {
-    switch (controller_) {
-        case eclipse::Key:
-            controller.key_controller = new Key_Controller();
-            break;
-        case eclipse::Arduino:
-            //тут можно создать все необходимое для контроллера ардуино
-            break;
-        default:
-            break;
+    /*
+      switch (controller_) {
+          case eclipse::Key:
+              controller.key_controller = new Key_Controller();
+              break;
+          case eclipse::Arduino: {
+              ReadingFromPort::Ports my_ports;
+              std::string port = my_ports.get_arduino_port();
+              controller.arduino_controller = new
+      ReadingFromPort::Arduino(port); } break; default: break;
+      }
+      */
+    if (controller_ == eclipse::Key) {
+        controller.key_controller = new Key_Controller();
+    } else {
+        ReadingFromPort::Ports my_ports;
+        std::string port = my_ports.get_arduino_port();
+        controller.arduino_controller = new ReadingFromPort::Arduino(port);
+        //            controller.arduino_controller->make_a_move();
+        //        auto w = [&](){
+        //          for(;;){
+        //              std::cerr << "!!" << std::endl;
+        //          }
+        //        };
+
+        std::thread ta([]() {
+
+        });
     }
     //подумать откуда еще можно запустить, пока нелогично
     game_view->start_timer();
-
 }
 
 void God::decrease_lives_ui() const {

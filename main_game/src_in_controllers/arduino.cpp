@@ -1,4 +1,7 @@
 #include "../include_in_controllers/arduino.h"
+#include "Key_Controller_.h"
+
+extern Modification_store train;
 
 namespace ReadingFromPort {
 
@@ -12,6 +15,7 @@ std::string Ports::get_arduino_port() const {
         }
     }
     throw std::runtime_error("There is no Arduino plugged into port");
+    // TODO окошко предупреждение, что ардуинка не подключена
 }
 
 Arduino::Arduino(const std::string &port, uint32_t baudrate) {
@@ -27,13 +31,15 @@ Move Arduino::make_a_move() {
     std::string line;
     line = serial_.readline();  // get line from arduino
     if (line == "MENU\n") {
-        /// тыкнуть функцию выхода в меню
+        //TODO тыкнуть функцию выхода в меню
         return menu;
     } else if (line == "RIGHT\n") {
-        /// тыкнуть функцию сдвига вправо
+        train.pushed_button_right(); // тык
+        std::cerr << "r" << std::endl;
         return right;
     } else if (line == "LEFT\n") {
-        /// тыкнуть функцию сдвига влево
+        train.pushed_button_left(); // тык
+        std::cerr << "l" << std::endl;
         return left;
     } else {
         return exception;
