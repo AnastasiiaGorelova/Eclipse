@@ -35,7 +35,6 @@ Move Arduino::make_a_move() {
         return menu;
     } else if (line == "RIGHT\n") {
         train.pushed_button_right();  // тык
-
         std::cerr << "r" << std::endl;
         return right;
     } else if (line == "LEFT\n") {
