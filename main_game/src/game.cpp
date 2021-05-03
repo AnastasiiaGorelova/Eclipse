@@ -17,21 +17,21 @@ namespace eclipse {
 
     }// namespace
 
-    bool Game::checker_for_nothing(int x_start,
-                                   int x_finish,
-                                   int y_start,
-                                   int y_finish) const {
+    std::string Game::checker_for_nothing(int x_start,
+                                          int x_finish,
+                                          int y_start,
+                                          int y_finish) const {
         for (int i = x_start; i < x_finish; i++) {
             for (int j = y_start; j < y_finish; j++) {
                 if (j >= kHeight || j < 0) {
-                    return false;
+                    return "edge";
                 }
-                if (get_field_state(i, j) != kNothing) {
-                    return false;
+                if (get_field_state(i, j) != default_id) {
+                    return get_field_state(i, j);
                 }
             }
         }
-        return true;
+        return default_id;
     }
 
     void Game::check_for_living() {
@@ -48,7 +48,7 @@ namespace eclipse {
         return game_state;
     }
 
-    FieldState Game::get_field_state(int x, int y) const {
+    std::string Game::get_field_state(int x, int y) const {
         return field[x][y];
     }
 
@@ -56,7 +56,7 @@ namespace eclipse {
                             int x_finish,
                             int y_start,
                             int y_finish,
-                            FieldState value) {
+                            const std::string &value) {
         for (int i = x_start; i < x_finish; i++) {
             for (int j = y_start; j < y_finish; j++) {
                 field[i][j] = value;
@@ -65,14 +65,14 @@ namespace eclipse {
     }
 
     void Game::shoot() {
-        int x = ship.get_coordinates().first + ship.get_size() / 2;
+        int x = ship.get_coordinates().first + ship.get_size() / 2 - shot_size / 2;
         int y = ship.get_coordinates().second - 1;
         Shot new_shot(x, y, new_uuid());
         changes.emplace_back(Changes{Create_shot,
                                      new_shot.get_id(),
                                      {new_shot.get_coordinates().first, new_shot.get_coordinates().second},
                                      new_shot.get_size()});
-        change_field(x, x + new_shot.get_size(), y, y + new_shot.get_size(), kShot);
+        change_field(x, x + new_shot.get_size(), y, y + new_shot.get_size(), new_shot.get_id());
         shots_in_the_field.push_back(std::move(new_shot));
     }
 
@@ -80,7 +80,7 @@ namespace eclipse {
         if (random_number(0, 90) == 5) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
-            while (!checker_for_nothing(x, x + size, 0, size)) {
+            while (checker_for_nothing(x, x + size, 0, size) != default_id) {
                 x = random_number(0, kWidth - size);
             }
             Asteroid new_asteroid(x, size, new_uuid());
@@ -89,7 +89,7 @@ namespace eclipse {
                                          {new_asteroid.get_coordinates().first,
                                           new_asteroid.get_coordinates().second},
                                          new_asteroid.get_size()});
-            change_field(x, x + size, 0, size, kAsteroid);
+            change_field(x, x + size, 0, size, new_asteroid.get_id());
             asteroids_in_the_field.push_back(std::move(new_asteroid));
         }
     }
@@ -100,22 +100,27 @@ namespace eclipse {
             int old_x = shots_in_the_field[id].get_coordinates().first;
             int old_y = shots_in_the_field[id].get_coordinates().second;
             change_field(old_x, old_x + shots_in_the_field[id].get_size(), old_y,
-                         old_y + shots_in_the_field[id].get_size(), kNothing);
+                         old_y + shots_in_the_field[id].get_size(), default_id);
             shots_in_the_field[id].move();
             int new_y = shots_in_the_field[id].get_coordinates().second;
-            if (!checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
-                                     new_y + shots_in_the_field[id].get_size())
-//                || !checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(),
-//                                     new_y - asteroids_speed, new_y - asteroids_speed +
-//                                                                      shots_in_the_field[id].get_size())
-                ) {//если сейчас столкнется с астероидом --> удаляем
+            std::string checker1 = checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
+                                                       new_y + shots_in_the_field[id].get_size());
+            std::string checker2 = checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(),
+                                                       new_y - asteroids_speed, new_y - asteroids_speed + shots_in_the_field[id].get_size());
+            //сейчас врежется астероид
+            if (checker1 != default_id || checker2 != default_id) {//если сейчас столкнется с астероидом --> удаляем
                 changes.emplace_back(
                         Changes{Delete_object,
                                 shots_in_the_field[id].get_id()});
+                if (checker1 != default_id) {
+                    map.insert({checker1, "asteroid"});
+                } else {
+                    map.insert({checker2, "asteroid"});
+                }
                 shots_in_the_field.erase(shots_in_the_field.begin() + id);
             } else {
                 change_field(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
-                             new_y + shots_in_the_field[id].get_size(), kShot);
+                             new_y + shots_in_the_field[id].get_size(), shots_in_the_field[id].get_id());
                 changes.emplace_back(Changes{Move_object,
                                              shots_in_the_field[id].get_id(),
                                              {old_x, new_y}});
@@ -131,24 +136,28 @@ namespace eclipse {
             int old_y = asteroids_in_the_field[id].get_coordinates().second;
             int size = asteroids_in_the_field[id].get_size();
             change_field(old_x, old_x + size, old_y, old_y + size,
-                         kNothing);
+                         default_id);
             asteroids_in_the_field[id].move(asteroids_speed);
             int new_y = asteroids_in_the_field[id].get_coordinates().second;
-            if (!checker_for_nothing(old_x, old_x + size, new_y,
-                                     new_y + size)) {
+            std::string checker = checker_for_nothing(old_x, old_x + size, new_y,
+                                                      new_y + size);
+            if (checker != default_id || map.find(asteroids_in_the_field[id].get_id()) != map.end()) {
                 //не можем спокойно подвинуть астероид
+                if (map.find(asteroids_in_the_field[id].get_id()) != map.end()) {
+                    map.erase(asteroids_in_the_field[id].get_id());
+                }
                 asteroids_in_the_field[id].destroy();
                 if (new_y + size >= kHeight ||
                     asteroids_in_the_field[id].get_state() ==
                             kDead) {//врезались в землю
-                    if (new_y + size >= kHeight) {
+                    if (new_y + size >= kHeight || checker == "abcd") {
                         check_for_living();
                     }
                     change_field(ship.get_coordinates().first,
                                  ship.get_coordinates().first + ship.get_size(),
                                  ship.get_coordinates().second,
                                  ship.get_coordinates().second + ship.get_size(),
-                                 kSpaceShip);
+                                 "abcd");//убрать костыль
                     // если в корабль врезался астероид, восстанавливаем  корабль
                     changes.emplace_back(Changes{Delete_object,
                                                  asteroids_in_the_field[id].get_id()});
@@ -157,11 +166,10 @@ namespace eclipse {
                 }
             } else {
                 //пусто, можно двигать
-                change_field(old_x, old_x + size, new_y, new_y + size, kAsteroid);
+                change_field(old_x, old_x + size, new_y, new_y + size, asteroids_in_the_field[id].get_id());
                 changes.emplace_back(Changes{Move_object,
                                              asteroids_in_the_field[id].get_id(),
-                                             {old_x, new_y},
-                                             size});
+                                             {old_x, new_y}});
                 id++;
             }
         }
@@ -171,11 +179,11 @@ namespace eclipse {
         int y = ship.get_coordinates().second;
         int old_x = ship.get_coordinates().first;
         change_field(old_x, old_x + ship.get_size(), y, y + ship.get_size(),
-                     kNothing);
+                     default_id);
         ship.move(direction);
         int new_x = ship.get_coordinates().first;
         change_field(new_x, new_x + ship.get_size(), y, y + ship.get_size(),
-                     kSpaceShip);
+                     "abcd");
         changes.emplace_back(
                 Changes{Move_object,
                         ship.get_id(),

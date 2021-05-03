@@ -1,10 +1,13 @@
 #ifndef MAIN_GAME_GAME_FWD_H
 #define MAIN_GAME_GAME_FWD_H
 
+#include <string>
+
 namespace eclipse {
     struct Game;
     static const int kWidth = 800;
     static const int kHeight = 600;
+    static const std::string default_id = "nothing";
     enum GameState { kOngoing,
                      kFinished };
     enum FieldState { kAsteroid,

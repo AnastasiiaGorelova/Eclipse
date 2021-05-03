@@ -7,6 +7,7 @@
 #include "space_ship.h"
 #include <random>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -23,22 +24,24 @@ namespace eclipse {
     struct Game {
     private:
         GameState game_state = kOngoing;
-        std::vector<std::vector<FieldState>> field;
+        std::vector<std::vector<std::string>> field;
+        std::unordered_map<std::string, std::string> map;//for asteroids to delete
         spaceship ship = spaceship(kWidth, kHeight);
         int lives = 3;
         int asteroids_speed = 2;
+        int shot_size = 40;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
 
-        bool checker_for_nothing(int x_start,
-                                 int x_finish,
-                                 int y_start,
-                                 int y_finish) const;
+        std::string checker_for_nothing(int x_start,
+                                        int x_finish,
+                                        int y_start,
+                                        int y_finish) const;
         void change_field(int x_start,
                           int x_finish,
                           int y_start,
                           int y_finish,
-                          FieldState value);
+                          const std::string &value);
         void check_for_living();
         void generate_asteroid();
         void moving_shots();
@@ -47,11 +50,11 @@ namespace eclipse {
 
     public:
         Game() {
-            field.resize(kWidth, std::vector<FieldState>(kHeight, kNothing));
+            field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
             for (int i = ship.get_coordinates().first;
                  i < ship.get_coordinates().first + ship.get_size(); i++) {
                 for (int j = ship.get_coordinates().second; j < kHeight; j++) {
-                    field[i][j] = kSpaceShip;
+                    field[i][j] = "abcd";
                 }
             }
         }
@@ -62,7 +65,7 @@ namespace eclipse {
 
         GameState get_game_state() const;
 
-        FieldState get_field_state(int x, int y) const;
+        std::string get_field_state(int x, int y) const;
 
         void make_move(MoveDirection direction = kNoMove);
         void shoot();
