@@ -39,6 +39,9 @@ namespace eclipse {
         --lives;
         if (lives <= 0) {// dead
             game_state = kFinished;
+            changes.emplace_back(Changes{Finish_game});
+        } else {
+            changes.emplace_back(Changes{Decrease_lives});
         }
     }
 
@@ -66,15 +69,16 @@ namespace eclipse {
         int x = ship.get_coordinates().first + ship.get_size() / 2;
         int y = ship.get_coordinates().second - 1;
         Shot new_shot(x, y, new_uuid());
-        changes.emplace_back(Changes(
-                new_shot.get_id(), new_shot.get_size(), "shot",
-                {new_shot.get_coordinates().first, new_shot.get_coordinates().second}));
+        changes.emplace_back(Changes{Create_shot,
+                                     new_shot.get_id(),
+                                     {new_shot.get_coordinates().first, new_shot.get_coordinates().second},
+                                     new_shot.get_size()});
         change_field(x, x + new_shot.get_size(), y, y + new_shot.get_size(), kShot);
         shots_in_the_field.push_back(std::move(new_shot));
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 80) == 5) {
+        if (random_number(0, 90) == 5) {
             //if (true) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
@@ -82,10 +86,11 @@ namespace eclipse {
                 x = random_number(0, kWidth - size);
             }
             Asteroid new_asteroid(x, size, new_uuid());
-            changes.emplace_back(Changes(new_asteroid.get_id(),
-                                         new_asteroid.get_size(), "asteroid",
+            changes.emplace_back(Changes{Create_asteroid,
+                                         new_asteroid.get_id(),
                                          {new_asteroid.get_coordinates().first,
-                                          new_asteroid.get_coordinates().second}));
+                                          new_asteroid.get_coordinates().second},
+                                         new_asteroid.get_size()});
             asteroids_in_the_field.push_back(std::move(new_asteroid));
             change_field(x, x + size, 0, size, kAsteroid);
         }
@@ -105,13 +110,15 @@ namespace eclipse {
                 shots_in_the_field[id].get_coordinates().second <=
                         0) {//если сейчас столкнется с астероидом --> удаляем
                 changes.emplace_back(
-                        Changes(shots_in_the_field[id].get_id(), shots_in_the_field[id].get_size(), "", {-1, -1}));
+                        Changes{Delete_object,
+                                shots_in_the_field[id].get_id()});
                 shots_in_the_field.erase(shots_in_the_field.begin() + id);
             } else {
                 change_field(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
                              new_y + shots_in_the_field[id].get_size(), kShot);
-                changes.emplace_back(Changes(shots_in_the_field[id].get_id(), shots_in_the_field[id].get_size(), "",
-                                             {old_x, new_y}));
+                changes.emplace_back(Changes{Move_object,
+                                             shots_in_the_field[id].get_id(),
+                                             {old_x, new_y}});
                 id++;
             }
         }
@@ -134,23 +141,27 @@ namespace eclipse {
                 if (new_y + size >= kHeight ||
                     asteroids_in_the_field[id].get_state() ==
                             kDead) {//врезались в землю
+                    if (new_y + size >= kHeight) {
+                        check_for_living();
+                    }
                     change_field(ship.get_coordinates().first,
                                  ship.get_coordinates().first + ship.get_size(),
                                  ship.get_coordinates().second,
                                  ship.get_coordinates().second + ship.get_size(),
                                  kSpaceShip);
                     // если в корабль врезался астероид, восстанавливаем  корабль
-                    check_for_living();
-                    changes.emplace_back(Changes(
-                            asteroids_in_the_field[id].get_id(), size, "", {-1, -1}));
+                    changes.emplace_back(Changes{Delete_object,
+                                                 asteroids_in_the_field[id].get_id()});
                     asteroids_in_the_field.erase(asteroids_in_the_field.begin() + id);
                     continue;
                 }
             } else {
                 //пусто, можно двигать
                 change_field(old_x, old_x + size, new_y, new_y + size, kAsteroid);
-                changes.emplace_back(Changes(asteroids_in_the_field[id].get_id(),
-                                             size, "", {old_x, new_y}));
+                changes.emplace_back(Changes{Move_object,
+                                             asteroids_in_the_field[id].get_id(),
+                                             {old_x, new_y},
+                                             size});
                 id++;
             }
         }
@@ -166,7 +177,10 @@ namespace eclipse {
         change_field(new_x, new_x + ship.get_size(), y, y + ship.get_size(),
                      kSpaceShip);
         changes.emplace_back(
-                Changes(ship.get_id(), ship.get_size(), "", {new_x, y}));
+                Changes{Move_object,
+                        ship.get_id(),
+                        {new_x, y},
+                        ship.get_size()});
     }
 
 
