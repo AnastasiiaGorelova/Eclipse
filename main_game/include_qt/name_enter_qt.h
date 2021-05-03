@@ -1,7 +1,3 @@
-//
-// Created by alena on 03.05.2021.
-//
-
 #ifndef MAIN_GAME_NAME_ENTER_QT_H
 #define MAIN_GAME_NAME_ENTER_QT_H
 

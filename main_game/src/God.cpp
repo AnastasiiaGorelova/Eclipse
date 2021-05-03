@@ -1,10 +1,10 @@
 #include "God.h"
 #include "game.h"
 #include "game_fwd.h"
+#include "name_enter_qt.h"
 #include <Modification_store.h>
 #include <iostream>
 #include <memory>
-#include "name_enter_qt.h"
 
 extern Modification_store train;
 

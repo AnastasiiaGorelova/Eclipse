@@ -2,6 +2,7 @@
 #define MAIN_GAME_GAME_H
 
 #include "asteroids.h"
+#include "changes.h"
 #include "game_fwd.h"
 #include "shots.h"
 #include "space_ship.h"
@@ -11,15 +12,7 @@
 #include <utility>
 #include <vector>
 
-// TODO: подключить таймер, функции запуска игры, почистить и потестить код
-
 namespace eclipse {
-    struct Changes {
-        Actions action;
-        std::string id = "-";
-        std::pair<int, int> new_coordinates = {-1, -1};
-        int size = 0;
-    };
 
     struct Game {
     private:
