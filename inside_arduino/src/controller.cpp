@@ -3,7 +3,7 @@
 #include <SPFD5408_Adafruit_TFTLCD.h> // Hardware-specific library
 #include <SPFD5408_TouchScreen.h>
 // *** SPFD5408 change -- End
-#include <Keyboard.h>
+
 
 // I have no idea what is it for
 #if defined(__SAM3X8E__)
@@ -167,7 +167,7 @@ void loop(){
     if (p.y < 700){
 
       /// нажали направо
-      if (p.x > 570){
+      if (p.x < 570){
           touched(HALFX, 70, HALFX, HEIGHT, MAGENTA);
           delay(500);
           stop_touch(HALFX, 70, HALFX, HEIGHT, MAGENTA);
