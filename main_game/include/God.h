@@ -32,6 +32,7 @@ public:
     void move_object(int x, int y, const std::string &hash) const;
     void delete_object(const std::string &hash) const;
     void decrease_lives_ui() const;
+    std::string get_time() const;
 
     //controllers_in
     void select_game_controller(eclipse::Controllers controller_);//запрос приходит из диалогового окна выбора контроллера
@@ -43,7 +44,6 @@ public:
 
     //both
     void make_changes_in_qt() const;//боженька принимает изменения из логики, тыкает qt подвинуть/создать объект
-    //timer?
 
     void shoot_in_God() const;
 };

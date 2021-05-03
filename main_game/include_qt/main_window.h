@@ -17,7 +17,11 @@ QT_END_NAMESPACE
 class main_window : public QWidget {
     Q_OBJECT
 
+
 public:
+    std::pair<std::string, std::string> get_cur_time();
+
+
     explicit main_window(QWidget *parent = nullptr);
     ~main_window() override;
 

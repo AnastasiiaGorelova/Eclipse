@@ -169,3 +169,7 @@ void main_window::tick_god() {
 void main_window::make_shot() {
     damn.shoot_in_God();
 }
+
+std::pair<std::string, std::string> main_window::get_cur_time() {
+    return find_time_string(cur_time);
+}

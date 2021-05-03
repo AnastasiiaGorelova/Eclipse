@@ -106,3 +106,8 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 void God::decrease_lives_ui() const {
     game_view->decrease_lives();
 }
+
+std::string God::get_time() const {
+    auto[min, sec] = game_view->get_cur_time();
+    return min + ":" + sec;
+}
