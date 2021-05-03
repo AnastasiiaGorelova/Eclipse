@@ -57,6 +57,8 @@ public:
     // timer?
 
     void shoot_in_God() const;
+
+    [[nodiscard]] std::string get_time() const;
 };
 
 #endif  // MAIN_GAME_GOD_H

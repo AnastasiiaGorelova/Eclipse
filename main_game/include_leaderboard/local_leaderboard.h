@@ -7,7 +7,7 @@
 #include <string>
 #include <utility>
 
-//using json = nlohmann::json;
+// using json = nlohmann::json;ыыы
 
 namespace eclipse {
 
@@ -17,14 +17,14 @@ struct Player {
 };
 
 struct local_leaderboard {
-//    std::ofstream leaderboard_file;  // in file
-//    json leaderboard;
-//
-//    local_leaderboard()
-//        : leaderboard_file("LeaderBoard.json", std::ios::app),
-//          leaderboard(json::parse("LeaderBoard.json")) {
-//    }
-//
+    //    std::ofstream leaderboard_file;  // in file
+    //    json leaderboard;
+    //
+    //    local_leaderboard()
+    //        : leaderboard_file("LeaderBoard.json", std::ios::app),
+    //          leaderboard(json::parse("LeaderBoard.json")) {
+    //    }
+
     void serialization(Player p);
 };
 

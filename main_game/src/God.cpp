@@ -1,10 +1,9 @@
 #include "God.h"
-#include "game.h"
-#include "game_fwd.h"
 #include <Modification_store.h>
 #include <memory>
 #include <thread>
-
+#include "game.h"
+#include "game_fwd.h"
 
 extern Modification_store train;
 

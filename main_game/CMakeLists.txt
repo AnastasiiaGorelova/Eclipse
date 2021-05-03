@@ -33,7 +33,7 @@ add_executable(arduino_info "test_arduino/main.cpp" "src_in_controllers/arduino.
 target_link_libraries(arduino_info serial)
 
 # For Server test
-add_executable(server "src_upstream_leaderboard/server.cpp" )
+add_executable(server "src_upstream_leaderboard/server.cpp")
 
 # For client test
 add_executable(client "src_upstream_leaderboard/client.cpp")
