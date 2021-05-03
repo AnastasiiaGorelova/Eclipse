@@ -2,7 +2,6 @@
 #include "game.h"
 #include "game_fwd.h"
 #include <Modification_store.h>
-#include <iostream>
 #include <memory>
 #include <thread>
 
@@ -10,7 +9,7 @@
 extern Modification_store train;
 
 void God::show_menu() {
-    menu = new game_window();
+    menu = new game_window();  // NOLINT
     menu->show_menu_first();
 }
 
@@ -19,11 +18,11 @@ void God::close_menu() const {
 }
 
 void God::show_game_field() {
-    game_view = new main_window();
+    game_view = new main_window();  // NOLINT
     game_view->make_field();
     menu->hide();
     game_view->show();
-    selection_window = new Selection();
+    selection_window = new Selection();  // NOLINT
     selection_window->show();
 }
 
@@ -94,12 +93,13 @@ void God::shoot_in_God() const {
 void God::select_game_controller(eclipse::Controllers controller_) {
     switch (controller_) {
         case eclipse::Key:
-            controller.key_controller = new Key_Controller();
+            controller.key_controller = new Key_Controller();  // NOLINT
             break;
         case eclipse::Arduino: {
             ReadingFromPort::Ports my_ports;
             std::string port = my_ports.get_arduino_port();
-            controller.arduino_controller = new ReadingFromPort::Arduino(port);
+            controller.arduino_controller =  // NOLINT
+                new ReadingFromPort::Arduino(port);
             auto worker = [&]() {
                 while (true) {
                     controller.arduino_controller->make_a_move();
@@ -120,6 +120,6 @@ void God::decrease_lives_ui() const {
 }
 
 std::string God::get_time() const {
-    auto[min, sec] = game_view->get_cur_time();
+    auto [min, sec] = game_view->get_cur_time();
     return min + ":" + sec;
 }
