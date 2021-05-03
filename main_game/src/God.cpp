@@ -85,6 +85,9 @@ void God::make_changes_in_qt() const {
                 set_object(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "shot");
                 break;
+            case eclipse::Break_asteroid:
+                set_crack_asteroid_pic(i.id, i.size);
+                break;
             case eclipse::Decrease_lives:
                 decrease_lives_ui();
                 break;

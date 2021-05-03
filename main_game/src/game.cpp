@@ -163,6 +163,8 @@ namespace eclipse {
                                                  asteroids_in_the_field[id].get_id()});
                     asteroids_in_the_field.erase(asteroids_in_the_field.begin() + id);
                     continue;
+                } else {// еще не убили, но ранили
+                    changes.emplace_back(Changes{Break_asteroid, asteroids_in_the_field[id].get_id(), {-1, -1}, asteroids_in_the_field[id].get_size()});
                 }
             } else {
                 //пусто, можно двигать

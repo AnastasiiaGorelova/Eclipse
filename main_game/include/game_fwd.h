@@ -10,11 +10,6 @@ namespace eclipse {
     static const std::string default_id = "nothing";
     enum GameState { kOngoing,
                      kFinished };
-    enum FieldState { kAsteroid,
-                      kLife,
-                      kSpaceShip,
-                      kShot,
-                      kNothing };
     enum MoveDirection { kLeft,
                          kRight,
                          kNoMove };
@@ -22,13 +17,16 @@ namespace eclipse {
                        kDead };
     enum Controllers { Key,
                        Arduino };
-    enum Actions { Delete_object,
-                   Create_ship,
-                   Create_shot,
-                   Create_asteroid,
-                   Move_object,
-                   Finish_game,
-                   Decrease_lives };
+    enum Actions {
+        Create_ship,
+        Create_shot,
+        Create_asteroid,
+        Move_object,
+        Delete_object,
+        Break_asteroid,
+        Finish_game,
+        Decrease_lives
+    };
 
 }// namespace eclipse
 
