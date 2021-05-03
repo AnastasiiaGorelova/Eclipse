@@ -131,3 +131,7 @@ std::string God::get_time() const {
     auto [min, sec] = game_view->get_cur_time();
     return min + ":" + sec;
 }
+
+void God::set_crack_asteroid_pic(const std::string &hash, int size) const {
+    game_view->change_asteroid_crack(hash, size);
+}

@@ -33,6 +33,7 @@ public:
     void delete_object(const std::string &hash) const;
     void decrease_lives_ui() const;
     std::string get_time() const;
+    void set_crack_asteroid_pic(const std::string &hash, int size) const; //нужен размер для калибровки картики
 
     //controllers_in
     void select_game_controller(eclipse::Controllers controller_);//запрос приходит из диалогового окна выбора контроллера

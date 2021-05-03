@@ -173,3 +173,7 @@ void main_window::make_shot() {
 std::pair<std::string, std::string> main_window::get_cur_time() {
     return find_time_string(cur_time);
 }
+
+void main_window::change_asteroid_crack(const std::string &hash, int size) {
+    hash_table[hash]->setPixmap(QPixmap("../../images/broken_asteroid.png").scaled(size, size));
+}

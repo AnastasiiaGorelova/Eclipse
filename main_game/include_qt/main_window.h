@@ -50,6 +50,7 @@ public:
     void set_lives();
 
     void decrease_lives();
+    void change_asteroid_crack(const std::string &hash, int size);
 
 
 private slots:
