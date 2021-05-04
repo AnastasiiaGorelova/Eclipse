@@ -1,9 +1,10 @@
 #include "God.h"
-#include <Modification_store.h>
-#include <memory>
-#include <thread>
 #include "game.h"
 #include "game_fwd.h"
+#include "name_enter_qt.h"
+#include <Modification_store.h>
+#include <iostream>
+#include <memory>
 
 extern Modification_store train;
 
@@ -22,12 +23,20 @@ void God::show_game_field() {
     menu->hide();
     game_view->show();
     selection_window = new Selection();  // NOLINT
+    new_name = new name_enter_qt();
+    new_name->show();
+}
+
+void God::show_selection_window() {
+    selection_window = new Selection();
     selection_window->show();
 }
 
 void God::close_game_field() const {
+    game_view->timer->stop();
+    game_view->timer_for_shots->stop();
+    game_view->timer_for_ticks->stop();
     game_view->close();
-    menu->show();
 }
 
 void God::set_object(int x,
@@ -47,8 +56,7 @@ void God::delete_object(const std::string &hash) const {
 }
 
 void God::clicked_on_start() {
-    game = std::make_unique<eclipse::Game>();  //создаем новую игру
-    //запустить таймер???
+    game = std::make_unique<eclipse::Game>();
 
     close_menu();
     show_game_field();
@@ -64,22 +72,45 @@ void God::clicked_on_exit() {
     close_menu();
 }
 
-void God::make_changes_in_qt() const {
+void God::make_changes_in_qt()  {
     for (auto &i : game->changes) {
-        if (i.new_coordinates.first == -1 && i.new_coordinates.second == -1) {
-            delete_object(i.id);
-        } else if (i.object_name.empty()) {
-            move_object(i.new_coordinates.first, i.new_coordinates.second,
-                        i.id);
-        } else {
-            set_object(i.new_coordinates.first, i.new_coordinates.second,
-                       i.size, i.id, i.object_name);
+        switch (i.action) {
+            case eclipse::Delete_object:
+                delete_object(i.id);
+                break;
+            case eclipse::Move_object:
+                move_object(i.new_coordinates.first, i.new_coordinates.second,
+                            i.id);
+                break;
+            case eclipse::Create_ship:
+                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                           i.size, i.id, "ship");
+                break;
+            case eclipse::Create_asteroid:
+                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                           i.size, i.id, "asteroid");
+                break;
+            case eclipse::Create_shot:
+                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                           i.size, i.id, "shot");
+                break;
+            case eclipse::Break_asteroid:
+                set_crack_asteroid_pic(i.id, i.size);
+                break;
+            case eclipse::Decrease_lives:
+                decrease_lives_ui();
+                break;
+            case eclipse::Finish_game:
+                decrease_lives_ui();
+                std::cerr << "LOSER ";
+                finish_game();
+                break;
         }
     }
     game->changes.clear();
 }
 
-void God::make_move_in_logic() const {
+void God::make_move_in_logic() {
     auto [direction, steps] = train.give_changes();
     game->make_move(direction);
     make_changes_in_qt();
@@ -110,12 +141,22 @@ void God::select_game_controller(eclipse::Controllers controller_) {
         default:
             break;
     }
-    //подумать откуда еще можно запустить, пока нелогично
     game_view->start_timer();
 }
 
 void God::decrease_lives_ui() const {
     game_view->decrease_lives();
+}
+
+void God::set_crack_asteroid_pic(const std::string &hash, int size) const {
+    game_view->change_asteroid_crack(hash, size);
+}
+
+void God::finish_game() {
+    finish_window = new game_finish_window();
+    player_time = get_time();
+    close_game_field();
+    finish_window->show();
 }
 
 std::string God::get_time() const {

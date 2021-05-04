@@ -1,10 +1,10 @@
 #include "main_window.h"
+#include "God.h"
+#include "ui_main_window.h"
 #include <QDesktopWidget>
 #include <QGraphicsProxyWidget>
 #include <QKeyEvent>
 #include <QStyle>
-#include "God.h"
-#include "ui_main_window.h"
 
 extern God damn;
 
@@ -24,8 +24,7 @@ void main_window::make_field() {
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, width, height);
     ui->graphicsView->setScene(scene);
-    scene->setBackgroundBrush(
-        QBrush(QImage("../../images/background.png").scaled(width, height)));
+    scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(width, height)));
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setFrameShape(QFrame::NoFrame);
@@ -49,7 +48,7 @@ void main_window::set(int x,
                       const std::string &object_name) {
     auto *object = new GameObject();
     QString filename =
-        "../../images/" + QString::fromStdString(object_name) + ".png";
+            "../../images/" + QString::fromStdString(object_name) + ".png";
     object->setPixmap(QPixmap(filename).scaled(size, size));
     object->setPos(x, y);
     scene->addItem(object);
@@ -88,6 +87,7 @@ void main_window::set_timer() {
     auto *pMyProxy_2 = new QGraphicsProxyWidget(item_2);
     pMyProxy_2->setWidget(number_for_time);
     pMyProxy_2->setPos(60, 7);
+    start_timer();
 }
 
 void main_window::set_lives() {
@@ -128,9 +128,10 @@ void main_window::change_timer() {
     cur_time++;
     auto [min, sec] = find_time_string(cur_time);
     QString time_string =
-        QString::fromStdString(min) + ":" + QString::fromStdString(sec);
+            QString::fromStdString(min) + ":" + QString::fromStdString(sec);
     number_for_time->setText(time_string);
 }
+
 
 std::pair<std::string, std::string> main_window::find_time_string(int x) {
     std::string min = std::to_string(x / 60);
@@ -172,4 +173,8 @@ void main_window::make_shot() {
 
 std::pair<std::string, std::string> main_window::get_cur_time() {
     return find_time_string(cur_time);
+}
+
+void main_window::change_asteroid_crack(const std::string &hash, int size) {
+    hash_table[hash]->setPixmap(QPixmap("../../images/broken_asteroid.png").scaled(size, size));
 }
