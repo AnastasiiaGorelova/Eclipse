@@ -34,9 +34,7 @@ void God::show_selection_window() {
 }
 
 void God::close_game_field() const {
-    game_view->timer->stop();
-    game_view->timer_for_shots->stop();
-    game_view->timer_for_ticks->stop();
+    stop_timers();
     game_view->close();
 }
 
@@ -65,6 +63,7 @@ void God::clicked_on_start() {
 
     game_view->set_lives();
     game_view->set_timer();
+    game_view->set_coins_counter();
 }
 
 void God::clicked_on_exit() {
@@ -102,7 +101,9 @@ void God::make_changes_in_qt() {
                 break;
             case eclipse::Finish_game:
                 decrease_lives_ui();
-                finish_game();
+                stop_timers();
+                //очистить поле
+                show_buy_live_for_coins_window();
                 break;
         }
     }
@@ -189,3 +190,26 @@ void God::connection_message(int connected, message_errors error) {
         }
     }
 }
+
+void God::change_coins_counter_ui(int count) const {
+    game_view->change_coins_counter(count);
+}
+
+void God::show_buy_live_for_coins_window(int n) {
+    buy_live_for_coins_window_ = new buy_live_for_coins_window();
+    buy_live_for_coins_window_->buy_for_n_coins(n);
+    buy_live_for_coins_window_->show();
+}
+
+void God::add_life_and_restart_game() const {
+    game_view->start_timer();
+    //добавить жизнь в логику
+    game_view->add_life(); //добавлена в отрисовку
+}
+
+void God::stop_timers() const {
+    game_view->timer->stop();
+    game_view->timer_for_shots->stop();
+    game_view->timer_for_ticks->stop();
+}
+

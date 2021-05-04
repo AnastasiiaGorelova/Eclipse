@@ -18,10 +18,13 @@ QT_END_NAMESPACE
 class main_window : public QWidget {
     Q_OBJECT
 
+    std::unordered_map<std::string, GameObject *> hash_table;
+
 public:
     std::pair<std::string, std::string> get_cur_time();
 
     void start_timer_for_beginning();
+    void add_life();
 
     explicit main_window(QWidget *parent = nullptr);
     ~main_window() override;
@@ -31,6 +34,7 @@ public:
 
     QLabel *time;
     QLabel *number_for_time;
+    QLabel *coins_counter;
 
     QTimer *timer_for_start;
     QTimer *timer;
@@ -50,7 +54,9 @@ public:
 
     void set_timer();
     void set_lives();
+    void set_coins_counter();
 
+    void change_coins_counter(int count);
     void decrease_lives();
     void change_asteroid_crack(const std::string &hash, int size);
 
@@ -67,7 +73,6 @@ private:
     QVBoxLayout *vlay;
     size_t width = 800;
     size_t height = 600;
-    std::unordered_map<std::string, GameObject *> hash_table;
     Ui::main_window *ui;
 
     int cur_time = 0;

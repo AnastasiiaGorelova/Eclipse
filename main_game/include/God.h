@@ -14,6 +14,7 @@
 #include "game_finish_window.h"
 #include <name_enter_qt.h>
 #include <error_massage_window.h>
+#include <buy_live_for_coins_window.h>
 
 enum message_errors {
     no_errors,
@@ -29,6 +30,7 @@ public:
     name_enter_qt* new_name;
     game_finish_window *finish_window;
     error_massage_window* error_massage_window_;
+    buy_live_for_coins_window * buy_live_for_coins_window_;
     Player cur_player;
 
     union {
@@ -49,6 +51,8 @@ public:
     void set_crack_asteroid_pic(const std::string &hash, int size) const;
     void show_selection_window();
     void finish_game();
+    void change_coins_counter_ui(int count) const;
+    void show_buy_live_for_coins_window(int n = 5);
 
     //controllers_in
     void select_game_controller(eclipse::Controllers controller_);
@@ -63,6 +67,10 @@ public:
     //both
     void make_changes_in_qt();
     void shoot_in_God() const;
+
+    void add_life_and_restart_game() const;
+
+    void stop_timers() const;
 };
 
 #endif// MAIN_GAME_GOD_H
