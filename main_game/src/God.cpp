@@ -29,8 +29,6 @@ void God::show_game_field() {
 }
 
 void God::show_selection_window() {
-    // delete selection_window;
-
     selection_window = new Selection();
     selection_window->show();
 }
@@ -71,7 +69,6 @@ void God::clicked_on_start() {
 
 void God::clicked_on_exit() {
     game = nullptr;
-    //просто вывести таймер??
     close_menu();
 }
 
@@ -105,7 +102,6 @@ void God::make_changes_in_qt() {
                 break;
             case eclipse::Finish_game:
                 decrease_lives_ui();
-                std::cerr << "LOSER ";
                 finish_game();
                 break;
         }

@@ -87,7 +87,6 @@ void main_window::set_timer() {
     auto *pMyProxy_2 = new QGraphicsProxyWidget(item_2);
     pMyProxy_2->setWidget(number_for_time);
     pMyProxy_2->setPos(60, 7);
-    start_timer();
 }
 
 void main_window::set_lives() {
