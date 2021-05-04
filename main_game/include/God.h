@@ -1,13 +1,17 @@
 #ifndef MAIN_GAME_GOD_H
 #define MAIN_GAME_GOD_H
 
+#include <game_finish_window.h>
+#include <name_enter_qt.h>
+#include <memory>
 #include "Key_Controller_.h"
+#include "../include_in_controllers/arduino.h"
 #include "Selection.h"
+#include "../include_leaderboard/local_leaderboard.h"
 #include "game.h"
 #include "game_fwd.h"
 #include "game_window.h"
 #include "main_window.h"
-#include <memory>
 
 class God {
 public:
@@ -17,12 +21,11 @@ public:
     Selection *selection_window;
     name_enter_qt* new_name;
     game_finish_window *finish_window;
-    std::string player_name;
-    std::string player_time;
+    Player cur_player;
 
     union {
         Key_Controller *key_controller;
-        //one_more_for_arduino
+        ReadingFromPort::Arduino *arduino_controller;
     } controller;
 
     //God(const eclipse::Game &game): game(std::make_unique<eclipse::Game>(game)){}

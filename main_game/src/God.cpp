@@ -1,10 +1,11 @@
 #include "God.h"
-#include "game.h"
-#include "game_fwd.h"
-#include "name_enter_qt.h"
 #include <Modification_store.h>
 #include <iostream>
 #include <memory>
+#include "../include_in_controllers/arduino.h"
+#include "game.h"
+#include "game_fwd.h"
+#include "name_enter_qt.h"
 
 extern Modification_store train;
 
@@ -72,7 +73,7 @@ void God::clicked_on_exit() {
     close_menu();
 }
 
-void God::make_changes_in_qt()  {
+void God::make_changes_in_qt() {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
@@ -123,13 +124,12 @@ void God::shoot_in_God() const {
 void God::select_game_controller(eclipse::Controllers controller_) {
     switch (controller_) {
         case eclipse::Key:
-            controller.key_controller = new Key_Controller();  // NOLINT
+            controller.key_controller = new Key_Controller();
             break;
         case eclipse::Arduino: {
             ReadingFromPort::Ports my_ports;
             std::string port = my_ports.get_arduino_port();
-            controller.arduino_controller =  // NOLINT
-                new ReadingFromPort::Arduino(port);
+            controller.arduino_controller = new ReadingFromPort::Arduino(port);
             auto worker = [&]() {
                 while (true) {
                     controller.arduino_controller->make_a_move();
@@ -154,7 +154,7 @@ void God::set_crack_asteroid_pic(const std::string &hash, int size) const {
 
 void God::finish_game() {
     finish_window = new game_finish_window();
-    player_time = get_time();
+    cur_player.time = get_time();
     close_game_field();
     finish_window->show();
 }

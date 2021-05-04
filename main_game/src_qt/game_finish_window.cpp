@@ -36,7 +36,7 @@ game_finish_window::game_finish_window(QWidget *parent) :
     text->setAlignment(Qt::AlignCenter);
     vlay -> addWidget(text);
 
-    QString score_text = "Имя: " + QString::fromStdString(damn.player_name) + "\n" + "Время: " + QString::fromStdString(damn.get_time()) + "\n";
+    QString score_text = "Имя: " + QString::fromStdString(damn.cur_player.name) + "\n" + "Время: " + QString::fromStdString(damn.get_time()) + "\n";
     auto score = new QLabel(score_text);
     score->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     score->setFont(font);

@@ -60,5 +60,5 @@ name_enter_qt::~name_enter_qt() {
 void name_enter_qt::_line_edit() {
     this->hide();
     damn.show_selection_window();
-    damn.player_name = (echoLineEdit->text()).toStdString();
+    damn.cur_player.name = (echoLineEdit->text()).toStdString();
 }
