@@ -7,6 +7,7 @@
 #include "game_fwd.h"
 #include "game_window.h"
 #include "main_window.h"
+#include "game_finish_window.h"
 #include <memory>
 #include <name_enter_qt.h>
 
@@ -17,7 +18,9 @@ public:
     main_window *game_view;
     Selection *selection_window;
     name_enter_qt* new_name;
+    game_finish_window *finish_window;
     std::string player_name;
+    std::string player_time;
 
     union {
         Key_Controller *key_controller;
@@ -44,14 +47,16 @@ public:
     //for logic
     void clicked_on_start();
     void clicked_on_exit();
-    void make_move_in_logic() const;//принимает измнения из стора, работает на тиках
+    void make_move_in_logic();//принимает измнения из стора, работает на тиках
 
     //both
-    void make_changes_in_qt() const;//боженька принимает изменения из логики, тыкает qt подвинуть/создать объект
+    void make_changes_in_qt();//боженька принимает изменения из логики, тыкает qt подвинуть/создать объект
 
     void shoot_in_God() const;
 
     void show_selection_window();
+
+    void finish_game();
 };
 
 #endif// MAIN_GAME_GOD_H

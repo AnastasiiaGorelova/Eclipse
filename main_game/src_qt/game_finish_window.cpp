@@ -1,26 +1,22 @@
 
-#include "name_enter_qt.h"
-#include "ui_name_enter_qt.h"
-#include <QStyle>
-#include <QDesktopWidget>
+#include <QVBoxLayout>
 #include <QLabel>
-#include <QGridLayout>
-#include <QPushButton>
-#include <iostream>
 #include "God.h"
+#include "game_finish_window.h"
+#include "ui_game_finish_window.h"
 
 extern God damn;
 
-name_enter_qt::name_enter_qt(QWidget *parent) :
-        QWidget(parent), ui(new Ui::name_enter_qt) {
+game_finish_window::game_finish_window(QWidget *parent) :
+        QWidget(parent), ui(new Ui::game_finish_window) {
+
     ui->setupUi(this);
 
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
-    //установка фона
-    ui->setupUi(this);
+
     QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -34,31 +30,26 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
     font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
     font.setPixelSize(35); // this for setting font size
 
-    auto text = new QLabel("Введите\n имя пользователя\n и нажмите enter\n");
+    auto text = new QLabel("Конец игры!");
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
     vlay -> addWidget(text);
 
-    echoLineEdit = new QLineEdit(this);
-    echoLineEdit->setAlignment(Qt::AlignCenter);
-    vlay->addWidget(echoLineEdit);
-
-    connect(echoLineEdit, &QLineEdit::returnPressed, this, &name_enter_qt::_line_edit);
+    QString score_text = "Имя: " + QString::fromStdString(damn.player_name) + "\n" + "Время: " + QString::fromStdString(damn.get_time()) + "\n";
+    auto score = new QLabel(score_text);
+    score->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
+    score->setFont(font);
+    score->setAlignment(Qt::AlignCenter);
+    vlay -> addWidget(score);
 
     vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
 
-    setWindowTitle("Enter name");
-    setFixedSize(350, 220);
+    setWindowTitle("Game over!");
+    setFixedSize(400, 300);
 }
 
-name_enter_qt::~name_enter_qt() {
+game_finish_window::~game_finish_window() {
     delete ui;
-}
-
-void name_enter_qt::_line_edit() {
-    this->hide();
-    damn.show_selection_window();
-    damn.player_name = (echoLineEdit->text()).toStdString();
 }

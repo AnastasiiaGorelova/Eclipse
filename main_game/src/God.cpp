@@ -32,8 +32,10 @@ void God::show_selection_window() {
 }
 
 void God::close_game_field() const {
+    game_view->timer->stop();
+    game_view->timer_for_shots->stop();
+    game_view->timer_for_ticks->stop();
     game_view->close();
-    menu->show();
 }
 
 void God::set_object(int x,
@@ -69,7 +71,7 @@ void God::clicked_on_exit() {
     close_menu();
 }
 
-void God::make_changes_in_qt() const {
+void God::make_changes_in_qt()  {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
@@ -100,15 +102,14 @@ void God::make_changes_in_qt() const {
             case eclipse::Finish_game:
                 decrease_lives_ui();
                 std::cerr << "LOSER ";
-                //close_game_field();
-                //"вы проиграли" --> вывести результат
+                finish_game();
                 break;
         }
     }
     game->changes.clear();
 }
 
-void God::make_move_in_logic() const {
+void God::make_move_in_logic() {
     auto [direction, steps] = train.give_changes();
     game->make_move(direction);
     make_changes_in_qt();
@@ -143,4 +144,11 @@ std::string God::get_time() const {
 
 void God::set_crack_asteroid_pic(const std::string &hash, int size) const {
     game_view->change_asteroid_crack(hash, size);
+}
+
+void God::finish_game() {
+    finish_window = new game_finish_window();
+    player_time = get_time();
+    close_game_field();
+    finish_window->show();
 }
