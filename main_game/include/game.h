@@ -70,6 +70,7 @@ namespace eclipse {
 
         void make_move(MoveDirection direction = kNoMove);
         void shoot();
+        void clear_field();
     };
 
 }// namespace eclipse
