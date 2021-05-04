@@ -55,7 +55,17 @@
 ## Подключение проекта
 ### Установка сторонних библиотек
 #### MACOS
+```
+brew update
+brew install boost
+brew upgrade boost
+brew install nlohmann-json
+brew install qt5
+```
 #### LINUX
+```
+как-то
+```
 
 ## Описание функциональностей проекта:
 
