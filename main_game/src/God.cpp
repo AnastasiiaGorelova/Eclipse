@@ -29,8 +29,7 @@ void God::show_game_field() {
 }
 
 void God::show_selection_window() {
-
-    //delete selection_window;
+    // delete selection_window;
 
     selection_window = new Selection();
     selection_window->show();
@@ -134,18 +133,22 @@ void God::select_game_controller(eclipse::Controllers controller_) {
         case eclipse::Arduino: {
             ReadingFromPort::Ports my_ports;
             std::string port = my_ports.get_arduino_port();
-            controller.arduino_controller = new ReadingFromPort::Arduino(port);
-            //JUST FOR DEBUG
-            connection = 0;
-            error = arduino_setting_error;
-            //
-            auto worker = [&]() {
-                while (true) {
-                    controller.arduino_controller->make_a_move();
-                }
-            };
-            std::thread ta(worker);
-            ta.detach();
+
+            if (port == "There is no Arduino plugged into port") {
+                connection = 0;
+                error = arduino_setting_error;
+            } else {
+                controller.arduino_controller =
+                    new ReadingFromPort::Arduino(port);
+                auto worker = [&]() {
+                    while (true) {
+                        controller.arduino_controller->make_a_move();
+                    }
+                };
+                std::thread ta(worker);
+                ta.detach();
+            }
+
         } break;
         default:
             break;
@@ -180,10 +183,10 @@ void God::arduino_setting_error_massage() {
 }
 
 void God::connection_message(int connected, message_errors error) {
-    if(connected) {
+    if (connected) {
         game_view->start_timer();
     } else {
-        switch(error) {
+        switch (error) {
             case arduino_setting_error:
                 arduino_setting_error_massage();
                 break;

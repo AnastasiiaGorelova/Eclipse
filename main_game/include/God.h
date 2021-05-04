@@ -28,6 +28,7 @@ public:
     Selection *selection_window;
     name_enter_qt* new_name;
     game_finish_window *finish_window;
+    error_massage_window* error_massage_window_;
     Player cur_player;
 
     union {

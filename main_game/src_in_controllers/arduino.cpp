@@ -1,5 +1,4 @@
 #include "../include_in_controllers/arduino.h"
-#include "Key_Controller_.h"
 
 extern Modification_store train;
 
@@ -14,8 +13,7 @@ std::string Ports::get_arduino_port() const {
             return device.port;
         }
     }
-    throw std::runtime_error("There is no Arduino plugged into port");
-    // TODO окошко предупреждение, что ардуинка не подключена
+    return "There is no Arduino plugged into port";
 }
 
 Arduino::Arduino(const std::string &port, uint32_t baudrate) {

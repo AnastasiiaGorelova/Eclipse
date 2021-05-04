@@ -1,10 +1,14 @@
 #ifndef MAIN_GAME_ARDUINO_H
 #define MAIN_GAME_ARDUINO_H
 
+#include "Key_Controller_.h"
+//#include "God.h"
 #include <serial/serial.h>
 #include <iostream>
 #include <thread>
 #include <stdexcept>
+
+class God;
 
 namespace ReadingFromPort {
 
@@ -15,7 +19,6 @@ struct Arduino {
 
     Arduino(const std::string &port, uint32_t baudrate = 9600);
     Move make_a_move();
-    [[noreturn]] void make_a_move_for_thread();
     ~Arduino();
 };
 
