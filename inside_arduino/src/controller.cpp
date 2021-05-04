@@ -27,7 +27,6 @@
 #define HEIGHT 250
 #define KEY_Q 0x14
 
-
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300); // Connect TouchScreen
 
 #define LCD_CS A3
@@ -55,7 +54,6 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET); // Connect Displ
 void drawBorder () {
 
         // Draw a border
-
         uint16_t width = tft.width() - 1;
         uint16_t height = tft.height() - 1;
         uint8_t border = 10;
@@ -125,7 +123,6 @@ void setup() {
         tft.println("Touch to proceed");
 
         // Wait touch
-
         waitOneTouch();
 
         tft.setTextSize (3);
@@ -152,7 +149,6 @@ void loop(){
         pinMode(XM, OUTPUT);
         pinMode(YP, OUTPUT);
 ///  ENDIMPORTANT
-
 
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
 
