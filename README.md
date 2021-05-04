@@ -123,7 +123,6 @@ brew install qt5
   + Игра заканчивается при обнулении жизней. _(Горелова)_
 * Поменять дизайн гравного экрана и меню
 
- <img src="https://github.com/AnastasiiaGorelova/Eclipse/blob/main/images/game_preview.jpeg" width="400" height="350" />
+ <img src="/images/game_preview.jpeg" width="380"/>
  
-
 
