@@ -47,7 +47,7 @@ game_finish_window::game_finish_window(QWidget *parent)
     vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
 
-    setWindowTitle("Game over!");
+    setWindowTitle("Game over");
     setFixedSize(400, 300);
 }
 

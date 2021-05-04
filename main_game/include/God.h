@@ -36,8 +36,6 @@ public:
         ReadingFromPort::Arduino *arduino_controller;
     } controller;
 
-    //God(const eclipse::Game &game): game(std::make_unique<eclipse::Game>(game)){}
-
     //controller_out (qt)
     void show_menu();
     void close_menu() const;
@@ -48,26 +46,23 @@ public:
     void delete_object(const std::string &hash) const;
     void decrease_lives_ui() const;
     std::string get_time() const;
-    void set_crack_asteroid_pic(const std::string &hash, int size) const; //нужен размер для калибровки картики
+    void set_crack_asteroid_pic(const std::string &hash, int size) const;
+    void show_selection_window();
+    void finish_game();
 
     //controllers_in
-    void select_game_controller(eclipse::Controllers controller_);//запрос приходит из диалогового окна выбора контроллера
+    void select_game_controller(eclipse::Controllers controller_);
     void arduino_setting_error_massage();
     void connection_message(int connected, message_errors error);
 
     //for logic
     void clicked_on_start();
     void clicked_on_exit();
-    void make_move_in_logic();//принимает измнения из стора, работает на тиках
+    void make_move_in_logic();
 
     //both
-    void make_changes_in_qt();//боженька принимает изменения из логики, тыкает qt подвинуть/создать объект
-
+    void make_changes_in_qt();
     void shoot_in_God() const;
-
-    void show_selection_window();
-
-    void finish_game();
 };
 
 #endif// MAIN_GAME_GOD_H
