@@ -1,7 +1,6 @@
 #ifndef MAIN_GAME_GOD_H
 #define MAIN_GAME_GOD_H
 
-#include <game_finish_window.h>
 #include <name_enter_qt.h>
 #include <memory>
 #include "Key_Controller_.h"
@@ -12,6 +11,14 @@
 #include "game_fwd.h"
 #include "game_window.h"
 #include "main_window.h"
+#include "game_finish_window.h"
+#include <name_enter_qt.h>
+#include <error_massage_window.h>
+
+enum message_errors {
+    no_errors,
+    arduino_setting_error
+};
 
 class God {
 public:
@@ -44,6 +51,8 @@ public:
 
     //controllers_in
     void select_game_controller(eclipse::Controllers controller_);//запрос приходит из диалогового окна выбора контроллера
+    void arduino_setting_error_massage();
+    void connection_message(int connected, message_errors error);
 
     //for logic
     void clicked_on_start();
