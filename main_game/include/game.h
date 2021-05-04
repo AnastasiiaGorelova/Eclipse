@@ -23,7 +23,7 @@ namespace eclipse {
         spaceship ship = spaceship(kWidth, kHeight);
         int lives = 3;
         int coins = 0;
-        int game_speed = 2;
+        int game_speed = 2;    //asteroids
         int shot_size = 40;
         int bonus_size = 80;
         std::vector<Asteroid> asteroids_in_the_field;
@@ -40,6 +40,7 @@ namespace eclipse {
                           int y_start,
                           int y_finish,
                           const std::string &value);
+        void recover_ship();
         void check_for_living();
         void generate_asteroid();
         void generate_bonus();

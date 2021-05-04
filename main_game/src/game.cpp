@@ -17,6 +17,14 @@ namespace eclipse {
 
     }// namespace
 
+    void Game::recover_ship() {
+        change_field(ship.get_coordinates().first,
+                     ship.get_coordinates().first + ship.get_size(),
+                     ship.get_coordinates().second,
+                     ship.get_coordinates().second + ship.get_size(),
+                     "abcd");
+    }
+
     std::string Game::checker_for_nothing(int x_start,
                                           int x_finish,
                                           int y_start,
@@ -108,7 +116,7 @@ namespace eclipse {
             int x = random_number(0, kWidth - bonus_size);
             if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
                 Heart new_heart(x, new_uuid());
-                changes.emplace_back(Changes{Create_coin, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
+                changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
                 change_field(x, x + bonus_size, 0, bonus_size, new_heart.get_id());
                 hearts_in_the_field.push_back(std::move(new_heart));
             }
@@ -174,11 +182,7 @@ namespace eclipse {
                     if (new_y + size >= kHeight || checker == "abcd") {
                         check_for_living();
                     }
-                    change_field(ship.get_coordinates().first,
-                                 ship.get_coordinates().first + ship.get_size(),
-                                 ship.get_coordinates().second,
-                                 ship.get_coordinates().second + ship.get_size(),
-                                 "abcd");//убрать костыль
+                    recover_ship();//убрать костыль
                     // если в корабль врезался астероид, восстанавливаем  корабль
                     changes.emplace_back(Changes{Delete_object,
                                                  asteroids_in_the_field[id].get_id()});
@@ -200,10 +204,46 @@ namespace eclipse {
 
     void Game::moving_bonus() {
         int id = 0;
-        while(id < coins_in_the_field.size()) {
+        while (id < coins_in_the_field.size()) {
             int old_x = coins_in_the_field[id].get_coordinates().first;
             int old_y = coins_in_the_field[id].get_coordinates().second;
             change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
+            if (map.find(coins_in_the_field[id].get_id()) != map.end()) {//поймали
+                changes.emplace_back(Changes{Add_coin});
+                map.erase(coins_in_the_field[id].get_id());
+                coins_in_the_field.erase(coins_in_the_field.begin() + id);
+                continue;
+            }
+            coins_in_the_field[id].move(game_speed);
+            int new_y = coins_in_the_field[id].get_coordinates().second;
+            if (checker_for_nothing(old_x, old_x + bonus_size, new_y, new_y + bonus_size) != default_id) {
+                changes.emplace_back(Changes{Delete_object, coins_in_the_field[id].get_id()});
+                coins_in_the_field.erase(coins_in_the_field.begin() + id);
+            } else {
+                changes.emplace_back(Changes{Move_object, coins_in_the_field[id].get_id(), coins_in_the_field[id].get_coordinates()});
+                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, coins_in_the_field[id].get_id());
+            }
+        }
+        id = 0;
+        while (id < hearts_in_the_field.size()) {
+            int old_x = hearts_in_the_field[id].get_coordinates().first;
+            int old_y = hearts_in_the_field[id].get_coordinates().second;
+            change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
+            if (map.find(hearts_in_the_field[id].get_id()) != map.end()) {//поймали
+                changes.emplace_back(Changes{Add_heart});
+                map.erase(hearts_in_the_field[id].get_id());
+                hearts_in_the_field.erase(hearts_in_the_field.begin() + id);
+                continue;
+            }
+            hearts_in_the_field[id].move(game_speed);
+            int new_y = hearts_in_the_field[id].get_coordinates().second;
+            if (checker_for_nothing(old_x, old_x + bonus_size, new_y, new_y + bonus_size) != default_id) {
+                changes.emplace_back(Changes{Delete_object, hearts_in_the_field[id].get_id()});
+                hearts_in_the_field.erase(hearts_in_the_field.begin() + id);
+            } else {
+                changes.emplace_back(Changes{Move_object, hearts_in_the_field[id].get_id(), hearts_in_the_field[id].get_coordinates()});
+                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, hearts_in_the_field[id].get_id());
+            }
         }
     }
 
