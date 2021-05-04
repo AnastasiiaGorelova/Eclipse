@@ -2,32 +2,29 @@
 #define LOCAL_LEADERBOARD_H
 
 #include <ctime>
+#include <filesystem>
 #include <fstream>
-//#include <nlohmann/json.hpp>
+#include <iostream>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <utility>
 
-// using json = nlohmann::json;ыыы
-
-namespace eclipse {
+using json = nlohmann::json;
 
 struct Player {
     std::string name;
-    time_t time;
+    std::string time;
 };
 
 struct local_leaderboard {
-    //    std::ofstream leaderboard_file;  // in file
-    //    json leaderboard;
-    //
-    //    local_leaderboard()
-    //        : leaderboard_file("LeaderBoard.json", std::ios::app),
-    //          leaderboard(json::parse("LeaderBoard.json")) {
-    //    }
+    std::fstream leaderboard_file;  // in file
+
+    local_leaderboard() : leaderboard_file("LeaderBoard.json", std::ios::app) {
+    }
 
     void serialization(Player p);
 };
 
-}  // namespace eclipse
+bool is_file_empty(const std::string &filename);
 
 #endif  // LOCAL_LEADERBOARD_H

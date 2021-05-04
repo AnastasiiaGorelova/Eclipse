@@ -1,14 +1,14 @@
 #include <God.h>
 #include <game_window.h>
 #include <QDesktopWidget>
-#include <QStyle>
 #include <QLineEdit>
+#include <QStyle>
 #include "ui_game_window.h"
 
 extern God damn;
 
-game_window::game_window(QWidget *parent) :
-        QWidget(parent), ui(new Ui::game_window) {
+game_window::game_window(QWidget *parent)
+    : QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
     QPixmap pix("../../images/main.jpg");
     ui->label->setPixmap(pix.scaled(800, 630));
@@ -46,7 +46,8 @@ game_window::game_window(QWidget *parent) :
         "200, 200));}");
 
     ui->Eclipse->setText("Eclipse");
-    ui->Eclipse->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
+    ui->Eclipse->setStyleSheet(
+        "background-color: rgba(0,0,0,0%); color : white;");
     QFont font;
     font.setWeight(QFont::ExtraBold);
     font.setPixelSize(120);

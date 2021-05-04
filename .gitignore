@@ -34,4 +34,9 @@
 cmake-build-debug/
 main_game/cmake-build-debug/
 
+.DS_Store
+build/
+*autogen.*
+*autogen/
+
 .idea/
