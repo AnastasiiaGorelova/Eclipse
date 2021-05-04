@@ -208,5 +208,5 @@ void main_window::change_label() {
 void main_window::start_timer_for_beginning() {
     timer_for_start = new QTimer();
     connect(timer_for_start, SIGNAL(timeout()), this, SLOT(change_label()));
-    timer_for_start->start(1000);
+    timer_for_start->start(1200);
 }
