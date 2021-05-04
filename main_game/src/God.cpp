@@ -27,6 +27,9 @@ void God::show_game_field() {
 }
 
 void God::show_selection_window() {
+
+    //delete selection_window;
+
     selection_window = new Selection();
     selection_window->show();
 }
@@ -120,17 +123,25 @@ void God::shoot_in_God() const {
 }
 
 void God::select_game_controller(eclipse::Controllers controller_) {
+    int connection = 1;
+    message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
             controller.key_controller = new Key_Controller();
             break;
         case eclipse::Arduino:
             //тут можно создать все необходимое для контроллера ардуино
+
+            //JUST FOR DEBUG
+            connection = 0;
+            error = arduino_setting_error;
+            //
+
             break;
         default:
             break;
     }
-    game_view->start_timer();
+    connection_message(connection, error);
 }
 
 void God::decrease_lives_ui() const {
@@ -151,4 +162,22 @@ void God::finish_game() {
     player_time = get_time();
     close_game_field();
     finish_window->show();
+}
+
+void God::arduino_setting_error_massage() {
+    error_massage_window_ = new error_massage_window();
+    error_massage_window_->arduino_setting_error();
+    error_massage_window_->show();
+}
+
+void God::connection_message(int connected, message_errors error) {
+    if(connected) {
+        game_view->start_timer();
+    } else {
+        switch(error) {
+            case arduino_setting_error:
+                arduino_setting_error_massage();
+                break;
+        }
+    }
 }

@@ -5,7 +5,6 @@
 #include <QDesktopWidget>
 #include <QLabel>
 #include <QGridLayout>
-#include <QPushButton>
 #include <iostream>
 #include "God.h"
 

@@ -10,6 +10,12 @@
 #include "game_finish_window.h"
 #include <memory>
 #include <name_enter_qt.h>
+#include <error_massage_window.h>
+
+enum message_errors {
+    no_errors,
+    arduino_setting_error
+};
 
 class God {
 public:
@@ -19,6 +25,7 @@ public:
     Selection *selection_window;
     name_enter_qt* new_name;
     game_finish_window *finish_window;
+    error_massage_window* error_massage_window_;
     std::string player_name;
     std::string player_time;
 
@@ -43,6 +50,8 @@ public:
 
     //controllers_in
     void select_game_controller(eclipse::Controllers controller_);//запрос приходит из диалогового окна выбора контроллера
+    void arduino_setting_error_massage();
+    void connection_message(int connected, message_errors error);
 
     //for logic
     void clicked_on_start();
