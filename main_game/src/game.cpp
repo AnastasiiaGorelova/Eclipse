@@ -77,7 +77,7 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 90) == 5) {
+        if (random_number(0, 90) == 5 && asteroids_in_the_field.size() < 3) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (checker_for_nothing(x, x + size, 0, size) != default_id) {
