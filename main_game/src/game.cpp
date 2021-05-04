@@ -77,7 +77,7 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 90) == 5) {
+        if (random_number(0, 80) == 5 && asteroids_in_the_field.size() < 3) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (checker_for_nothing(x, x + size, 0, size) != default_id) {
@@ -94,6 +94,27 @@ namespace eclipse {
         }
     }
 
+    void Game::generate_bonus() {
+        if (random_number(0, 300) == 5) {//coin
+            int x = random_number(0, kWidth - bonus_size);
+            if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
+                Coin new_coin(x, new_uuid());
+                changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
+                change_field(x, x + bonus_size, 0, bonus_size, new_coin.get_id());
+                coins_in_the_field.push_back(std::move(new_coin));
+            }
+        }
+        if (random_number(0, 500) == 5) {//heart
+            int x = random_number(0, kWidth - bonus_size);
+            if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
+                Heart new_heart(x, new_uuid());
+                changes.emplace_back(Changes{Create_coin, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
+                change_field(x, x + bonus_size, 0, bonus_size, new_heart.get_id());
+                hearts_in_the_field.push_back(std::move(new_heart));
+            }
+        }
+    }
+
     void Game::moving_shots() {
         std::size_t id = 0;
         while (id < shots_in_the_field.size()) {
@@ -106,7 +127,7 @@ namespace eclipse {
             std::string checker1 = checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
                                                        new_y + shots_in_the_field[id].get_size());
             std::string checker2 = checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(),
-                                                       new_y - asteroids_speed, new_y - asteroids_speed + shots_in_the_field[id].get_size());
+                                                       new_y - game_speed, new_y - game_speed + shots_in_the_field[id].get_size());
             //сейчас врежется астероид
             if (checker1 != default_id || checker2 != default_id) {//если сейчас столкнется с астероидом --> удаляем
                 changes.emplace_back(
@@ -137,7 +158,7 @@ namespace eclipse {
             int size = asteroids_in_the_field[id].get_size();
             change_field(old_x, old_x + size, old_y, old_y + size,
                          default_id);
-            asteroids_in_the_field[id].move(asteroids_speed);
+            asteroids_in_the_field[id].move(game_speed);
             int new_y = asteroids_in_the_field[id].get_coordinates().second;
             std::string checker = checker_for_nothing(old_x, old_x + size, new_y,
                                                       new_y + size);
@@ -177,6 +198,15 @@ namespace eclipse {
         }
     }
 
+    void Game::moving_bonus() {
+        int id = 0;
+        while(id < coins_in_the_field.size()) {
+            int old_x = coins_in_the_field[id].get_coordinates().first;
+            int old_y = coins_in_the_field[id].get_coordinates().second;
+            change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
+        }
+    }
+
     void Game::moving_ship(MoveDirection direction) {
         int y = ship.get_coordinates().second;
         int old_x = ship.get_coordinates().first;
@@ -198,7 +228,9 @@ namespace eclipse {
         moving_ship(direction);
         moving_shots();
         moving_asteroids();
+        //moving_bonus();
         generate_asteroid();
+        //generate_bonus();
     }
 
     std::pair<int, int> get_field_size() {

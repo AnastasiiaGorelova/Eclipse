@@ -21,6 +21,7 @@ namespace eclipse {
         Create_ship,
         Create_shot,
         Create_asteroid,
+        Create_coin,
         Move_object,
         Delete_object,
         Break_asteroid,

@@ -2,6 +2,7 @@
 #define MAIN_GAME_GAME_H
 
 #include "asteroids.h"
+#include "bonus.h"
 #include "changes.h"
 #include "game_fwd.h"
 #include "shots.h"
@@ -21,10 +22,14 @@ namespace eclipse {
         std::unordered_map<std::string, std::string> map;//for asteroids to delete
         spaceship ship = spaceship(kWidth, kHeight);
         int lives = 3;
-        int asteroids_speed = 2;
+        int coins = 0;
+        int game_speed = 2;
         int shot_size = 40;
+        int bonus_size = 80;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
+        std::vector<Coin> coins_in_the_field;
+        std::vector<Heart> hearts_in_the_field;
 
         std::string checker_for_nothing(int x_start,
                                         int x_finish,
@@ -37,7 +42,9 @@ namespace eclipse {
                           const std::string &value);
         void check_for_living();
         void generate_asteroid();
+        void generate_bonus();
         void moving_shots();
+        void moving_bonus();
         void moving_asteroids();
         void moving_ship(MoveDirection direction);
 
