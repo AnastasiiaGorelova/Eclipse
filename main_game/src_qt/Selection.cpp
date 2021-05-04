@@ -92,11 +92,11 @@ Selection::~Selection() {
 }
 
 void Selection::_on_key_clicked() {
-    damn.select_game_controller(eclipse::Key);
     this->close();
+    damn.select_game_controller(eclipse::Key);
 }
 
 void Selection::_on_ard_clicked() {
-    damn.select_game_controller(eclipse::Arduino);
     this->close();
+    damn.select_game_controller(eclipse::Arduino);
 }

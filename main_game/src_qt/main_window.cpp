@@ -39,6 +39,20 @@ void main_window::make_field() {
 
     setFixedSize(800, 630);
     setWindowTitle("Eclipse");
+
+    //для отсчета
+    vlay = new QVBoxLayout(this);
+    vlay->setAlignment(Qt::AlignCenter);
+
+    QFont font;
+    font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
+    font.setPixelSize(200); // this for setting font size
+
+    text = new QLabel("");
+    text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
+    text->setFont(font);
+    text->setAlignment(Qt::AlignCenter);
+    vlay -> addWidget(text);
 }
 
 void main_window::set(int x,
@@ -176,4 +190,23 @@ std::pair<std::string, std::string> main_window::get_cur_time() {
 
 void main_window::change_asteroid_crack(const std::string &hash, int size) {
     hash_table[hash]->setPixmap(QPixmap("../../images/broken_asteroid.png").scaled(size, size));
+}
+
+void main_window::change_label() {
+    time_for_start++;
+    if (time_for_start < 4) {
+        text->setText(QString::fromStdString(std::to_string(4 - time_for_start)));
+    } else if (time_for_start == 4){
+        text->setText("GO!");
+    } else {
+        timer_for_start->stop();
+        text->setText("");
+        start_timer();
+    }
+}
+
+void main_window::start_timer_for_beginning() {
+    timer_for_start = new QTimer();
+    connect(timer_for_start, SIGNAL(timeout()), this, SLOT(change_label()));
+    timer_for_start->start(1000);
 }

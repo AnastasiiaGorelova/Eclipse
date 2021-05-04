@@ -76,3 +76,4 @@ void game_window::on_start_clicked() {
 void game_window::on_exit_clicked() {
     damn.clicked_on_exit();
 }
+

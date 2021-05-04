@@ -6,6 +6,7 @@
 #include "game.h"
 #include "game_fwd.h"
 #include "name_enter_qt.h"
+#include <unistd.h>
 
 extern Modification_store train;
 
@@ -23,7 +24,6 @@ void God::show_game_field() {
     game_view->make_field();
     menu->hide();
     game_view->show();
-    selection_window = new Selection();  // NOLINT
     new_name = new name_enter_qt();
     new_name->show();
 }
@@ -180,7 +180,7 @@ void God::arduino_setting_error_massage() {
 
 void God::connection_message(int connected, message_errors error) {
     if (connected) {
-        game_view->start_timer();
+        game_view->start_timer_for_beginning();
     } else {
         switch (error) {
             case arduino_setting_error:

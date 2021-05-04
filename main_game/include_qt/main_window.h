@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QWidget>
 #include <unordered_map>
+#include <QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,10 +18,10 @@ QT_END_NAMESPACE
 class main_window : public QWidget {
     Q_OBJECT
 
-
 public:
     std::pair<std::string, std::string> get_cur_time();
 
+    void start_timer_for_beginning();
 
     explicit main_window(QWidget *parent = nullptr);
     ~main_window() override;
@@ -31,6 +32,7 @@ public:
     QLabel *time;
     QLabel *number_for_time;
 
+    QTimer *timer_for_start;
     QTimer *timer;
     QTimer *timer_for_ticks;
     QTimer *timer_for_shots;
@@ -52,13 +54,17 @@ public:
     void decrease_lives();
     void change_asteroid_crack(const std::string &hash, int size);
 
-
 private slots:
     void change_timer();
     void tick_god();
     void make_shot();
+    void change_label();
 
 private:
+
+    int time_for_start = 0;
+    QLabel *text;
+    QVBoxLayout *vlay;
     size_t width = 800;
     size_t height = 600;
     std::unordered_map<std::string, GameObject *> hash_table;
