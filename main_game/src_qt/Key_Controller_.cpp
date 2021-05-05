@@ -25,4 +25,3 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
 Key_Controller::Key_Controller(QObject *parent) : QObject(parent) {
     qApp->installEventFilter(this);
 }
-

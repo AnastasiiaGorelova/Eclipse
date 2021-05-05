@@ -1,9 +1,14 @@
 #ifndef MAIN_GAME_ARDUINO_H
 #define MAIN_GAME_ARDUINO_H
 
+#include "Key_Controller_.h"
+//#include "God.h"
 #include <serial/serial.h>
 #include <iostream>
+#include <thread>
 #include <stdexcept>
+
+class God;
 
 namespace ReadingFromPort {
 

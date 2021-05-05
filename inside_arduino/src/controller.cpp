@@ -3,7 +3,7 @@
 #include <SPFD5408_Adafruit_TFTLCD.h> // Hardware-specific library
 #include <SPFD5408_TouchScreen.h>
 // *** SPFD5408 change -- End
-#include <Keyboard.h>
+
 
 // I have no idea what is it for
 #if defined(__SAM3X8E__)
@@ -26,7 +26,6 @@
 #define WIDTH 240
 #define HEIGHT 250
 #define KEY_Q 0x14
-
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300); // Connect TouchScreen
 
@@ -55,7 +54,6 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET); // Connect Displ
 void drawBorder () {
 
         // Draw a border
-
         uint16_t width = tft.width() - 1;
         uint16_t height = tft.height() - 1;
         uint8_t border = 10;
@@ -125,7 +123,6 @@ void setup() {
         tft.println("Touch to proceed");
 
         // Wait touch
-
         waitOneTouch();
 
         tft.setTextSize (3);
@@ -153,7 +150,6 @@ void loop(){
         pinMode(YP, OUTPUT);
 ///  ENDIMPORTANT
 
-
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
 
     /// Вывод данных от экрана в монитор порта
@@ -167,7 +163,7 @@ void loop(){
     if (p.y < 700){
 
       /// нажали направо
-      if (p.x > 570){
+      if (p.x < 570){
           touched(HALFX, 70, HALFX, HEIGHT, MAGENTA);
           delay(500);
           stop_touch(HALFX, 70, HALFX, HEIGHT, MAGENTA);

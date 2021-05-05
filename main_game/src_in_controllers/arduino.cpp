@@ -1,5 +1,7 @@
 #include "../include_in_controllers/arduino.h"
 
+extern Modification_store train;
+
 namespace ReadingFromPort {
 
 Ports::Ports() : devices_found_(serial::list_ports()) {
@@ -11,7 +13,7 @@ std::string Ports::get_arduino_port() const {
             return device.port;
         }
     }
-    throw std::runtime_error("There is no Arduino plugged into port");
+    return "There is no Arduino plugged into port";
 }
 
 Arduino::Arduino(const std::string &port, uint32_t baudrate) {
@@ -25,15 +27,17 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
 
 Move Arduino::make_a_move() {
     std::string line;
-    line = serial_.readline(); // get line from arduino
+    line = serial_.readline();  // get line from arduino
     if (line == "MENU\n") {
-        /// тыкнуть функцию выхода в меню
+        // TODO тыкнуть функцию выхода в меню
         return menu;
     } else if (line == "RIGHT\n") {
-        /// тыкнуть функцию сдвига вправо
+        train.pushed_button_right();  // тык
+        std::cerr << "r" << std::endl;
         return right;
     } else if (line == "LEFT\n") {
-        /// тыкнуть функцию сдвига влево
+        train.pushed_button_left();  // тык
+        std::cerr << "l" << std::endl;
         return left;
     } else {
         return exception;

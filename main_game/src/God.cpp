@@ -1,15 +1,17 @@
 #include "God.h"
-#include "game.h"
-#include "game_fwd.h"
-#include "name_enter_qt.h"
 #include <Modification_store.h>
 #include <iostream>
 #include <memory>
+#include "../include_in_controllers/arduino.h"
+#include "game.h"
+#include "game_fwd.h"
+#include "name_enter_qt.h"
+#include <unistd.h>
 
 extern Modification_store train;
 
 void God::show_menu() {
-    menu = new game_window();
+    menu = new game_window();  // NOLINT
     menu->show_menu_first();
 }
 
@@ -18,7 +20,7 @@ void God::close_menu() const {
 }
 
 void God::show_game_field() {
-    game_view = new main_window();
+    game_view = new main_window();  // NOLINT
     game_view->make_field();
     menu->hide();
     game_view->show();
@@ -27,17 +29,12 @@ void God::show_game_field() {
 }
 
 void God::show_selection_window() {
-
-    //delete selection_window;
-
     selection_window = new Selection();
     selection_window->show();
 }
 
 void God::close_game_field() const {
-    game_view->timer->stop();
-    game_view->timer_for_shots->stop();
-    game_view->timer_for_ticks->stop();
+    stop_timers();
     game_view->close();
 }
 
@@ -66,15 +63,15 @@ void God::clicked_on_start() {
 
     game_view->set_lives();
     game_view->set_timer();
+    game_view->set_coins_counter();
 }
 
 void God::clicked_on_exit() {
     game = nullptr;
-    //просто вывести таймер??
     close_menu();
 }
 
-void God::make_changes_in_qt()  {
+void God::make_changes_in_qt() {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
@@ -104,8 +101,9 @@ void God::make_changes_in_qt()  {
                 break;
             case eclipse::Finish_game:
                 decrease_lives_ui();
-                std::cerr << "LOSER ";
-                finish_game();
+                stop_timers();
+                //очистить поле
+                show_buy_live_for_coins_window();
                 break;
         }
     }
@@ -129,15 +127,26 @@ void God::select_game_controller(eclipse::Controllers controller_) {
         case eclipse::Key:
             controller.key_controller = new Key_Controller();
             break;
-        case eclipse::Arduino:
-            //тут можно создать все необходимое для контроллера ардуино
+        case eclipse::Arduino: {
+            ReadingFromPort::Ports my_ports;
+            std::string port = my_ports.get_arduino_port();
 
-            //JUST FOR DEBUG
-            connection = 0;
-            error = arduino_setting_error;
-            //
+            if (port == "There is no Arduino plugged into port") {
+                connection = 0;
+                error = arduino_setting_error;
+            } else {
+                controller.arduino_controller =
+                    new ReadingFromPort::Arduino(port);
+                auto worker = [&]() {
+                    while (true) {
+                        controller.arduino_controller->make_a_move();
+                    }
+                };
+                std::thread ta(worker);
+                ta.detach();
+            }
 
-            break;
+        } break;
         default:
             break;
     }
@@ -148,20 +157,20 @@ void God::decrease_lives_ui() const {
     game_view->decrease_lives();
 }
 
-std::string God::get_time() const {
-    auto [min, sec] = game_view->get_cur_time();
-    return min + ":" + sec;
-}
-
 void God::set_crack_asteroid_pic(const std::string &hash, int size) const {
     game_view->change_asteroid_crack(hash, size);
 }
 
 void God::finish_game() {
     finish_window = new game_finish_window();
-    player_time = get_time();
+    cur_player.time = get_time();
     close_game_field();
     finish_window->show();
+}
+
+std::string God::get_time() const {
+    auto [min, sec] = game_view->get_cur_time();
+    return min + ":" + sec;
 }
 
 void God::arduino_setting_error_massage() {
@@ -171,13 +180,36 @@ void God::arduino_setting_error_massage() {
 }
 
 void God::connection_message(int connected, message_errors error) {
-    if(connected) {
-        game_view->start_timer();
+    if (connected) {
+        game_view->start_timer_for_beginning();
     } else {
-        switch(error) {
+        switch (error) {
             case arduino_setting_error:
                 arduino_setting_error_massage();
                 break;
         }
     }
 }
+
+void God::change_coins_counter_ui(int count) const {
+    game_view->change_coins_counter(count);
+}
+
+void God::show_buy_live_for_coins_window(int n) {
+    buy_live_for_coins_window_ = new buy_live_for_coins_window();
+    buy_live_for_coins_window_->buy_for_n_coins(n);
+    buy_live_for_coins_window_->show();
+}
+
+void God::add_life_and_restart_game() const {
+    game_view->start_timer();
+    //добавить жизнь в логику
+    game_view->add_life(); //добавлена в отрисовку
+}
+
+void God::stop_timers() const {
+    game_view->timer->stop();
+    game_view->timer_for_shots->stop();
+    game_view->timer_for_ticks->stop();
+}
+

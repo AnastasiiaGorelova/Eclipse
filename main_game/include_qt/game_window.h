@@ -1,6 +1,7 @@
 #ifndef MAIN_GAME_GAME_WINDOW_H
 #define MAIN_GAME_GAME_WINDOW_H
 #include <QWidget>
+#include <QVBoxLayout>
 #include "main_window.h"
 
 QT_BEGIN_NAMESPACE
