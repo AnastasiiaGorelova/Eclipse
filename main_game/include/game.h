@@ -21,11 +21,9 @@ namespace eclipse {
         std::vector<std::vector<std::string>> field;
         std::unordered_map<std::string, std::string> map;//for asteroids to delete
         spaceship ship = spaceship(kWidth, kHeight);
-        int lives = 3;
-        int coins = 0;
-        int game_speed = 2;    //asteroids
+        int game_speed = 2;//asteroids
         int shot_size = 40;
-        int bonus_size = 80;
+        int bonus_size = 60;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
         std::vector<Coin> coins_in_the_field;
@@ -50,6 +48,8 @@ namespace eclipse {
         void moving_ship(MoveDirection direction);
 
     public:
+        int coins = 0;
+        int lives = 3;
         Game() {
             field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
             for (int i = ship.get_coordinates().first;

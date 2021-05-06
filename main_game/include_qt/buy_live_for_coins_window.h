@@ -1,7 +1,3 @@
-//
-// Created by alena on 04.05.2021.
-//
-
 #ifndef MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H
 #define MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H
 

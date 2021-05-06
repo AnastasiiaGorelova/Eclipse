@@ -1,17 +1,17 @@
 #include "God.h"
-#include <Modification_store.h>
-#include <iostream>
-#include <memory>
 #include "../include_in_controllers/arduino.h"
 #include "game.h"
 #include "game_fwd.h"
 #include "name_enter_qt.h"
+#include <Modification_store.h>
+#include <iostream>
+#include <memory>
 #include <unistd.h>
 
 extern Modification_store train;
 
 void God::show_menu() {
-    menu = new game_window();  // NOLINT
+    menu = new game_window();// NOLINT
     menu->show_menu_first();
 }
 
@@ -20,7 +20,7 @@ void God::close_menu() const {
 }
 
 void God::show_game_field() {
-    game_view = new main_window();  // NOLINT
+    game_view = new main_window();// NOLINT
     game_view->make_field();
     menu->hide();
     game_view->show();
@@ -93,8 +93,23 @@ void God::make_changes_in_qt() {
                 set_object(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "shot");
                 break;
+            case eclipse::Create_coin:
+                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                           i.size, i.id, "coin");
+                break;
+            case eclipse::Create_heart:
+                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                           i.size, i.id, "heart");
+                break;
             case eclipse::Break_asteroid:
                 set_crack_asteroid_pic(i.id, i.size);
+                break;
+            case eclipse::Add_coin:
+                change_coins_counter_ui(game->coins);
+                break;
+            case eclipse::Add_heart:
+                game_view->add_life();//????
+                //поймали сердечко, добавить жизнь
                 break;
             case eclipse::Decrease_lives:
                 decrease_lives_ui();
@@ -102,7 +117,8 @@ void God::make_changes_in_qt() {
             case eclipse::Finish_game:
                 decrease_lives_ui();
                 stop_timers();
-                //очистить поле
+                //game->clear_field();
+                //make_changes_in_qt(); //пока что DEADSIGNAL
                 show_buy_live_for_coins_window();
                 break;
         }
@@ -136,7 +152,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
                 error = arduino_setting_error;
             } else {
                 controller.arduino_controller =
-                    new ReadingFromPort::Arduino(port);
+                        new ReadingFromPort::Arduino(port);
                 auto worker = [&]() {
                     while (true) {
                         controller.arduino_controller->make_a_move();
@@ -204,7 +220,8 @@ void God::show_buy_live_for_coins_window(int n) {
 void God::add_life_and_restart_game() const {
     game_view->start_timer();
     //добавить жизнь в логику
-    game_view->add_life(); //добавлена в отрисовку
+    game->lives++;
+    game_view->add_life();//добавлена в отрисовку
 }
 
 void God::stop_timers() const {
@@ -212,4 +229,3 @@ void God::stop_timers() const {
     game_view->timer_for_shots->stop();
     game_view->timer_for_ticks->stop();
 }
-
