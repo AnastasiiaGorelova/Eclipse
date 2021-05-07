@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <memory>
+
+class God;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class buy_live_for_coins_window; }
@@ -12,13 +15,17 @@ class buy_live_for_coins_window : public QWidget {
 Q_OBJECT
 
 public:
-    explicit buy_live_for_coins_window(QWidget *parent = nullptr);
 
+    explicit buy_live_for_coins_window(QWidget *parent = nullptr);
     ~buy_live_for_coins_window() override;
+
+    void set_god(God* damn_);
     void buy_for_n_coins(int n);
 
 private:
     Ui::buy_live_for_coins_window *ui;
+
+    God* damn;
 
     QPushButton* yes_button;
     QPushButton* no_button;

@@ -5,6 +5,8 @@
 
 #include <QWidget>
 
+class God;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class game_finish_window; }
 QT_END_NAMESPACE
@@ -13,10 +15,12 @@ class game_finish_window : public QWidget {
 Q_OBJECT
 
 public:
-    explicit game_finish_window(QWidget *parent = nullptr);
+    God* damn;
 
+    explicit game_finish_window(QWidget *parent = nullptr);
     ~game_finish_window() override;
 
+    void set_god(God* damn_);
 private:
     Ui::game_finish_window *ui;
 };

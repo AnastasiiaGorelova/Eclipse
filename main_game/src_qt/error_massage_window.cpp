@@ -7,8 +7,6 @@
 #include <QDesktopWidget>
 #include "God.h"
 
-extern God damn;
-
 error_massage_window::error_massage_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::error_massage_window) {
     ui->setupUi(this);
@@ -73,5 +71,9 @@ void error_massage_window::arduino_setting_error() {
 
 void error_massage_window::_on_back_to_menu_clicked() {
     close();
-    damn.show_selection_window();
+    damn->show_selection_window();
+}
+
+void error_massage_window::set_god(God *damn_) {
+    damn = damn_;
 }

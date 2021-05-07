@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <QVBoxLayout>
 
+class God;
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
     class main_window;
@@ -19,7 +21,7 @@ class main_window : public QWidget {
     Q_OBJECT
 
     std::unordered_map<std::string, GameObject *> hash_table;
-
+    God* damn;
 public:
     std::pair<std::string, std::string> get_cur_time();
 
@@ -59,6 +61,7 @@ public:
     void change_coins_counter(int count);
     void decrease_lives();
     void change_asteroid_crack(const std::string &hash, int size);
+    void set_God(God* damn_);
 
 private slots:
     void change_timer();

@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <QPushButton>
 
+class God;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class error_massage_window; }
 QT_END_NAMESPACE
@@ -14,15 +16,16 @@ Q_OBJECT
 
 public:
     explicit error_massage_window(QWidget *parent = nullptr);
-
     ~error_massage_window() override;
 
+    void set_god(God* damn_);
     void arduino_setting_error();
 
 private:
     Ui::error_massage_window *ui;
-    QPushButton *back_to_selection_window;
 
+    God* damn;
+    QPushButton *back_to_selection_window;
     void _on_back_to_menu_clicked();
 };
 

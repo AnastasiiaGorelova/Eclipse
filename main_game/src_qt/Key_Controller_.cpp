@@ -1,19 +1,17 @@
 
 #include <Key_Controller_.h>
 #include <QApplication>
-#include <iostream>
-
-extern Modification_store train;
+#include <God.h>
 
 bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::KeyPress) {
         auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
         switch (keyEvent->key()) {
             case Qt::Key_Left:
-                train.pushed_button_left();
+                damn->train.pushed_button_left();
                 break;
             case Qt::Key_Right:
-                train.pushed_button_right();
+                damn->train.pushed_button_right();
                 break;
             default:
                 break;
@@ -24,4 +22,8 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
 
 Key_Controller::Key_Controller(QObject *parent) : QObject(parent) {
     qApp->installEventFilter(this);
+}
+
+void Key_Controller::set_God(God *damn_) {
+    damn = damn_;
 }

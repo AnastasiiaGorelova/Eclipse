@@ -8,7 +8,12 @@
 
 #include "Modification_store.h"
 
+class God;
+
 struct Key_Controller : QObject {
+    God* damn;
+    void set_God(God* damn_);
+
     explicit Key_Controller(QObject *parent = nullptr);
     bool eventFilter(QObject *obj, QEvent *event) override;
 };

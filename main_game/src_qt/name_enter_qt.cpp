@@ -57,7 +57,9 @@ name_enter_qt::~name_enter_qt() {
 }
 
 void name_enter_qt::_line_edit() {
-    this->hide();
-    damn.show_selection_window();
-    damn.cur_player.name = (echoLineEdit->text()).toStdString();
+    damn->name_entered((echoLineEdit->text()).toStdString());
+}
+
+void name_enter_qt::set_god(God* damn_) {
+    damn = damn_;
 }

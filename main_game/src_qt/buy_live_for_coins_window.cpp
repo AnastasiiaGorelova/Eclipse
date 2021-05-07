@@ -1,17 +1,11 @@
-//
-// Created by alena on 04.05.2021.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_buy_live_for_coins_window.h" resolved
 
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include "buy_live_for_coins_window.h"
 #include "ui_buy_live_for_coins_window.h"
-#include <God.h>
 
-extern God damn;
+#include "God.h"
 
 buy_live_for_coins_window::buy_live_for_coins_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::buy_live_for_coins_window) {
@@ -37,12 +31,12 @@ buy_live_for_coins_window::~buy_live_for_coins_window() {
 }
 
 void buy_live_for_coins_window::_on_yes_button_clicked() {
-    damn.add_life_and_restart_game();
+    damn->add_life_and_restart_game();
     close();
 }
 
 void buy_live_for_coins_window::_on_no_button_clicked() {
-    damn.finish_game();
+    damn->show_game_finish_window();
     close();
 }
 
@@ -104,4 +98,8 @@ void buy_live_for_coins_window::buy_for_n_coins(int n) {
 
     vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
+}
+
+void buy_live_for_coins_window::set_god(God *damn_) {
+    damn = damn_;
 }

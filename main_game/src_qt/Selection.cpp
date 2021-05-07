@@ -6,8 +6,6 @@
 #include <QVBoxLayout>
 #include "ui_Selection.h"
 
-extern God damn;
-
 Selection::Selection(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Selection) {
     ui->setupUi(this);
@@ -92,11 +90,13 @@ Selection::~Selection() {
 }
 
 void Selection::_on_key_clicked() {
-    this->close();
-    damn.select_game_controller(eclipse::Key);
+    damn->select_game_controller(eclipse::Key);
 }
 
 void Selection::_on_ard_clicked() {
-    this->close();
-    damn.select_game_controller(eclipse::Arduino);
+    damn->select_game_controller(eclipse::Arduino);
+}
+
+void Selection::set_god(God* damn_) {
+    damn = damn_;
 }

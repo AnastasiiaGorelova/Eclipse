@@ -1,124 +1,101 @@
+
 #include "God.h"
-#include "../include_in_controllers/arduino.h"
-#include "game.h"
-#include "game_fwd.h"
-#include "name_enter_qt.h"
-#include <Modification_store.h>
-#include <iostream>
-#include <memory>
 #include <unistd.h>
 
-extern Modification_store train;
-
 void God::show_menu() {
-    menu = new game_window();// NOLINT
-    menu->show_menu_first();
+    controller_out.show_menu(this);
 }
 
 void God::close_menu() const {
-    menu->close();
+    controller_out.close_menu();
 }
 
 void God::show_game_field() {
-    game_view = new main_window();// NOLINT
-    game_view->make_field();
-    menu->hide();
-    game_view->show();
-    new_name = new name_enter_qt();
-    new_name->show();
-}
-
-void God::show_selection_window() {
-    selection_window = new Selection();
-    selection_window->show();
+    controller_out.show_game_field(this);
 }
 
 void God::close_game_field() const {
     stop_timers();
-    game_view->close();
+    controller_out.close_game_field();
 }
 
-void God::set_object(int x,
-                     int y,
-                     int size,
-                     const std::string &hash,
-                     const std::string &object_name) const {
-    game_view->set(x, y, size, hash, object_name);
+void God::show_enter_name_window() {
+    controller_out.show_name_enter_window(this);
 }
 
-void God::move_object(int x, int y, const std::string &hash) const {
-    game_view->move(x, y, hash);
+void God::close_enter_name_window() const {
+    controller_out.close_name_enter_window();
 }
 
-void God::delete_object(const std::string &hash) const {
-    game_view->delete_obj(hash);
+void God::show_selection_window() {
+    controller_out.show_selection_window(this);
 }
 
-void God::clicked_on_start() {
+void God::close_selection_window() const {
+    controller_out.close_selection_window();
+}
+
+void God::start_game() {
     game = std::make_unique<eclipse::Game>();
-
     close_menu();
     show_game_field();
-    make_changes_in_qt();
-
-    game_view->set_lives();
-    game_view->set_timer();
-    game_view->set_coins_counter();
+    show_enter_name_window();
+    make_changes_in_out_controller();
 }
 
-void God::clicked_on_exit() {
+void God::cancel_game() {
     game = nullptr;
     close_menu();
 }
 
-void God::make_changes_in_qt() {
+void God::make_changes_in_out_controller() {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
-                delete_object(i.id);
+                controller_out.delete_obj(i.id);
                 break;
             case eclipse::Move_object:
-                move_object(i.new_coordinates.first, i.new_coordinates.second,
+                controller_out.move_obj(i.new_coordinates.first, i.new_coordinates.second,
                             i.id);
                 break;
             case eclipse::Create_ship:
-                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "ship");
                 break;
             case eclipse::Create_asteroid:
-                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "asteroid");
                 break;
             case eclipse::Create_shot:
-                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "shot");
                 break;
             case eclipse::Create_coin:
-                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "coin");
                 break;
             case eclipse::Create_heart:
-                set_object(i.new_coordinates.first, i.new_coordinates.second,
+                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
                            i.size, i.id, "heart");
                 break;
             case eclipse::Break_asteroid:
-                set_crack_asteroid_pic(i.id, i.size);
+                controller_out.change_obj_pic(i.id, i.size);
                 break;
             case eclipse::Add_coin:
-                change_coins_counter_ui(game->coins);
+                controller_out.change_coins_counter(game->coins);
                 break;
             case eclipse::Add_heart:
-                game_view->add_life();//????
-                //поймали сердечко, добавить жизнь
+                controller_out.add_live();
                 break;
             case eclipse::Decrease_lives:
-                decrease_lives_ui();
+                controller_out.delete_live();
                 break;
             case eclipse::Finish_game:
-                decrease_lives_ui();
+                controller_out.delete_live();
                 stop_timers();
-                //game->clear_field();
-                //make_changes_in_qt(); //пока что DEADSIGNAL
+                game->changes.clear();
+                game->clear_field();
+                make_changes_in_out_controller();
                 show_buy_live_for_coins_window();
                 break;
         }
@@ -126,106 +103,95 @@ void God::make_changes_in_qt() {
     game->changes.clear();
 }
 
-void God::make_move_in_logic() {
-    auto [direction, steps] = train.give_changes();
+void God::make_move_in_logic_and_ui() {
+    auto direction = train.give_changes();
     game->make_move(direction);
-    make_changes_in_qt();
+    make_changes_in_out_controller();
 }
 
-void God::shoot_in_God() const {
+void God::make_shoot() const {
     game->shoot();
 }
 
 void God::select_game_controller(eclipse::Controllers controller_) {
-    int connection = 1;
+    close_selection_window();
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller.key_controller = new Key_Controller();
+            controller_in.key_controller = new Key_Controller();
+            controller_in.key_controller->set_God(this);
             break;
         case eclipse::Arduino: {
-            ReadingFromPort::Ports my_ports;
+            /*ReadingFromPort::Ports my_ports;
             std::string port = my_ports.get_arduino_port();
 
             if (port == "There is no Arduino plugged into port") {
-                connection = 0;
                 error = arduino_setting_error;
             } else {
-                controller.arduino_controller =
+                controller_in.arduino_controller =
                         new ReadingFromPort::Arduino(port);
                 auto worker = [&]() {
                     while (true) {
-                        controller.arduino_controller->make_a_move();
+                        controller_in.arduino_controller->make_a_move();
                     }
                 };
                 std::thread ta(worker);
                 ta.detach();
-            }
+            }*/
 
         } break;
         default:
             break;
     }
-    connection_message(connection, error);
+    check_connection_message(error);
 }
 
-void God::decrease_lives_ui() const {
-    game_view->decrease_lives();
-}
-
-void God::set_crack_asteroid_pic(const std::string &hash, int size) const {
-    game_view->change_asteroid_crack(hash, size);
-}
-
-void God::finish_game() {
-    finish_window = new game_finish_window();
+void God::show_game_finish_window() {
+    controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
+
+    //НЕ ТУТ
     close_game_field();
-    finish_window->show();
 }
 
-std::string God::get_time() const {
-    auto [min, sec] = game_view->get_cur_time();
+std::string God::get_time() {
+    auto [min, sec] = controller_out.get_current_time();
     return min + ":" + sec;
 }
 
-void God::arduino_setting_error_massage() {
-    error_massage_window_ = new error_massage_window();
-    error_massage_window_->arduino_setting_error();
-    error_massage_window_->show();
-}
 
-void God::connection_message(int connected, message_errors error) {
-    if (connected) {
-        game_view->start_timer_for_beginning();
-    } else {
-        switch (error) {
-            case arduino_setting_error:
-                arduino_setting_error_massage();
-                break;
-        }
+void God::check_connection_message(message_errors error) {
+    switch (error) {
+        case no_errors:
+            controller_out.start_game_preview();
+            break;
+        case arduino_setting_error:
+            controller_out.show_error_massage_window_arduino(this);
+            break;
     }
 }
 
-void God::change_coins_counter_ui(int count) const {
-    game_view->change_coins_counter(count);
-}
-
 void God::show_buy_live_for_coins_window(int n) {
-    buy_live_for_coins_window_ = new buy_live_for_coins_window();
-    buy_live_for_coins_window_->buy_for_n_coins(n);
-    buy_live_for_coins_window_->show();
-}
-
-void God::add_life_and_restart_game() const {
-    game_view->start_timer();
-    //добавить жизнь в логику
-    game->lives++;
-    game_view->add_life();//добавлена в отрисовку
+    controller_out.show_live_for_coins_window(n, this);
 }
 
 void God::stop_timers() const {
-    game_view->timer->stop();
-    game_view->timer_for_shots->stop();
-    game_view->timer_for_ticks->stop();
+    controller_out.stop_timers();
 }
+
+void God::add_life_and_restart_game() {
+    controller_out.start_timers();
+    controller_out.add_live();
+    game->lives++;
+}
+
+void God::name_entered(const std::string &player_name) {
+    close_enter_name_window();
+    show_selection_window();
+    cur_player.name = player_name;
+}
+
+void God::start_timers() {
+    controller_out.start_timers();
+}
+

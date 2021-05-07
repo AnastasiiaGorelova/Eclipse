@@ -4,6 +4,8 @@
 #include <QVBoxLayout>
 #include "main_window.h"
 
+class God;
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class game_window;
@@ -18,15 +20,17 @@ public:
     ~game_window() override;
 
     void show_menu_first();
+    void set_god(God* damn_);
 
 private:
+    God* damn;
     size_t width = 800;
     size_t height = 600;
     Ui::game_window *ui;
 
 private slots:
-    static void on_start_clicked();
-    static void on_exit_clicked();
+    void on_start_clicked();
+    void on_exit_clicked();
 };
 
 #endif  // MAIN_GAME_GAME_WINDOW_H

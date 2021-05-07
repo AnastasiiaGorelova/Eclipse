@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 
+class God;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class name_enter_qt; }
 QT_END_NAMESPACE
@@ -13,17 +15,16 @@ class name_enter_qt : public QWidget {
 Q_OBJECT
 
 public:
-    explicit name_enter_qt(QWidget *parent = nullptr);
+    God* damn;
 
+    explicit name_enter_qt(QWidget *parent = nullptr);
     ~name_enter_qt() override;
+
+    void set_god(God* damn_);
 
 private:
     Ui::name_enter_qt *ui;
-
     QLineEdit *echoLineEdit;
-
-    QPushButton* Button_Box;
-
     void _line_edit();
 };
 

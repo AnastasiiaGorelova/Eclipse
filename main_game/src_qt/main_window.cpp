@@ -6,8 +6,6 @@
 #include <QKeyEvent>
 #include <QStyle>
 
-extern God damn;
-
 main_window::main_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::main_window) {
     ui->setupUi(this);
@@ -177,11 +175,11 @@ void main_window::start_timer() {
 }
 
 void main_window::tick_god() {
-    damn.make_move_in_logic();
+    damn->make_move_in_logic_and_ui();
 }
 
 void main_window::make_shot() {
-    damn.shoot_in_God();
+    damn->make_shoot();
 }
 
 std::pair<std::string, std::string> main_window::get_cur_time() {
@@ -201,7 +199,7 @@ void main_window::change_label() {
     } else {
         timer_for_start->stop();
         text->setText("");
-        start_timer();
+        damn->start_timers();
     }
 }
 
@@ -254,4 +252,8 @@ void main_window::add_life() {
         object_1->setPos(700, 3.5);
         hash_table["heart_1"] = object_1;
     }
+}
+
+void main_window::set_God(God* damn_) {
+    damn = damn_;
 }
