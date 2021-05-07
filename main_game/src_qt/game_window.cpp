@@ -10,6 +10,7 @@ game_window::game_window(QWidget *parent)
     ui->setupUi(this);
     QPixmap pix("../../images/main.jpg");
     ui->label->setPixmap(pix.scaled(800, 630));
+    ui->start->setText("Новая игра");
     ui->start->setStyleSheet(
         "QPushButton{border: 1px solid transparent;text-align: center;"
         "color:rgba(255,255,255,255);"
@@ -26,6 +27,7 @@ game_window::game_window(QWidget *parent)
         "QPushButton{border-color:qlineargradient(spread:pad, x1:0, y1:0, "
         "x2:1, y2:1, stop:0 rgba(255, 200, 200, 200), stop:1 rgba(255, 200, "
         "200, 200));}");
+    ui->exit->setText("Выход");
     ui->exit->setStyleSheet(
         "QPushButton{border: 1px solid transparent;text-align: center;"
         "color:rgba(255,255,255,255);"

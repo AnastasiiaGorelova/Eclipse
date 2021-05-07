@@ -6,46 +6,17 @@ void God::show_menu() {
     controller_out.show_menu(this);
 }
 
-void God::close_menu() {
-    controller_out.close_menu();
-}
-
-void God::show_game_field() {
-    controller_out.show_game_field(this);
-}
-
-void God::close_game_field() {
-    stop_timers();
-    controller_out.close_game_field();
-}
-
-void God::show_enter_name_window() {
-    controller_out.show_name_enter_window(this);
-}
-
-void God::close_enter_name_window() {
-    controller_out.close_name_enter_window();
-}
-
-void God::show_selection_window() {
-    controller_out.show_selection_window(this);
-}
-
-void God::close_selection_window() {
-    controller_out.close_selection_window();
-}
-
 void God::start_game() {
     game = std::make_unique<eclipse::Game>();
-    close_menu();
-    show_game_field();
-    show_enter_name_window();
+    controller_out.close_menu();
+    controller_out.show_game_field(this);
+    controller_out.show_name_enter_window(this);;
     make_changes_in_out_controller();
 }
 
 void God::cancel_game() {
     game = nullptr;
-    close_menu();
+    controller_out.close_menu();
 }
 
 void God::make_changes_in_out_controller() {
@@ -114,7 +85,7 @@ void God::make_shoot() const {
 }
 
 void God::select_game_controller(eclipse::Controllers controller_) {
-    close_selection_window();
+    controller_out.close_selection_window();
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
@@ -147,18 +118,18 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 }
 
 void God::show_game_finish_window() {
+    //аккуратно!
+    controller_out.close_live_for_coins_window();
+    delete_controller_in();
     controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
-
-    //НЕ ТУТ
-    close_game_field();
+    controller_out.close_game_field();
 }
 
 std::string God::get_time() {
     auto [min, sec] = controller_out.get_current_time();
     return min + ":" + sec;
 }
-
 
 void God::check_connection_message(message_errors error) {
     switch (error) {
@@ -180,14 +151,15 @@ void God::stop_timers() const {
 }
 
 void God::add_life_and_restart_game() {
+    controller_out.close_live_for_coins_window();
     controller_out.start_timers();
     controller_out.add_live();
     game->lives++;
 }
 
 void God::name_entered(const std::string &player_name) {
-    close_enter_name_window();
-    show_selection_window();
+    controller_out.close_name_enter_window();
+    controller_out.show_selection_window(this);
     cur_player.name = player_name;
 }
 
@@ -197,10 +169,6 @@ void God::start_timers() {
 
 void God::close_game_finish_window() {
     controller_out.close_game_finish_window();
-}
-
-void God::close_buy_live_for_coins_window() {
-    controller_out.close_live_for_coins_window();
 }
 
 void God::close_error_massage_window() {
@@ -214,5 +182,9 @@ void God::delete_controller_in() {
     } else {
         //удалить все ардуиновские штуки
     }
+}
+
+void God::show_selection_window() {
+    controller_out.show_selection_window(this);
 }
 

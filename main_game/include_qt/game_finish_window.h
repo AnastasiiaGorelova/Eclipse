@@ -4,6 +4,7 @@
 #define MAIN_GAME_GAME_FINISH_WINDOW_H
 
 #include <QWidget>
+#include <QPushButton>
 
 class God;
 
@@ -23,6 +24,11 @@ public:
     void set_god(God* damn_);
 private:
     Ui::game_finish_window *ui;
+
+    QPushButton *back_to_menu;
+
+private slots:
+    void _on_continue_game_clicked() const;
 };
 
 #endif //MAIN_GAME_GAME_FINISH_WINDOW_H

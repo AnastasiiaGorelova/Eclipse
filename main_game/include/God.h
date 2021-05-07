@@ -27,13 +27,6 @@ public:
 
     //controller_out (qt)
     void show_menu();
-    void close_menu();
-    void show_game_field();
-    void close_game_field();
-    void show_enter_name_window();
-    void close_enter_name_window();
-    void show_selection_window();
-    void close_selection_window();
     void show_game_finish_window();
     void close_game_finish_window();
     void show_buy_live_for_coins_window(int n = 5);
@@ -60,6 +53,8 @@ public:
     void name_entered(const std::string &player_name);
 
     void delete_controller_in();
+
+    void show_selection_window();
 };
 
 #endif// MAIN_GAME_GOD_H
