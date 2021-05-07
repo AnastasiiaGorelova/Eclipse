@@ -6,7 +6,7 @@ void God::show_menu() {
     controller_out.show_menu(this);
 }
 
-void God::close_menu() const {
+void God::close_menu() {
     controller_out.close_menu();
 }
 
@@ -14,7 +14,7 @@ void God::show_game_field() {
     controller_out.show_game_field(this);
 }
 
-void God::close_game_field() const {
+void God::close_game_field() {
     stop_timers();
     controller_out.close_game_field();
 }
@@ -23,7 +23,7 @@ void God::show_enter_name_window() {
     controller_out.show_name_enter_window(this);
 }
 
-void God::close_enter_name_window() const {
+void God::close_enter_name_window() {
     controller_out.close_name_enter_window();
 }
 
@@ -31,7 +31,7 @@ void God::show_selection_window() {
     controller_out.show_selection_window(this);
 }
 
-void God::close_selection_window() const {
+void God::close_selection_window() {
     controller_out.close_selection_window();
 }
 
@@ -193,5 +193,26 @@ void God::name_entered(const std::string &player_name) {
 
 void God::start_timers() {
     controller_out.start_timers();
+}
+
+void God::close_game_finish_window() {
+    controller_out.close_game_finish_window();
+}
+
+void God::close_buy_live_for_coins_window() {
+    controller_out.close_live_for_coins_window();
+}
+
+void God::close_error_massage_window() {
+    controller_out.close_error_massage_window();
+}
+
+void God::delete_controller_in() {
+    if (controller_in.key_controller != nullptr) {
+        controller_in.key_controller->deleteLater();
+        controller_in.key_controller = nullptr;
+    } else {
+        //удалить все ардуиновские штуки
+    }
 }
 

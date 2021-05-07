@@ -32,12 +32,14 @@ Selection::Selection(QWidget *parent)
     font.setPixelSize(35);  // this for setting font size
 
     auto text = new QLabel("Выберете\n тип управления\n");
+    text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
     vlay->addWidget(text);
 
     key = new QPushButton("Клавиатура");
+    key->setParent(this);
     key->setStyleSheet(
         "QPushButton{border: 1px solid transparent;text-align: center;"
         "color:rgba(255,255,255,255);"
@@ -56,6 +58,7 @@ Selection::Selection(QWidget *parent)
         "200, 200));}");
     vlay->addWidget(key);
     ard = new QPushButton("Arduino");
+    ard->setParent(this);
     ard->setStyleSheet(
         "QPushButton{border: 1px solid transparent;text-align: center;"
         "color:rgba(255,255,255,255);"

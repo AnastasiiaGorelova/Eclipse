@@ -32,12 +32,13 @@ buy_live_for_coins_window::~buy_live_for_coins_window() {
 
 void buy_live_for_coins_window::_on_yes_button_clicked() {
     damn->add_life_and_restart_game();
-    close();
+    damn->close_buy_live_for_coins_window();
 }
 
 void buy_live_for_coins_window::_on_no_button_clicked() {
     damn->show_game_finish_window();
-    close();
+    damn->close_buy_live_for_coins_window();
+    damn->delete_controller_in();
 }
 
 void buy_live_for_coins_window::buy_for_n_coins(int n) {
@@ -50,12 +51,14 @@ void buy_live_for_coins_window::buy_for_n_coins(int n) {
 
     QString line = QString::fromStdString("Купить\n дополнительную жизнь\n за " + std::to_string(n) + " монет?\n");
     auto text = new QLabel(line);
+    text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
     vlay -> addWidget(text);
 
     yes_button = new QPushButton("Да");
+    yes_button->setParent(this);
     yes_button->setStyleSheet(
             "QPushButton{border: 1px solid transparent;text-align: center;"
             "color:rgba(255,255,255,255);"
@@ -75,6 +78,7 @@ void buy_live_for_coins_window::buy_for_n_coins(int n) {
     vlay->addWidget(yes_button);
 
     no_button = new QPushButton("Нет");
+    no_button->setParent(this);
     no_button->setStyleSheet(
             "QPushButton{border: 1px solid transparent;text-align: center;"
             "color:rgba(255,255,255,255);"

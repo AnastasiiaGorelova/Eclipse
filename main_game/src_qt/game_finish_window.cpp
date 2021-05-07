@@ -40,6 +40,7 @@ void game_finish_window::set_god(God *damn_) {
     font.setPixelSize(35);  // this for setting font size
 
     auto text = new QLabel("Конец игры!");
+    text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
@@ -49,6 +50,7 @@ void game_finish_window::set_god(God *damn_) {
             "Имя: " + QString::fromStdString(damn->cur_player.name) + "\n" +
             "Время: " + QString::fromStdString(damn->get_time()) + "\n";
     auto score = new QLabel(score_text);
+    score->setParent(this);
     score->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     score->setFont(font);
     score->setAlignment(Qt::AlignCenter);

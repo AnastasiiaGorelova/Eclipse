@@ -58,7 +58,7 @@ public:
     void set_lives();
     void set_coins_counter();
 
-    void change_coins_counter(int count);
+    void change_coins_counter(int count) const;
     void decrease_lives();
     void change_asteroid_crack(const std::string &hash, int size);
     void set_God(God* damn_);

@@ -20,6 +20,7 @@ main_window::~main_window() {
 
 void main_window::make_field() {
     scene = new QGraphicsScene();
+    scene->setParent(this);
     scene->setSceneRect(0, 0, width, height);
     ui->graphicsView->setScene(scene);
     scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(width, height)));
@@ -47,6 +48,7 @@ void main_window::make_field() {
     font.setPixelSize(200); // this for setting font size
 
     text = new QLabel("");
+    text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
@@ -59,6 +61,7 @@ void main_window::set(int x,
                       const std::string &hash,
                       const std::string &object_name) {
     auto *object = new GameObject();
+    object->setParent(this);
     QString filename =
             "../../images/" + QString::fromStdString(object_name) + ".png";
     object->setPixmap(QPixmap(filename).scaled(size, size));
@@ -104,18 +107,21 @@ void main_window::set_timer() {
 void main_window::set_lives() {
     auto img_heart = QPixmap("../../images/heart.png").scaled(25, 25);
     auto *object_1 = new GameObject();
+    object_1->setParent(this);
     object_1->setPixmap(img_heart);
     scene_info->addItem(object_1);
     object_1->setPos(700, 3.5);
     hash_table["heart_1"] = object_1;
 
     auto *object_2 = new GameObject();
+    object_2->setParent(this);
     object_2->setPixmap(img_heart);
     object_2->setPos(730, 3.5);
     scene_info->addItem(object_2);
     hash_table["heart_2"] = object_2;
 
     auto *object_3 = new GameObject();
+    object_3->setParent(this);
     object_3->setPixmap(img_heart);
     object_3->setPos(760, 3.5);
     scene_info->addItem(object_3);
@@ -164,8 +170,11 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 
 void main_window::start_timer() {
     timer = new QTimer();
+    timer->setParent(this);
     timer_for_ticks = new QTimer();
+    timer_for_ticks->setParent(this);
     timer_for_shots = new QTimer();
+    timer_for_shots->setParent(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
     connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
     connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
@@ -205,6 +214,7 @@ void main_window::change_label() {
 
 void main_window::start_timer_for_beginning() {
     timer_for_start = new QTimer();
+    timer_for_start->setParent(this);
     connect(timer_for_start, SIGNAL(timeout()), this, SLOT(change_label()));
     timer_for_start->start(1200);
 }
@@ -213,21 +223,22 @@ void main_window::set_coins_counter() {
     auto img_coin = QPixmap("../../images/coin.png").scaled(25, 25);
     auto *object_1 = new GameObject();
     object_1->setPixmap(img_coin);
+    object_1->setParent(this);
     scene_info->addItem(object_1);
     object_1->setPos(640, 3.5);
     hash_table["coin_img"] = object_1;
 
-    coins_counter = new QLabel("  0  ");
-    coins_counter->setStyleSheet("background-color: black; color : white;");
     auto *item_1 = new QGraphicsRectItem;
     item_1->setRect(QRect(0, 0, 100, 30));
     scene_info->addItem(item_1);
     auto *pMyProxy_1 = new QGraphicsProxyWidget(item_1);
+    coins_counter = new QLabel("  0  ");
+    coins_counter->setStyleSheet("background-color: black; color : white;");
     pMyProxy_1->setWidget(coins_counter);
     pMyProxy_1->setPos(620, 7);
 }
 
-void main_window::change_coins_counter(int count) {
+void main_window::change_coins_counter(int count) const {
     coins_counter->setText(QString::fromStdString(std::to_string(count)));
 }
 
@@ -235,18 +246,21 @@ void main_window::add_life() {
     auto img_heart = QPixmap("../../images/heart.png").scaled(25, 25);
     if (hash_table.find("heart_3") == hash_table.end()) {
         auto *object_3 = new GameObject();
+        object_3->setParent(this);
         object_3->setPixmap(img_heart);
         object_3->setPos(760, 3.5);
         scene_info->addItem(object_3);
         hash_table["heart_3"] = object_3;
     } else if (hash_table.find("heart_2") == hash_table.end()) {
         auto *object_2 = new GameObject();
+        object_2->setParent(this);
         object_2->setPixmap(img_heart);
         object_2->setPos(730, 3.5);
         scene_info->addItem(object_2);
         hash_table["heart_2"] = object_2;
     } else if (hash_table.find("heart_1") == hash_table.end()) {
         auto *object_1 = new GameObject();
+        object_1->setParent(this);
         object_1->setPixmap(img_heart);
         scene_info->addItem(object_1);
         object_1->setPos(700, 3.5);

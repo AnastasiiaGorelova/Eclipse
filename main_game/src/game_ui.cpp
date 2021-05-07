@@ -6,9 +6,10 @@ void Controller_out::show_menu(God* damn) {
     menu_window_->show_menu_first();
 }
 
-void Controller_out::close_menu() const {
+void Controller_out::close_menu() {
     menu_window_->close();
     menu_window_->deleteLater();
+    menu_window_ = nullptr;
 }
 
 void Controller_out::show_game_field(God* damn) {
@@ -21,9 +22,10 @@ void Controller_out::show_game_field(God* damn) {
     game_window_->show();
 }
 
-void Controller_out::close_game_field() const {
+void Controller_out::close_game_field() {
     game_window_->close();
     game_window_->deleteLater();
+    game_window_ = nullptr;
 }
 
 void Controller_out::show_name_enter_window(God* damn) {
@@ -32,9 +34,10 @@ void Controller_out::show_name_enter_window(God* damn) {
     name_enter_window_->show();
 }
 
-void Controller_out::close_name_enter_window() const {
+void Controller_out::close_name_enter_window() {
     name_enter_window_->close();
     name_enter_window_->deleteLater();
+    name_enter_window_ = nullptr;
 }
 
 void Controller_out::show_selection_window(God* damn) {
@@ -43,9 +46,10 @@ void Controller_out::show_selection_window(God* damn) {
     selection_window_->show();
 }
 
-void Controller_out::close_selection_window() const {
+void Controller_out::close_selection_window() {
     selection_window_->close();
     selection_window_->deleteLater();
+    selection_window_ = nullptr;
 }
 
 void Controller_out::set_obj(int x,
@@ -119,5 +123,22 @@ void Controller_out::start_timers() {
     game_window_->start_timer();
 }
 
+void Controller_out::close_game_finish_window() {
+    game_finish_window_->close();
+    game_finish_window_->deleteLater();
+    game_finish_window_ = nullptr;
+}
+
+void Controller_out::close_live_for_coins_window() {
+    buy_live_for_coins_window_->close();
+    buy_live_for_coins_window_->deleteLater();
+    buy_live_for_coins_window_ = nullptr;
+}
+
+void Controller_out::close_error_massage_window() {
+    error_massage_window_->close();
+    error_massage_window_->deleteLater();
+    error_massage_window_ = nullptr;
+}
 
 

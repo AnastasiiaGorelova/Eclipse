@@ -34,6 +34,7 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
     font.setPixelSize(35); // this for setting font size
 
     auto text = new QLabel("Введите\n имя пользователя\n и нажмите enter\n");
+    text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);

@@ -21,17 +21,21 @@ class Controller_out {
 public:
     //показ - скрытие окон отображения
     void show_menu(God* damn);
-    void close_menu() const;
+    void close_menu();
     void show_game_field(God* damn);
-    void close_game_field() const;
+    void close_game_field();
     void show_name_enter_window(God* damn);
-    void close_name_enter_window() const;
+    void close_name_enter_window();
     void show_selection_window(God* damn);
-    void close_selection_window() const;
+    void close_selection_window();
     void show_game_finish_window(God* damn);
+    void close_game_finish_window();
     void show_error_massage_window_arduino(God* damn);
+    void close_error_massage_window();
     void start_game_preview();
     void show_live_for_coins_window(int n, God* damn);
+    void close_live_for_coins_window();
+    void close_enter_name_window() const;
 
     //отрисовка - перемещение - удаление объектов
     void set_obj(int x,

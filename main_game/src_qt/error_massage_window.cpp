@@ -39,12 +39,14 @@ void error_massage_window::arduino_setting_error() {
     font.setPixelSize(25); // this for setting font size
 
     auto text = new QLabel("Ардуино не подключено.\n Проверьте соединение\n или выберите другой\n режим управления\n");
+    text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
     vlay -> addWidget(text);
 
     back_to_selection_window = new QPushButton("Вернуться к выбору контроллера");
+    back_to_selection_window->setParent(this);
     back_to_selection_window->setStyleSheet(
             "QPushButton{border: 1px solid transparent;text-align: center;"
             "color:rgba(255,255,255,255);"
@@ -70,7 +72,7 @@ void error_massage_window::arduino_setting_error() {
 }
 
 void error_massage_window::_on_back_to_menu_clicked() {
-    close();
+    damn->close_error_massage_window();
     damn->show_selection_window();
 }
 
