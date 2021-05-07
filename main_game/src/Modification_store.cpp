@@ -11,7 +11,7 @@ void Modification_store::pushed_button_right() {
     modifications.push_back(eclipse::kRight);
 }
 
-eclipse::MoveDirection Modification_store::give_changes() {
+eclipse::MoveDirection Modification_store::get_aggregated_changes() {
     int all_right = 0;
     int all_left = 0;
     for (auto x : modifications) {
@@ -21,8 +21,6 @@ eclipse::MoveDirection Modification_store::give_changes() {
                 break;
             case eclipse::kLeft:
                 all_left++;
-                break;
-            default:
                 break;
         }
     }

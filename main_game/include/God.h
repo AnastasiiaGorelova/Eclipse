@@ -30,8 +30,8 @@ public:
     void show_game_finish_window();
     void close_game_finish_window();
     void show_buy_live_for_coins_window(int n = 5);
-    void close_buy_live_for_coins_window();
     void close_error_massage_window();
+    void show_selection_window();
 
     void make_changes_in_out_controller();
 
@@ -39,6 +39,7 @@ public:
     void select_game_controller(eclipse::Controllers controller_);
     void check_connection_message(message_errors error);
     std::string get_time();
+    void delete_controller_in();
 
     //for logic
     void make_shoot() const;
@@ -52,9 +53,6 @@ public:
     void add_life_and_restart_game();
     void name_entered(const std::string &player_name);
 
-    void delete_controller_in();
-
-    void show_selection_window();
 };
 
 #endif// MAIN_GAME_GOD_H

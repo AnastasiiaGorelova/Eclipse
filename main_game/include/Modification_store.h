@@ -7,7 +7,7 @@
 struct Modification_store {
     void pushed_button_left();
     void pushed_button_right();
-    eclipse::MoveDirection give_changes();
+    eclipse::MoveDirection get_aggregated_changes();
 
 private:
     std::vector<eclipse::MoveDirection> modifications;

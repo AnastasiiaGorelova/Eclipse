@@ -75,7 +75,7 @@ void God::make_changes_in_out_controller() {
 }
 
 void God::make_move_in_logic_and_ui() {
-    auto direction = train.give_changes();
+    auto direction = train.get_aggregated_changes();
     game->make_move(direction);
     make_changes_in_out_controller();
 }
