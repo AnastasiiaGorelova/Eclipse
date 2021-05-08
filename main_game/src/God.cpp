@@ -89,8 +89,8 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in.key_controller = new Key_Controller();
-            controller_in.key_controller->set_God(this);
+            controller_in = new Key_Controller();
+            controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
             /*ReadingFromPort::Ports my_ports;
@@ -176,9 +176,9 @@ void God::close_error_massage_window() {
 }
 
 void God::delete_controller_in() {
-    if (controller_in.key_controller != nullptr) {
-        controller_in.key_controller->deleteLater();
-        controller_in.key_controller = nullptr;
+    if (dynamic_cast<Key_Controller *>(controller_in) != nullptr) {
+        delete dynamic_cast<Key_Controller *>(controller_in);
+        controller_in = nullptr;
     } else {
         //удалить все ардуиновские штуки
     }

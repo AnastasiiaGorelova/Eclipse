@@ -5,14 +5,12 @@
 #include <QObject>
 #include <QEvent>
 #include <QKeyEvent>
-
-#include "Modification_store.h"
+#include "controllers_in.h"
 
 class God;
 
-struct Key_Controller : QObject {
-    God* damn;
-    void set_God(God* damn_);
+struct Key_Controller : QObject, virtual Controller_in {
+    void set_God(God* damn_) override;
 
     explicit Key_Controller(QObject *parent = nullptr);
     bool eventFilter(QObject *obj, QEvent *event) override;

@@ -7,6 +7,8 @@
 #include "../include_leaderboard/local_leaderboard.h"
 #include "game.h"
 #include "game_ui.h"
+#include "Modification_store.h"
+#include "controllers_in.h"
 
 enum message_errors {
     no_errors,
@@ -17,13 +19,9 @@ class God {
 public:
     std::unique_ptr<eclipse::Game> game;
     Controller_out controller_out;
+    Controller_in* controller_in;
     Player cur_player;
     Modification_store train;
-
-    union {
-        Key_Controller *key_controller;
-        ReadingFromPort::Arduino *arduino_controller;
-    } controller_in;
 
     //controller_out (qt)
     void show_menu();
