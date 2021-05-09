@@ -12,7 +12,7 @@ namespace eclipse {
         int x;
         int y;
         std::string id = "abcd";
-        int speed = 8;
+        int speed = 10;
 
     public:
         spaceship(int width, int height) : x(width / 2 - size / 2), y(height - size) {

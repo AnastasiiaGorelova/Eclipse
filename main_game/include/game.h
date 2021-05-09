@@ -26,8 +26,7 @@ namespace eclipse {
         int bonus_size = 60;
         std::vector<Asteroid> asteroids_in_the_field;
         std::vector<Shot> shots_in_the_field;
-        std::vector<Coin> coins_in_the_field;
-        std::vector<Heart> hearts_in_the_field;
+        std::vector<Bonus> bonus_in_the_field;
 
         std::string checker_for_nothing(int x_start,
                                         int x_finish,

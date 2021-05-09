@@ -4,32 +4,20 @@
 #include <string>
 
 namespace eclipse {
-    struct Coin {
+    struct Bonus {
     private:
         int x;
         int y = 0;
         std::string id;
+        std::string type;
 
     public:
-        Coin(int x, std::string id) : x(x), id(std::move(id)) {}
+        Bonus(int x, std::string id, std::string type) : x(x), id(std::move(id)), type(std::move(type)) {}
 
         void move(int speed);
-        std::pair<int, int> get_coordinates() const;  // x,y coordinates
+        std::pair<int, int> get_coordinates() const;// x,y coordinates
         std::string get_id() const;
-    };
-
-    struct Heart {
-    private:
-        int x;
-        int y = 0;
-        std::string id;
-
-    public:
-        Heart(int x, std::string id) : x(x), id(std::move(id)) {}
-
-        void move(int speed);
-        std::pair<int, int> get_coordinates() const;  // x,y coordinates
-        std::string get_id() const;
+        std::string get_type() const;
     };
 }// namespace eclipse
 

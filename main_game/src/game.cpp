@@ -86,7 +86,7 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 90) == 5 && asteroids_in_the_field.size() < 3) {
+        if (random_number(0, 70) == 5 && asteroids_in_the_field.size() < 2) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (checker_for_nothing(x, x + size, 0, size) != default_id) {
@@ -104,22 +104,20 @@ namespace eclipse {
     }
 
     void Game::generate_bonus() {
-        if (random_number(0, 400) == 5) {//coin
+        if (random_number(0, 200) == 5) {
             int x = random_number(0, kWidth - bonus_size);
             if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
-                Coin new_coin(x, new_uuid());
-                changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
-                change_field(x, x + bonus_size, 0, bonus_size, new_coin.get_id());
-                coins_in_the_field.push_back(std::move(new_coin));
-            }
-        }
-        if (random_number(0, 500) == 5) {//heart
-            int x = random_number(0, kWidth - bonus_size);
-            if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
-                Heart new_heart(x, new_uuid());
-                changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
-                change_field(x, x + bonus_size, 0, bonus_size, new_heart.get_id());
-                hearts_in_the_field.push_back(std::move(new_heart));
+                if (random_number(0, 1) == 1) {
+                    Bonus new_coin(x, new_uuid(), "coin");
+                    changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
+                    change_field(x, x + bonus_size, 0, bonus_size, new_coin.get_id());
+                    bonus_in_the_field.push_back(std::move(new_coin));
+                } else {
+                    Bonus new_heart(x, new_uuid(), "heart");
+                    changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
+                    change_field(x, x + bonus_size, 0, bonus_size, new_heart.get_id());
+                    bonus_in_the_field.push_back(std::move(new_heart));
+                }
             }
         }
     }
@@ -205,51 +203,31 @@ namespace eclipse {
 
     void Game::moving_bonus() {
         int id = 0;
-        while (id < coins_in_the_field.size()) {
-            int old_x = coins_in_the_field[id].get_coordinates().first;
-            int old_y = coins_in_the_field[id].get_coordinates().second;
+        while (id < bonus_in_the_field.size()) {
+            int old_x = bonus_in_the_field[id].get_coordinates().first;
+            int old_y = bonus_in_the_field[id].get_coordinates().second;
             change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
-            if (map.find(coins_in_the_field[id].get_id()) != map.end()) {//caught it!
-                coins++;
-                changes.emplace_back(Changes{Add_coin});
-                changes.emplace_back(Changes{Delete_object, coins_in_the_field[id].get_id()});
-                map.erase(coins_in_the_field[id].get_id());
-                coins_in_the_field.erase(coins_in_the_field.begin() + id);
+            if (map.find(bonus_in_the_field[id].get_id()) != map.end()) {//caught it!
+                if (bonus_in_the_field[id].get_type() == "coin") {
+                    coins++;
+                    changes.emplace_back(Changes{Add_coin});
+                } else {
+                    lives = std::min(lives + 1, 3);
+                    changes.emplace_back(Changes{Add_heart});
+                }
+                changes.emplace_back(Changes{Delete_object, bonus_in_the_field[id].get_id()});
+                map.erase(bonus_in_the_field[id].get_id());
+                bonus_in_the_field.erase(bonus_in_the_field.begin() + id);
                 continue;
             }
-            coins_in_the_field[id].move(game_speed);
-            int new_y = coins_in_the_field[id].get_coordinates().second;
+            bonus_in_the_field[id].move(game_speed);
+            int new_y = bonus_in_the_field[id].get_coordinates().second;
             if (checker_for_nothing(old_x, old_x + bonus_size, new_y, new_y + bonus_size) != default_id) {
-                changes.emplace_back(Changes{Delete_object, coins_in_the_field[id].get_id()});
-                coins_in_the_field.erase(coins_in_the_field.begin() + id);
+                changes.emplace_back(Changes{Delete_object, bonus_in_the_field[id].get_id()});
+                bonus_in_the_field.erase(bonus_in_the_field.begin() + id);
             } else {
-                changes.emplace_back(Changes{Move_object, coins_in_the_field[id].get_id(), coins_in_the_field[id].get_coordinates()});
-                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, coins_in_the_field[id].get_id());
-                id++;
-            }
-        }
-        id = 0;
-        while (id < hearts_in_the_field.size()) {
-            int old_x = hearts_in_the_field[id].get_coordinates().first;
-            int old_y = hearts_in_the_field[id].get_coordinates().second;
-            change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
-            if (map.find(hearts_in_the_field[id].get_id()) != map.end()) {//поймали
-                lives = std::min(lives + 1, 3);
-                //std::cerr << lives << " ";
-                changes.emplace_back(Changes{Add_heart});
-                changes.emplace_back(Changes{Delete_object, hearts_in_the_field[id].get_id()});
-                map.erase(hearts_in_the_field[id].get_id());
-                hearts_in_the_field.erase(hearts_in_the_field.begin() + id);
-                continue;
-            }
-            hearts_in_the_field[id].move(game_speed);
-            int new_y = hearts_in_the_field[id].get_coordinates().second;
-            if (checker_for_nothing(old_x, old_x + bonus_size, new_y, new_y + bonus_size) != default_id) {
-                changes.emplace_back(Changes{Delete_object, hearts_in_the_field[id].get_id()});
-                hearts_in_the_field.erase(hearts_in_the_field.begin() + id);
-            } else {
-                changes.emplace_back(Changes{Move_object, hearts_in_the_field[id].get_id(), hearts_in_the_field[id].get_coordinates()});
-                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, hearts_in_the_field[id].get_id());
+                changes.emplace_back(Changes{Move_object, bonus_in_the_field[id].get_id(), bonus_in_the_field[id].get_coordinates()});
+                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, bonus_in_the_field[id].get_id());
                 id++;
             }
         }
@@ -290,14 +268,10 @@ namespace eclipse {
             changes.emplace_back(Changes{Delete_object, i.get_id()});
         }
         shots_in_the_field.clear();
-        for (auto &i : hearts_in_the_field) {
+        for (auto &i : bonus_in_the_field) {
             changes.emplace_back(Changes{Delete_object, i.get_id()});
         }
-        hearts_in_the_field.clear();
-        for (auto &i : coins_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
-        }
-        coins_in_the_field.clear();
+        bonus_in_the_field.clear();
         map.clear();
         field.clear();
         field.resize(kWidth, std::vector<std::string>(kHeight, default_id));

@@ -1,23 +1,16 @@
 #include "bonus.h"
 
 namespace eclipse {
-    void Coin::move(int speed) {
+    void Bonus::move(int speed) {
         y += speed;
     }
-    std::pair<int, int> Coin::get_coordinates() const {// x,y coordinates
+    std::pair<int, int> Bonus::get_coordinates() const {// x,y coordinates
         return {x, y};
     }
-    std::string Coin::get_id() const {
+    std::string Bonus::get_id() const {
         return id;
     }
-
-    void Heart::move(int speed) {
-        y += speed;
+    std::string Bonus::get_type() const {
+        return type;
     }
-    std::pair<int, int> Heart::get_coordinates() const {// x,y coordinates
-        return {x, y};
-    }
-    std::string Heart::get_id() const {
-        return id;
-    }
-}
+}// namespace eclipse
