@@ -50,6 +50,7 @@ namespace eclipse {
     public:
         int coins = 0;
         int lives = 3;
+        int coins_to_buy_live = 5;
         Game() {
             field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
             for (int i = ship.get_coordinates().first;

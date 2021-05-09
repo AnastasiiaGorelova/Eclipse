@@ -285,11 +285,27 @@ namespace eclipse {
         for (auto &i : asteroids_in_the_field) {
             changes.emplace_back(Changes{Delete_object, i.get_id()});
         }
+        asteroids_in_the_field.clear();
         for (auto &i : shots_in_the_field) {
             changes.emplace_back(Changes{Delete_object, i.get_id()});
         }
+        shots_in_the_field.clear();
         for (auto &i : hearts_in_the_field) {
             changes.emplace_back(Changes{Delete_object, i.get_id()});
+        }
+        hearts_in_the_field.clear();
+        for (auto &i : coins_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        }
+        coins_in_the_field.clear();
+        map.clear();
+        field.clear();
+        field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
+        for (int i = ship.get_coordinates().first;
+             i < ship.get_coordinates().first + ship.get_size(); i++) {
+            for (int j = ship.get_coordinates().second; j < kHeight; j++) {
+                field[i][j] = "abcd";
+            }
         }
     }
 

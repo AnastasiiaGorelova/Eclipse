@@ -10,7 +10,8 @@ void God::start_game() {
     game = std::make_unique<eclipse::Game>();
     controller_out.close_menu();
     controller_out.show_game_field(this);
-    controller_out.show_name_enter_window(this);;
+    controller_out.show_name_enter_window(this);
+    ;
     make_changes_in_out_controller();
 }
 
@@ -20,6 +21,7 @@ void God::cancel_game() {
 }
 
 void God::make_changes_in_out_controller() {
+    int id = 0;
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
@@ -27,27 +29,27 @@ void God::make_changes_in_out_controller() {
                 break;
             case eclipse::Move_object:
                 controller_out.move_obj(i.new_coordinates.first, i.new_coordinates.second,
-                            i.id);
+                                        i.id);
                 break;
             case eclipse::Create_ship:
                 controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                           i.size, i.id, "ship");
+                                       i.size, i.id, "ship");
                 break;
             case eclipse::Create_asteroid:
                 controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                           i.size, i.id, "asteroid");
+                                       i.size, i.id, "asteroid");
                 break;
             case eclipse::Create_shot:
                 controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                           i.size, i.id, "shot");
+                                       i.size, i.id, "shot");
                 break;
             case eclipse::Create_coin:
                 controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                           i.size, i.id, "coin");
+                                       i.size, i.id, "coin");
                 break;
             case eclipse::Create_heart:
                 controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                           i.size, i.id, "heart");
+                                       i.size, i.id, "heart");
                 break;
             case eclipse::Break_asteroid:
                 controller_out.change_obj_pic(i.id, i.size);
@@ -64,12 +66,23 @@ void God::make_changes_in_out_controller() {
             case eclipse::Finish_game:
                 controller_out.delete_live();
                 stop_timers();
-                game->changes.clear();
+                reverse(game->changes.begin(), game->changes.end());
+                game->changes.resize(game->changes.size() - id - 1);
+                reverse(game->changes.begin(), game->changes.end());
                 game->clear_field();
                 make_changes_in_out_controller();
-                show_buy_live_for_coins_window();
+                if (game->coins >= game->coins_to_buy_live) {
+                    show_buy_live_for_coins_window(game->coins_to_buy_live);
+                    game->coins -= game->coins_to_buy_live;
+                    controller_out.change_coins_counter(game->coins);
+                    game->coins_to_buy_live += 5;
+                } else {
+                    //show_game_finish_window();
+                    //finish game
+                }
                 break;
         }
+        id++;
     }
     game->changes.clear();
 }
@@ -119,7 +132,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 
 void God::show_game_finish_window() {
     //аккуратно!
-    controller_out.close_live_for_coins_window();
+    controller_out.close_live_for_coins_window();//???
     delete_controller_in();
     controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
@@ -152,8 +165,8 @@ void God::stop_timers() const {
 
 void God::add_life_and_restart_game() {
     controller_out.close_live_for_coins_window();
-    controller_out.start_timers();
     controller_out.add_live();
+    controller_out.start_timers();
     game->lives++;
 }
 
@@ -187,4 +200,3 @@ void God::delete_controller_in() {
 void God::show_selection_window() {
     controller_out.show_selection_window(this);
 }
-
