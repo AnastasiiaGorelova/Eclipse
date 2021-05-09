@@ -35,6 +35,7 @@ void buy_live_for_coins_window::_on_yes_button_clicked() {
 }
 
 void buy_live_for_coins_window::_on_no_button_clicked() {
+    damn->controller_out.close_live_for_coins_window();
     damn->show_game_finish_window();
 }
 

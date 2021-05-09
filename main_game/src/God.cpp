@@ -22,7 +22,11 @@ void God::cancel_game() {
 
 void God::make_changes_in_out_controller() {
     int id = 0;
+    int flag = 0;
     for (auto &i : game->changes) {
+        if (flag) {
+            break;
+        }
         switch (i.action) {
             case eclipse::Delete_object:
                 controller_out.delete_obj(i.id);
@@ -66,18 +70,20 @@ void God::make_changes_in_out_controller() {
             case eclipse::Finish_game:
                 controller_out.delete_live();
                 stop_timers();
-                reverse(game->changes.begin(), game->changes.end());
-                game->changes.resize(game->changes.size() - id - 1);
-                reverse(game->changes.begin(), game->changes.end());
-                game->clear_field();
-                make_changes_in_out_controller();
                 if (game->coins >= game->coins_to_buy_live) {
+                    reverse(game->changes.begin(), game->changes.end());
+                    game->changes.resize(game->changes.size() - id - 1);
+                    reverse(game->changes.begin(), game->changes.end());
+                    game->clear_field();
+                    make_changes_in_out_controller();
                     show_buy_live_for_coins_window(game->coins_to_buy_live);
                     game->coins -= game->coins_to_buy_live;
                     controller_out.change_coins_counter(game->coins);
                     game->coins_to_buy_live += 5;
                 } else {
-                    //show_game_finish_window();
+                    flag = 1;
+                    game->changes.clear();
+                    show_game_finish_window();
                     //finish game
                 }
                 break;
@@ -131,8 +137,6 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 }
 
 void God::show_game_finish_window() {
-    //аккуратно!
-    controller_out.close_live_for_coins_window();//???
     delete_controller_in();
     controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
