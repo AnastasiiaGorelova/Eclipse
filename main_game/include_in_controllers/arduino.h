@@ -27,7 +27,7 @@ struct Arduino : virtual Controller_in {
 
     void set_God(God *damn_) override;
 
-    ~Arduino();
+    virtual ~Arduino();
 };
 
 struct Ports {
@@ -37,9 +37,7 @@ struct Ports {
 
     /// Printing only
     void print_ports();
-
     void is_port_open(Arduino &my_serial);
-
     void print_information(Arduino &my_serial);
 
     /// Get arduino port

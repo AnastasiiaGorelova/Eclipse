@@ -21,7 +21,7 @@ void God::cancel_game() {
 
 void God::make_changes_in_out_controller() {
     int id = 0;
-    int flag = 0;
+    bool flag = false;
     for (auto &i : game->changes) {
         if (flag) {
             break;
@@ -85,7 +85,7 @@ void God::make_changes_in_out_controller() {
                                                    game->coins);
                     game->coins_to_buy_live += 5;
                 } else {
-                    flag = 1;
+                    flag = true;
                     game->changes.clear();
                     show_game_finish_window();
                     // finish game
@@ -112,20 +112,20 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in = new Key_Controller();
+            controller_in = new Key_Controller();  // NOLINT
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
-            //            ReadingFromPort::Ports my_ports;
-            //            std::string port = my_ports.get_arduino_port();
-            //
-            //            if (port == "There is no Arduino plugged into port") {
-            //                error = arduino_setting_error;
-            //            } else {
-            //                controller_in = new
-            //                ReadingFromPort::Arduino(port);
-            //                controller_in->set_God(this);
-            //            }
+            ReadingFromPort::Ports my_ports;
+            std::string port = my_ports.get_arduino_port();
+
+            if (port == "There is no Arduino plugged into port") {
+                error = arduino_setting_error;
+            } else {
+                controller_in = new ReadingFromPort::Arduino(port);  // NOLINT
+                controller_in->set_God(this);
+            }
+
         } break;
         default:
             break;
@@ -194,7 +194,9 @@ void God::delete_controller_in() {
         delete dynamic_cast<Key_Controller *>(controller_in);
         controller_in = nullptr;
     } else {
-        //удалить все ардуиновские штуки
+        // TODO  вряд ли делаю правильно, надо разобраться
+        delete dynamic_cast<ReadingFromPort::Arduino *>(controller_in);
+        controller_in = nullptr;
     }
 }
 

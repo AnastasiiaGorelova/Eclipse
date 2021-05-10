@@ -45,14 +45,6 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
     serial_.setPort(port);
     serial_.setTimeout(timeout);
     serial_.open();
-    //    auto worker = [&]() {
-    //        while (true) {
-    //                                    this->make_a_move();
-    //            std::cerr << "worker" << std::endl;
-    //        }
-    //    };
-    //    std::thread ta(&Arduino::make_a_move_void);
-    //    ta.join();
     this->start_thread();
 }
 
@@ -80,9 +72,11 @@ void Arduino::set_God(God *damn_) {
 }
 
 Arduino::~Arduino() {
+    // TODO вообще тут поток кончить нужно, скоро разберусь
     if (ta.joinable()) {
         ta.join();
     }
+//    ta.detach();
     serial_.close();
 }
 
