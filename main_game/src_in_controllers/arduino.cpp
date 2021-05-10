@@ -72,9 +72,11 @@ void Arduino::set_God(God *damn_) {
 }
 
 Arduino::~Arduino() {
+    // TODO вообще тут поток кончить нужно, скоро разберусь
     if (ta.joinable()) {
         ta.join();
     }
+//    ta.detach();
     serial_.close();
 }
 

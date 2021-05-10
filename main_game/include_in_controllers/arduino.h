@@ -27,7 +27,7 @@ struct Arduino : virtual Controller_in {
 
     void set_God(God *damn_) override;
 
-    ~Arduino();
+    virtual ~Arduino();
 };
 
 struct Ports {
