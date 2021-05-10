@@ -122,6 +122,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
             if (port == "There is no Arduino plugged into port") {
                 error = arduino_setting_error;
             } else {
+                KEEP_GOING = true;
                 controller_in = new ReadingFromPort::Arduino(port);  // NOLINT
                 controller_in->set_God(this);
             }

@@ -16,7 +16,7 @@ std::string Ports::get_arduino_port() const {
 }
 
 void Arduino::make_a_move_void() {
-    while (true) {
+    while (damn->KEEP_GOING) {
         std::string line;
         line = serial_.readline();  // get line from arduino
         if (line == "MENU\n") {
@@ -72,11 +72,10 @@ void Arduino::set_God(God *damn_) {
 }
 
 Arduino::~Arduino() {
-    // TODO вообще тут поток кончить нужно, скоро разберусь
+    damn->KEEP_GOING = false;
     if (ta.joinable()) {
         ta.join();
     }
-    //    ta.detach();
     serial_.close();
 }
 
