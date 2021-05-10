@@ -1,6 +1,5 @@
 #include "../include_in_controllers/arduino.h"
-
-extern Modification_store train;
+#include "God.h"
 
 namespace ReadingFromPort {
 
@@ -32,16 +31,20 @@ Move Arduino::make_a_move() {
         // TODO тыкнуть функцию выхода в меню
         return menu;
     } else if (line == "RIGHT\n") {
-        train.pushed_button_right();  // тык
+        damn->train.pushed_button_right();  // тык
         std::cerr << "r" << std::endl;
         return right;
     } else if (line == "LEFT\n") {
-        train.pushed_button_left();  // тык
+        damn->train.pushed_button_left();  // тык
         std::cerr << "l" << std::endl;
         return left;
     } else {
         return exception;
     }
+}
+
+void Arduino::set_God(God *damn_) {
+    damn = damn_;
 }
 
 Arduino::~Arduino() {
