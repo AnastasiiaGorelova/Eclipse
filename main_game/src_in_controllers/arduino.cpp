@@ -76,7 +76,7 @@ Arduino::~Arduino() {
     if (ta.joinable()) {
         ta.join();
     }
-//    ta.detach();
+    //    ta.detach();
     serial_.close();
 }
 
