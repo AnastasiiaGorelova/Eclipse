@@ -1,6 +1,5 @@
 #include "../include_in_controllers/arduino.h"
-
-extern Modification_store train;
+#include "God.h"
 
 namespace ReadingFromPort {
 
@@ -16,6 +15,29 @@ std::string Ports::get_arduino_port() const {
     return "There is no Arduino plugged into port";
 }
 
+void Arduino::make_a_move_void() {
+    while (true) {
+        std::string line;
+        line = serial_.readline();  // get line from arduino
+        if (line == "MENU\n") {
+            // TODO тыкнуть функцию выхода в меню
+            std::cerr << "m" << std::endl;
+
+        } else if (line == "RIGHT\n") {
+            damn->train.pushed_button_right();  // тык
+            std::cerr << "r" << std::endl;
+
+        } else if (line == "LEFT\n") {
+            damn->train.pushed_button_left();  // тык
+            std::cerr << "l" << std::endl;
+        }
+    }
+}
+
+void Arduino::start_thread() {
+    ta = std::thread(&Arduino::make_a_move_void, this);
+}
+
 Arduino::Arduino(const std::string &port, uint32_t baudrate) {
     serial::Timeout timeout(
         serial::Timeout::simpleTimeout(serial::Timeout::max()));
@@ -23,6 +45,15 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
     serial_.setPort(port);
     serial_.setTimeout(timeout);
     serial_.open();
+    //    auto worker = [&]() {
+    //        while (true) {
+    //                                    this->make_a_move();
+    //            std::cerr << "worker" << std::endl;
+    //        }
+    //    };
+    //    std::thread ta(&Arduino::make_a_move_void);
+    //    ta.join();
+    this->start_thread();
 }
 
 Move Arduino::make_a_move() {
@@ -32,11 +63,11 @@ Move Arduino::make_a_move() {
         // TODO тыкнуть функцию выхода в меню
         return menu;
     } else if (line == "RIGHT\n") {
-        train.pushed_button_right();  // тык
+        damn->train.pushed_button_right();  // тык
         std::cerr << "r" << std::endl;
         return right;
     } else if (line == "LEFT\n") {
-        train.pushed_button_left();  // тык
+        damn->train.pushed_button_left();  // тык
         std::cerr << "l" << std::endl;
         return left;
     } else {
@@ -44,7 +75,14 @@ Move Arduino::make_a_move() {
     }
 }
 
+void Arduino::set_God(God *damn_) {
+    damn = damn_;
+}
+
 Arduino::~Arduino() {
+    if (ta.joinable()) {
+        ta.join();
+    }
     serial_.close();
 }
 

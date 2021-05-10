@@ -5,8 +5,8 @@
 //#include "God.h"
 #include <serial/serial.h>
 #include <iostream>
-#include <thread>
 #include <stdexcept>
+#include <thread>
 
 class God;
 
@@ -14,11 +14,15 @@ namespace ReadingFromPort {
 
 enum Move { menu, left, right, exception };
 
-struct Arduino {
+struct Arduino : virtual Controller_in {
     serial::Serial serial_;
+    std::thread ta;
 
     Arduino(const std::string &port, uint32_t baudrate = 9600);
     Move make_a_move();
+    void make_a_move_void();
+    void start_thread();
+    void set_God(God *damn_) override;
     ~Arduino();
 };
 

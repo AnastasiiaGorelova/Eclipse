@@ -112,22 +112,15 @@ void God::select_game_controller(eclipse::Controllers controller_) {
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
-            /*ReadingFromPort::Ports my_ports;
-            std::string port = my_ports.get_arduino_port();
-
-            if (port == "There is no Arduino plugged into port") {
-                error = arduino_setting_error;
-            } else {
-                controller_in.arduino_controller =
-                        new ReadingFromPort::Arduino(port);
-                auto worker = [&]() {
-                    while (true) {
-                        controller_in.arduino_controller->make_a_move();
-                    }
-                };
-                std::thread ta(worker);
-                ta.detach();
-            }*/
+//            ReadingFromPort::Ports my_ports;
+//            std::string port = my_ports.get_arduino_port();
+//
+//            if (port == "There is no Arduino plugged into port") {
+//                error = arduino_setting_error;
+//            } else {
+//                controller_in = new ReadingFromPort::Arduino(port);
+//                controller_in->set_God(this);
+//            }
 
         } break;
         default:
