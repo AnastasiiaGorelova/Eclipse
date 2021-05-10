@@ -22,6 +22,13 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
     serial_.setPort(port);
     serial_.setTimeout(timeout);
     serial_.open();
+    //                auto worker = [&]() {
+//                    while (true) {
+//                        controller_in->make_a_move();
+//                    }
+//                };
+//                std::thread ta(worker);
+//                ta.detach();
 }
 
 Move Arduino::make_a_move() {

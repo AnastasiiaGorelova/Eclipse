@@ -100,13 +100,6 @@ void God::select_game_controller(eclipse::Controllers controller_) {
                 error = arduino_setting_error;
             } else {
                 controller_in = new ReadingFromPort::Arduino(port);
-//                auto worker = [&]() {
-//                    while (true) {
-//                        controller_in->make_a_move();
-//                    }
-//                };
-//                std::thread ta(worker);
-//                ta.detach();
             }
 
         } break;
