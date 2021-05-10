@@ -33,7 +33,7 @@ public:
     void show_error_massage_window_arduino(God* damn);
     void close_error_massage_window();
     void start_game_preview();
-    void show_live_for_coins_window(int n, God* damn);
+    void show_live_for_coins_window(int n, int k, God* damn);
     void close_live_for_coins_window();
     void close_enter_name_window() const;
 

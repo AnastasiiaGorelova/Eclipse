@@ -27,7 +27,7 @@ public:
     void show_menu();
     void show_game_finish_window();
     void close_game_finish_window();
-    void show_buy_live_for_coins_window(int n = 5);
+    void show_buy_live_for_coins_window(int n = 5, int k = 0);
     void close_error_massage_window();
     void show_selection_window();
 

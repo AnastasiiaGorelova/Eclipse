@@ -76,9 +76,8 @@ void God::make_changes_in_out_controller() {
                     reverse(game->changes.begin(), game->changes.end());
                     game->clear_field();
                     make_changes_in_out_controller();
-                    show_buy_live_for_coins_window(game->coins_to_buy_live);
                     game->coins -= game->coins_to_buy_live;
-                    controller_out.change_coins_counter(game->coins);
+                    show_buy_live_for_coins_window(game->coins_to_buy_live, game->coins);
                     game->coins_to_buy_live += 5;
                 } else {
                     flag = 1;
@@ -152,8 +151,8 @@ void God::check_connection_message(message_errors error) {
     }
 }
 
-void God::show_buy_live_for_coins_window(int n) {
-    controller_out.show_live_for_coins_window(n, this);
+void God::show_buy_live_for_coins_window(int n, int k) {
+    controller_out.show_live_for_coins_window(n, k, this);
 }
 
 void God::stop_timers() const {

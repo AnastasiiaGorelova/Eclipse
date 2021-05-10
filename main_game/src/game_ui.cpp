@@ -112,10 +112,10 @@ void Controller_out::stop_timers() const {
     game_window_->timer_for_ticks->stop();
 }
 
-void Controller_out::show_live_for_coins_window(int n, God* damn) {
+void Controller_out::show_live_for_coins_window(int n, int k, God* damn) {
     buy_live_for_coins_window_ = new buy_live_for_coins_window();
     buy_live_for_coins_window_->set_god(damn);
-    buy_live_for_coins_window_->buy_for_n_coins(n);
+    buy_live_for_coins_window_->buy_for_n_coins(n, k);
     buy_live_for_coins_window_->show();
 }
 
