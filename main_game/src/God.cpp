@@ -11,7 +11,6 @@ void God::start_game() {
     controller_out.close_menu();
     controller_out.show_game_field(this);
     controller_out.show_name_enter_window(this);
-    ;
     make_changes_in_out_controller();
 }
 
@@ -32,28 +31,33 @@ void God::make_changes_in_out_controller() {
                 controller_out.delete_obj(i.id);
                 break;
             case eclipse::Move_object:
-                controller_out.move_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                        i.id);
+                controller_out.move_obj(i.new_coordinates.first,
+                                        i.new_coordinates.second, i.id);
                 break;
             case eclipse::Create_ship:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "ship");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "ship");
                 break;
             case eclipse::Create_asteroid:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "asteroid");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "asteroid");
                 break;
             case eclipse::Create_shot:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "shot");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "shot");
                 break;
             case eclipse::Create_coin:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "coin");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "coin");
                 break;
             case eclipse::Create_heart:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "heart");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "heart");
                 break;
             case eclipse::Break_asteroid:
                 controller_out.change_obj_pic(i.id, i.size);
@@ -77,13 +81,14 @@ void God::make_changes_in_out_controller() {
                     game->clear_field();
                     make_changes_in_out_controller();
                     game->coins -= game->coins_to_buy_live;
-                    show_buy_live_for_coins_window(game->coins_to_buy_live, game->coins);
+                    show_buy_live_for_coins_window(game->coins_to_buy_live,
+                                                   game->coins);
                     game->coins_to_buy_live += 5;
                 } else {
                     flag = 1;
                     game->changes.clear();
                     show_game_finish_window();
-                    //finish game
+                    // finish game
                 }
                 break;
         }
@@ -111,16 +116,16 @@ void God::select_game_controller(eclipse::Controllers controller_) {
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
-//            ReadingFromPort::Ports my_ports;
-//            std::string port = my_ports.get_arduino_port();
-//
-//            if (port == "There is no Arduino plugged into port") {
-//                error = arduino_setting_error;
-//            } else {
-//                controller_in = new ReadingFromPort::Arduino(port);
-//                controller_in->set_God(this);
-//            }
-
+            //            ReadingFromPort::Ports my_ports;
+            //            std::string port = my_ports.get_arduino_port();
+            //
+            //            if (port == "There is no Arduino plugged into port") {
+            //                error = arduino_setting_error;
+            //            } else {
+            //                controller_in = new
+            //                ReadingFromPort::Arduino(port);
+            //                controller_in->set_God(this);
+            //            }
         } break;
         default:
             break;
