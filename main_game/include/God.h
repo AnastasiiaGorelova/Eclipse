@@ -19,7 +19,6 @@ public:
     Controller_in *controller_in;
     Player cur_player;
     Modification_store train;
-    bool KEEP_GOING;
 
     // controller_out (qt)
     void show_menu();

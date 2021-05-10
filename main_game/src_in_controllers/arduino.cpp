@@ -16,7 +16,7 @@ std::string Ports::get_arduino_port() const {
 }
 
 void Arduino::make_a_move_void() {
-    while (damn->KEEP_GOING) {
+    while (KEEP_GOING) {
         std::string line;
         line = serial_.readline();  // get line from arduino
         if (line == "MENU\n") {
@@ -45,6 +45,7 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
     serial_.setPort(port);
     serial_.setTimeout(timeout);
     serial_.open();
+    KEEP_GOING = true;
     this->start_thread();
 }
 
@@ -72,7 +73,7 @@ void Arduino::set_God(God *damn_) {
 }
 
 Arduino::~Arduino() {
-    damn->KEEP_GOING = false;
+    KEEP_GOING = false;
     if (ta.joinable()) {
         ta.join();
     }
