@@ -40,6 +40,8 @@ namespace eclipse {
         bool check_for_borders(int y, int size) const;
         bool check_for_nothing(int x, int size) const;
         bool check_for_conflict_with_ship(int x, int y, int size) const;
+        bool check_for_conflict(int x1, int y1, int size1, int x2, int y2, int size2) const;
+        bool destroy_objects_by_shots(int x1, int y1, int size1);
 
     public:
         int coins = 0;

@@ -14,6 +14,6 @@ namespace eclipse {
         y -= speed;
     }
     bool operator<(const Shot &first, const Shot &second) {
-        return first.x < second.x;
+        return first.y < second.y;
     }
 }// namespace eclipse
