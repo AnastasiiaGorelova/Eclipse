@@ -1,6 +1,5 @@
 
 #include "God.h"
-#include <unistd.h>
 
 void God::show_menu() {
     controller_out.show_menu(this);
@@ -138,6 +137,7 @@ void God::show_game_finish_window() {
     controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
     controller_out.close_game_field();
+    update_local_leaderboard(cur_player); ///
 }
 
 std::string God::get_time() {

@@ -5,24 +5,31 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <string>
 #include <utility>
+#include <vector>
 
-using json = nlohmann::json;
 
 struct Player {
     std::string name;
     std::string time;
 };
 
-struct local_leaderboard {
-    std::fstream leaderboard_file;  // in file
+void update_local_leaderboard(Player cur_player);
 
-    local_leaderboard() : leaderboard_file("LeaderBoard.json", std::ios::app) {
-    }
+struct LocalLeaderboard {
+    std::fstream leaderboard_file;  // file
+    std::vector<Player> leaderboard_array;
 
-    void serialization(Player p);
+    LocalLeaderboard();
+
+    bool comp (Player p1, Player p2);
+
+    void add_player_to_leaderboard(Player cur_player);
+
+    void deserialization();
+
+    void serialization();
 };
 
 bool is_file_empty(const std::string &filename);

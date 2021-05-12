@@ -1,7 +1,7 @@
 #include "../include_leaderboard/local_leaderboard.h"
 
 int main() {
-    local_leaderboard ll{};
+    LocalLeaderboard ll{};
 
     if (is_file_empty("LeaderBoard.json")) {
         for (int i = 0; i < 10; i++) {
