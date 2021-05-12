@@ -18,7 +18,10 @@ namespace eclipse {
         std::pair<int, int> get_coordinates() const;// x,y coordinates
         std::string get_id() const;
         std::string get_type() const;
+
+        friend bool operator<(const Bonus &first, const Bonus &second);
     };
+
 }// namespace eclipse
 
 #endif//MAIN_GAME_BONUS_H

@@ -13,4 +13,8 @@ namespace eclipse {
     std::string Bonus::get_type() const {
         return type;
     }
+
+    bool operator<(const Bonus &first, const Bonus &second) {
+        return first.x < second.x;
+    }
 }// namespace eclipse

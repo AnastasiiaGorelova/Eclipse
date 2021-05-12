@@ -13,4 +13,7 @@ namespace eclipse {
     void Shot::move() {
         y -= speed;
     }
+    bool operator<(const Shot &first, const Shot &second) {
+        return first.x < second.x;
+    }
 }// namespace eclipse

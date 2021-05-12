@@ -8,6 +8,7 @@
 #include "shots.h"
 #include "space_ship.h"
 #include <random>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -18,26 +19,16 @@ namespace eclipse {
     struct Game {
     private:
         GameState game_state = kOngoing;
-        std::vector<std::vector<std::string>> field;
-        std::unordered_map<std::string, std::string> map;//for asteroids to delete
+        //        std::vector<std::vector<std::string>> field;
+        //        std::unordered_map<std::string, std::string> map;//for asteroids to delete
         spaceship ship = spaceship(kWidth, kHeight);
-        int game_speed = 2;//asteroids
+        int game_speed = 1;//asteroids
         int shot_size = 40;
         int bonus_size = 60;
-        std::vector<Asteroid> asteroids_in_the_field;
-        std::vector<Shot> shots_in_the_field;
-        std::vector<Bonus> bonus_in_the_field;
+        std::set<Asteroid> asteroids_in_the_field;
+        std::set<Bonus> bonus_in_the_field;
+        std::set<Shot> shots_in_the_field;
 
-        std::string checker_for_nothing(int x_start,
-                                        int x_finish,
-                                        int y_start,
-                                        int y_finish) const;
-        void change_field(int x_start,
-                          int x_finish,
-                          int y_start,
-                          int y_finish,
-                          const std::string &value);
-        void recover_ship();
         void check_for_living();
         void generate_asteroid();
         void generate_bonus();
@@ -46,18 +37,22 @@ namespace eclipse {
         void moving_asteroids();
         void moving_ship(MoveDirection direction);
 
+        bool check_for_borders(int y, int size) const;
+        bool check_for_nothing(int x, int size) const;
+        bool check_for_conflict_with_ship(int x, int y, int size) const;
+
     public:
         int coins = 0;
         int lives = 3;
         int coins_to_buy_live = 5;
         Game() {
-            field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
-            for (int i = ship.get_coordinates().first;
-                 i < ship.get_coordinates().first + ship.get_size(); i++) {
-                for (int j = ship.get_coordinates().second; j < kHeight; j++) {
-                    field[i][j] = "abcd";
-                }
-            }
+            //            field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
+            //            for (int i = ship.get_coordinates().first;
+            //                 i < ship.get_coordinates().first + ship.get_size(); i++) {
+            //                for (int j = ship.get_coordinates().second; j < kHeight; j++) {
+            //                    field[i][j] = "abcd";
+            //                }
+            //            }
         }
 
         std::vector<Changes> changes = {Changes{Create_ship,
