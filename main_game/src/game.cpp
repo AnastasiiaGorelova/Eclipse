@@ -92,8 +92,15 @@ namespace eclipse {
         auto it1 = asteroids_in_the_field.begin();
         while (it1 != asteroids_in_the_field.end()) {
             if (!check_for_conflict(x1, y1, size1, it1->get_coordinates().first, it1->get_coordinates().second, it1->get_size())) {//ударил астероид
-                changes.emplace_back(Changes{Delete_object, it1->get_id()});
+                Asteroid temp_asteroid = *it1;
                 asteroids_in_the_field.erase(it1);
+                temp_asteroid.destroy();
+                if (temp_asteroid.get_state() == kDead) {
+                    changes.emplace_back(Changes{Delete_object, temp_asteroid.get_id()});
+                } else {
+                    changes.emplace_back(Changes{Break_asteroid, temp_asteroid.get_id(), temp_asteroid.get_coordinates(), temp_asteroid.get_size()});
+                    asteroids_in_the_field.insert(temp_asteroid);
+                }
                 return false;
             }
             it1++;
@@ -118,7 +125,7 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 70) == 5 && asteroids_in_the_field.size() < 2) {
+        if (random_number(0, 70) == 5 && asteroids_in_the_field.size() < 3) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             while (!check_for_nothing(x, size)) {//проверка на то что пусто
@@ -154,7 +161,6 @@ namespace eclipse {
     void Game::moving_shots() {
         auto it = shots_in_the_field.begin();
         std::set<Shot> after_changes;
-        //std::cerr << shots_in_the_field.size() << '\n';
         while (it != shots_in_the_field.end()) {
             if (!destroy_objects_by_shots(it->get_coordinates().first, it->get_coordinates().second, it->get_size())) {//столкнулись
                 changes.emplace_back(Changes{Delete_object, it->get_id()});
@@ -175,7 +181,6 @@ namespace eclipse {
     }
 
     void Game::moving_asteroids() {
-        //std::cerr << "a " <<'\n';
         auto it = asteroids_in_the_field.begin();
         std::set<Asteroid> after_changes;
         while (it != asteroids_in_the_field.end()) {
@@ -198,7 +203,6 @@ namespace eclipse {
     }
 
     void Game::moving_bonus() {
-        //std::cerr << "b " <<'\n';
         auto it = bonus_in_the_field.begin();
         std::set<Bonus> after_changes;
         while (it != bonus_in_the_field.end()) {
@@ -214,8 +218,10 @@ namespace eclipse {
                     coins++;
                     changes.emplace_back(Changes{Add_coin});
                 } else {
-                    lives = std::min(lives + 1, 3);
-                    changes.emplace_back(Changes{Add_heart});
+                    if (lives != 3) {
+                        lives = std::min(lives + 1, 3);
+                        changes.emplace_back(Changes{Add_heart});
+                    }
                 }
                 changes.emplace_back(Changes{Delete_object, temp_bonus.get_id()});
                 it++;
@@ -229,17 +235,13 @@ namespace eclipse {
     }
 
     void Game::moving_ship(MoveDirection direction) {
-        int y = ship.get_coordinates().second;
-        int old_x = ship.get_coordinates().first;
         ship.move(direction);
-        int new_x = ship.get_coordinates().first;
         changes.emplace_back(
                 Changes{Move_object,
                         ship.get_id(),
-                        {new_x, y},
+                        ship.get_coordinates(),
                         ship.get_size()});
     }
-
 
     void Game::make_move(MoveDirection direction) {
         moving_ship(direction);
@@ -263,15 +265,6 @@ namespace eclipse {
             changes.emplace_back(Changes{Delete_object, i.get_id()});
         }
         bonus_in_the_field.clear();
-        //        map.clear();
-        //        field.clear();
-        //        field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
-        //        for (int i = ship.get_coordinates().first;
-        //             i < ship.get_coordinates().first + ship.get_size(); i++) {
-        //            for (int j = ship.get_coordinates().second; j < kHeight; j++) {
-        //                field[i][j] = "abcd";
-        //            }
-        //        }
     }
 
     std::pair<int, int> get_field_size() {

@@ -19,8 +19,6 @@ namespace eclipse {
     struct Game {
     private:
         GameState game_state = kOngoing;
-        //        std::vector<std::vector<std::string>> field;
-        //        std::unordered_map<std::string, std::string> map;//for asteroids to delete
         spaceship ship = spaceship(kWidth, kHeight);
         int game_speed = 1;//asteroids
         int shot_size = 40;
@@ -47,15 +45,7 @@ namespace eclipse {
         int coins = 0;
         int lives = 3;
         int coins_to_buy_live = 5;
-        Game() {
-            //            field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
-            //            for (int i = ship.get_coordinates().first;
-            //                 i < ship.get_coordinates().first + ship.get_size(); i++) {
-            //                for (int j = ship.get_coordinates().second; j < kHeight; j++) {
-            //                    field[i][j] = "abcd";
-            //                }
-            //            }
-        }
+        Game() {}
 
         std::vector<Changes> changes = {Changes{Create_ship,
                                                 ship.get_id(),
