@@ -15,6 +15,6 @@ namespace eclipse {
     }
 
     bool operator<(const Bonus &first, const Bonus &second) {
-        return first.x < second.x;
+        return first.y > second.y;
     }
 }// namespace eclipse

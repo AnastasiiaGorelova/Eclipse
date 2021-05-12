@@ -23,6 +23,6 @@ namespace eclipse {
         }
     }
     bool operator<(const Asteroid &first, const Asteroid &second) {
-        return first.x < second.x;
+        return first.y > second.y;
     }
 }// namespace eclipse

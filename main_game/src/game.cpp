@@ -36,7 +36,6 @@ namespace eclipse {
 
     void Game::check_for_living() {
         --lives;
-        //std::cerr << "- ";
         if (lives <= 0) {// dead
             game_state = kFinished;
             changes.emplace_back(Changes{Finish_game});
@@ -61,10 +60,6 @@ namespace eclipse {
     }
 
     bool Game::check_for_nothing(int x, int size) const {
-        //        auto it1 = asteroids_in_the_field.lower_bound(Asteroid(x, -1, default_id));
-        //        if (it1 != asteroids_in_the_field.end() && it1->get_coordinates().first <= x + size) {  //кто-то есть
-        //            return false;
-        //        }
         for (auto it1 = asteroids_in_the_field.begin(); it1 != asteroids_in_the_field.end(); it1++) {
             if ((it1->get_coordinates().first >= x && it1->get_coordinates().first <= x + size) ||
                 (x >= it1->get_coordinates().first && x <= it1->get_coordinates().first + it1->get_size())) {
