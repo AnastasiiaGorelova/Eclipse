@@ -5,33 +5,35 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
+#include <strstream>
 #include <utility>
 #include <vector>
-
 
 struct Player {
     std::string name;
     std::string time;
 };
 
-void update_local_leaderboard(Player cur_player);
-
-struct LocalLeaderboard {
-    std::fstream leaderboard_file;  // file
-    std::vector<Player> leaderboard_array;
-
-    LocalLeaderboard();
-
-    bool comp (Player p1, Player p2);
-
-    void add_player_to_leaderboard(Player cur_player);
-
-    void deserialization();
-
-    void serialization();
+struct Time {
+    int mm;
+    int ss;
 };
 
-bool is_file_empty(const std::string &filename);
+void update_local_leaderboard(const Player &cur_player);
+
+struct LocalLeaderboard {
+    std::fstream leaderboard_file{};  // file
+    std::vector<Player> leaderboard_array;
+
+    void open_to_read();
+    void open_to_write();
+    void close_file();
+    static bool comp(Player p1, Player p2);
+    void add_player_to_leaderboard(const Player &cur_player);
+    void deserialization();
+    void serialization();
+};
 
 #endif  // LOCAL_LEADERBOARD_H
