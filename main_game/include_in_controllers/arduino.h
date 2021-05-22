@@ -17,7 +17,7 @@ enum Move { menu, left, right, exception };
 struct Arduino : virtual Controller_in {
     serial::Serial serial_;
     std::thread ta;
-    std::atomic<bool> keep_going;
+    std::atomic<bool> keep_going{};
 
     Arduino(const std::string &port, uint32_t baudrate = 9600);
 
