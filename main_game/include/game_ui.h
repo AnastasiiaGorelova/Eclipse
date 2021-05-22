@@ -8,6 +8,8 @@
 #include <game_finish_window.h>
 #include <error_massage_window.h>
 #include <buy_live_for_coins_window.h>
+#include <local_leaderboard_ui.h>
+#include <legend_window.h>
 
 class Controller_out {
     game_window *menu_window_;
@@ -17,6 +19,8 @@ class Controller_out {
     game_finish_window *game_finish_window_;
     error_massage_window* error_massage_window_;
     buy_live_for_coins_window * buy_live_for_coins_window_;
+    local_leaderboard_ui * local_leaderboard_ui_;
+    legend_window * legend_window_;
 
 public:
     //показ - скрытие окон отображения
@@ -36,6 +40,9 @@ public:
     void show_live_for_coins_window(int n, int k, God* damn);
     void close_live_for_coins_window();
     void close_enter_name_window() const;
+    void show_local_leaderboard();
+    void show_legend_window();
+
 
     //отрисовка - перемещение - удаление объектов
     void set_obj(int x,

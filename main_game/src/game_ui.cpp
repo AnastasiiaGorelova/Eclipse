@@ -141,4 +141,14 @@ void Controller_out::close_error_massage_window() {
     error_massage_window_ = nullptr;
 }
 
+void Controller_out::show_local_leaderboard() {
+    local_leaderboard_ui_ = new local_leaderboard_ui();
+    local_leaderboard_ui_->show();
+}
+
+void Controller_out::show_legend_window() {
+    legend_window_ = new legend_window();
+    legend_window_->show();
+}
+
 

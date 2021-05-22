@@ -10,10 +10,6 @@ Selection::Selection(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Selection) {
     ui->setupUi(this);
 
-    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
-                                    (*this).size(),
-                                    qApp->desktop()->availableGeometry()));
-
     //установка фона
     ui->setupUi(this);
     QPixmap backgroung("../../images/menu_background.png");  //поменять картинку
@@ -31,7 +27,7 @@ Selection::Selection(QWidget *parent)
         QFont::ExtraBold);  // set font weight with enum QFont::Weight
     font.setPixelSize(35);  // this for setting font size
 
-    auto text = new QLabel("Выберете\n тип управления\n");
+    auto text = new QLabel("Выберите\n тип управления\n");
     text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
@@ -86,6 +82,10 @@ Selection::Selection(QWidget *parent)
 
     setWindowTitle("Set Controller");
     setFixedSize(400, 300);
+
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
+                                    (*this).size(),
+                                    qApp->desktop()->availableGeometry()));
 }
 
 Selection::~Selection() {
