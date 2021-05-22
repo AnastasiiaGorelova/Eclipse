@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <thread>
+#include <atomic>
 #include "controllers_in.h"
 
 class God;

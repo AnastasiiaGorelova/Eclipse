@@ -10,6 +10,8 @@
 #include <strstream>
 #include <utility>
 #include <vector>
+#include <cassert>
+#include <algorithm>
 
 struct Player {
     std::string name;
