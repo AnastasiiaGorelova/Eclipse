@@ -16,8 +16,8 @@ bool LocalLeaderboard::comp(Player p1, Player p2) {
 }
 
 void LocalLeaderboard::open_to_read() {
-    std::ofstream create_file;
-    create_file.open("LocalLeaderBoard.txt"), create_file.close();
+    std::ofstream create_file("LocalLeaderBoard.txt", std::ios_base::app);
+    create_file.close();
 
     leaderboard_file.open("LocalLeaderBoard.txt", std::ios_base::in);
 
@@ -33,7 +33,7 @@ void LocalLeaderboard::deserialization() {
         std::string s_n;
         std::string s_t;
         leaderboard_file >> s_n >> s_t;
-        /* std::cerr << s_n << " " << s_t << std::endl; */
+        std::cerr << s_n << " " << s_t << std::endl;
         if (!s_n.empty() and !s_t.empty()) {
             Player my_player{s_n, s_t};
             leaderboard_array.push_back(my_player);
@@ -62,9 +62,9 @@ void LocalLeaderboard::open_to_write() {
 
 void LocalLeaderboard::serialization() {
     std::cerr << "(serialization) What is in sorted arr:" << std::endl;
-    /* for (const auto &u : leaderboard_array) {
-         std::cerr << u.name << " " << u.time << std::endl;
-     } */
+    for (const auto &u : leaderboard_array) {
+        std::cerr << u.name << " " << u.time << std::endl;
+    }
 
     for (unsigned int i = 0; i < 10 and i < leaderboard_array.size(); i++) {
         leaderboard_file << leaderboard_array[i].name << " "
