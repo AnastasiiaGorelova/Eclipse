@@ -47,6 +47,8 @@ public:
     void start_timers();
     void add_life_and_restart_game();
     void name_entered(const std::string &player_name);
+
+    void show_local_leaderboard();
 };
 
 #endif  // MAIN_GAME_GOD_H

@@ -31,6 +31,7 @@ private:
 private slots:
     void on_start_clicked();
     void on_exit_clicked();
+    void on_local_board_clicked();
 };
 
 #endif  // MAIN_GAME_GAME_WINDOW_H

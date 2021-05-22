@@ -31,7 +31,7 @@ Selection::Selection(QWidget *parent)
         QFont::ExtraBold);  // set font weight with enum QFont::Weight
     font.setPixelSize(35);  // this for setting font size
 
-    auto text = new QLabel("Выберете\n тип управления\n");
+    auto text = new QLabel("Выберите\n тип управления\n");
     text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
