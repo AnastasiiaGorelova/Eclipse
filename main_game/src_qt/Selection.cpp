@@ -10,10 +10,6 @@ Selection::Selection(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Selection) {
     ui->setupUi(this);
 
-    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
-                                    (*this).size(),
-                                    qApp->desktop()->availableGeometry()));
-
     //установка фона
     ui->setupUi(this);
     QPixmap backgroung("../../images/menu_background.png");  //поменять картинку
@@ -86,6 +82,10 @@ Selection::Selection(QWidget *parent)
 
     setWindowTitle("Set Controller");
     setFixedSize(400, 300);
+
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
+                                    (*this).size(),
+                                    qApp->desktop()->availableGeometry()));
 }
 
 Selection::~Selection() {

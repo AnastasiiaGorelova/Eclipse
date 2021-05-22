@@ -49,6 +49,8 @@ public:
     void name_entered(const std::string &player_name);
 
     void show_local_leaderboard();
+
+    void show_legend_window();
 };
 
 #endif  // MAIN_GAME_GOD_H

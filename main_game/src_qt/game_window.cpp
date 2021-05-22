@@ -76,3 +76,7 @@ void game_window::on_local_board_clicked() {
     damn->show_local_leaderboard();
 }
 
+void game_window::on_history_clicked() {
+    damn->show_legend_window();
+}
+

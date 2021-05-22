@@ -146,4 +146,9 @@ void Controller_out::show_local_leaderboard() {
     local_leaderboard_ui_->show();
 }
 
+void Controller_out::show_legend_window() {
+    legend_window_ = new legend_window();
+    legend_window_->show();
+}
+
 

@@ -206,3 +206,7 @@ void God::show_selection_window() {
 void God::show_local_leaderboard() {
     controller_out.show_local_leaderboard();
 }
+
+void God::show_legend_window() {
+    controller_out.show_legend_window();
+}
