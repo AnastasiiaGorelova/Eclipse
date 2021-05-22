@@ -38,14 +38,13 @@ namespace eclipse {
         --lives;
         if (lives <= 0) {// dead
             game_state = kFinished;
-            changes.emplace_back(Changes{Finish_game});
         } else {
             changes.emplace_back(Changes{Decrease_lives});
         }
     }
 
-    GameState Game::get_game_state() const {
-        return game_state;
+    bool Game::get_game_state() const {
+        return game_state == kOngoing;
     }
 
     void Game::shoot() {
@@ -183,14 +182,15 @@ namespace eclipse {
     void Game::moving_asteroids() {
         auto it = asteroids_in_the_field.begin();
         std::set<Asteroid> after_changes;
+        std::cerr << asteroids_in_the_field.size() << '\n';
         while (it != asteroids_in_the_field.end()) {
             Asteroid cur_asteroid = *it;
             cur_asteroid.move(game_speed);
             if (!check_for_borders(cur_asteroid.get_coordinates().second, cur_asteroid.get_size()) ||
                 !check_for_conflict_with_ship(cur_asteroid.get_coordinates().first, cur_asteroid.get_coordinates().second, cur_asteroid.get_size())) {//врезались в границу
+                check_for_living();
                 changes.emplace_back(Changes{Delete_object,
                                              cur_asteroid.get_id()});
-                check_for_living();
             } else {//можем двигать
                 changes.emplace_back(Changes{Move_object,
                                              cur_asteroid.get_id(),
@@ -200,6 +200,9 @@ namespace eclipse {
             it++;
         }
         asteroids_in_the_field = after_changes;
+        if (!get_game_state()) {//надо ли??
+            asteroids_in_the_field.clear();
+        }
     }
 
     void Game::moving_bonus() {
@@ -246,23 +249,31 @@ namespace eclipse {
     void Game::make_move(MoveDirection direction) {
         moving_ship(direction);
         moving_asteroids();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
         moving_bonus();
         moving_shots();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
         generate_asteroid();
         generate_bonus();
     }
 
     void Game::clear_field() {
-        for (auto &i : asteroids_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        for (const auto &it : asteroids_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         asteroids_in_the_field.clear();
-        for (auto &i : shots_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        for (const auto &it : shots_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         shots_in_the_field.clear();
-        for (auto &i : bonus_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        for (const auto &it : bonus_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         bonus_in_the_field.clear();
     }

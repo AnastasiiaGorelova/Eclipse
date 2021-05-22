@@ -50,6 +50,7 @@ public:
     void start_timers();
     void add_life_and_restart_game();
     void name_entered(const std::string &player_name);
+    void finish_or_continue_game();
 
 };
 

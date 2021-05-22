@@ -28,7 +28,6 @@ namespace eclipse {
         Break_asteroid,
         Add_coin,
         Add_heart,
-        Finish_game,
         Decrease_lives
     };
 

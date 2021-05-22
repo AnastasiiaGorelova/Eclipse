@@ -51,9 +51,7 @@ namespace eclipse {
                                                 ship.get_id(),
                                                 ship.get_coordinates(), ship.get_size()}};
 
-        GameState get_game_state() const;
-
-        std::string get_field_state(int x, int y) const;
+        bool get_game_state() const;
 
         void make_move(MoveDirection direction = kNoMove);
         void shoot();
