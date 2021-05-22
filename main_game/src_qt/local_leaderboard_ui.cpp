@@ -40,6 +40,10 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
     table->horizontalHeader()->resizeSection(1, 180);
     table->setFocusPolicy(Qt::NoFocus);
 
+    auto fnt = table->font();
+    fnt.setPointSize(20);
+    table->setFont(fnt);
+
     std::ifstream in("LocalLeaderBoard.txt"); // окрываем файл для чтения
     if (in.is_open())
     {
