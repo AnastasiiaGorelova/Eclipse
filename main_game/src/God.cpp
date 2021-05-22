@@ -134,10 +134,10 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 
 void God::show_game_finish_window() {
     delete_controller_in();
-    controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
+    update_local_leaderboard(cur_player);
+    controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
-    update_local_leaderboard(cur_player); ///
 }
 
 std::string God::get_time() {

@@ -21,7 +21,7 @@ struct Time {
     int ss;
 };
 
-void update_local_leaderboard(const Player &cur_player);
+void update_local_leaderboard(const Player cur_player);
 
 struct LocalLeaderboard {
     std::fstream leaderboard_file{};  // file

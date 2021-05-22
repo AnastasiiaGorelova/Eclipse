@@ -40,7 +40,7 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
     table->horizontalHeader()->resizeSection(1, 180);
     table->setFocusPolicy(Qt::NoFocus);
 
-    std::ifstream in("/home/alena/Documents/Eclipse/main_game/src_qt/test"); // окрываем файл для чтения
+    std::ifstream in("LocalLeaderBoard.txt"); // окрываем файл для чтения
     if (in.is_open())
     {
         int row = 0;

@@ -1,4 +1,6 @@
 #include "../include_leaderboard/local_leaderboard.h"
+#include <cassert>
+#include <algorithm>
 
 bool LocalLeaderboard::comp(Player p1, Player p2) {
     std::ostringstream first_m;
@@ -72,7 +74,7 @@ void LocalLeaderboard::serialization() {
     }
 }
 
-void update_local_leaderboard(const Player &cur_player) {
+void update_local_leaderboard(const Player cur_player) {
     // открыть/создать файл
     LocalLeaderboard my_leaderboard;
     my_leaderboard.open_to_read();
