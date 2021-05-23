@@ -23,13 +23,13 @@ void God::make_changes_in_out_controller() {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
-                std::cerr << "delete object in qt"
-                          << "\n";
+                //                std::cerr << "delete object in qt"
+                //                          << "\n";
                 controller_out.delete_obj(i.id);
                 break;
             case eclipse::Move_object:
-                std::cerr << "move object in qt"
-                          << "\n";
+                //                std::cerr << "move object in qt"
+                //                          << "\n";
                 controller_out.move_obj(i.new_coordinates.first,
                                         i.new_coordinates.second, i.id);
                 break;
@@ -39,15 +39,11 @@ void God::make_changes_in_out_controller() {
                                        "ship");
                 break;
             case eclipse::Create_asteroid:
-                std::cerr << "create asteroid in qt"
-                          << "\n";
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
                                        "asteroid");
                 break;
             case eclipse::Create_shot:
-                std::cerr << "create shot in qt"
-                          << "\n";
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
                                        "shot");
@@ -63,8 +59,6 @@ void God::make_changes_in_out_controller() {
                                        "heart");
                 break;
             case eclipse::Break_asteroid:
-                std::cerr << "break asteroid in qt"
-                          << "\n";
                 controller_out.change_obj_pic(i.id, i.size);
                 break;
             case eclipse::Add_coin:
@@ -74,6 +68,7 @@ void God::make_changes_in_out_controller() {
                 controller_out.add_live();
                 break;
             case eclipse::Decrease_lives:
+                std::cerr << game->lives << '\n';
                 controller_out.delete_live();
                 break;
                 //            case eclipse::Finish_game:
@@ -103,10 +98,11 @@ void God::make_changes_in_out_controller() {
 }
 
 void God::finish_or_continue_game() {
-    std::cerr << "finish or continue game"
-              << "\n";
+    //    std::cerr << "finish or continue game"
+    //              << "\n";
     make_changes_in_out_controller();
     if (!game->get_game_state()) {//failed
+        std::cerr << "failed " << game->lives << '\n';
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
             show_buy_live_for_coins_window(game->coins_to_buy_live);
@@ -194,6 +190,7 @@ void God::add_life_and_restart_game() {
     controller_out.add_live();
     controller_out.start_timers();
     game->lives++;
+    game->game_state = eclipse::kOngoing;
 }
 
 void God::name_entered(const std::string &player_name) {

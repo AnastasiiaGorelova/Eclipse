@@ -38,9 +38,8 @@ namespace eclipse {
         --lives;
         if (lives <= 0) {// dead
             game_state = kFinished;
-        } else {
-            changes.emplace_back(Changes{Decrease_lives});
         }
+        changes.emplace_back(Changes{Decrease_lives});
     }
 
     bool Game::get_game_state() const {
@@ -48,8 +47,8 @@ namespace eclipse {
     }
 
     void Game::shoot() {
-        std::cerr << "shoot"
-                  << "\n";
+        //        std::cerr << "shoot"
+        //                  << "\n";
         int x = ship.get_coordinates().first + ship.get_size() / 2 - shot_size / 2;
         int y = ship.get_coordinates().second - 1;
         Shot new_shot(x, y, new_uuid());
@@ -96,8 +95,8 @@ namespace eclipse {
     }
 
     bool Game::destroy_objects_by_shots(int x1, int y1, int size1) {
-        std::cerr << "destroy objects by shots"
-                  << "\n";
+        //        std::cerr << "destroy objects by shots"
+        //                  << "\n";
         auto it1 = asteroids_in_the_field.begin();
         while (it1 != asteroids_in_the_field.end()) {
             if (!check_for_conflict(x1, y1, size1, it1->get_coordinates().first, it1->get_coordinates().second, it1->get_size())) {//ударил астероид
@@ -135,8 +134,8 @@ namespace eclipse {
 
     void Game::generate_asteroid() {
         if (random_number(0, 50) == 5 && asteroids_in_the_field.size() < 3) {
-            std::cerr << "generate asteroid"
-                      << "\n";
+            //            std::cerr << "generate asteroid"
+            //                      << "\n";
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
             if (check_for_nothing(x, size)) {//проверка на то что пусто
@@ -152,8 +151,8 @@ namespace eclipse {
 
     void Game::generate_bonus() {
         if (random_number(0, 400) == 5) {
-            std::cerr << "generate bonus"
-                      << "\n";
+            //            std::cerr << "generate bonus"
+            //                      << "\n";
             int x = random_number(0, kWidth - bonus_size);
             if (check_for_nothing(x, bonus_size)) {
                 if (random_number(0, 1) == 1) {
@@ -170,8 +169,8 @@ namespace eclipse {
     }
 
     void Game::moving_shots() {
-        std::cerr << "moving shots"
-                  << "\n";
+        //        std::cerr << "moving shots"
+        //                  << "\n";
         auto it = shots_in_the_field.begin();
         std::set<Shot> after_changes;
         while (it != shots_in_the_field.end()) {
@@ -194,8 +193,8 @@ namespace eclipse {
     }
 
     void Game::moving_asteroids() {
-        std::cerr << "moving asteroids"
-                  << "\n";
+        //        std::cerr << "moving asteroids"
+        //                  << "\n";
         auto it = asteroids_in_the_field.begin();
         std::set<Asteroid> after_changes;
         //std::cerr << asteroids_in_the_field.size() << '\n';
@@ -222,8 +221,8 @@ namespace eclipse {
     }
 
     void Game::moving_bonus() {
-        std::cerr << "moving bonus"
-                  << "\n";
+        //        std::cerr << "moving bonus"
+        //                  << "\n";
         auto it = bonus_in_the_field.begin();
         std::set<Bonus> after_changes;
         while (it != bonus_in_the_field.end()) {

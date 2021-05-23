@@ -18,7 +18,7 @@ namespace eclipse {
 
     struct Game {
     private:
-        GameState game_state = kOngoing;
+
         spaceship ship = spaceship(kWidth, kHeight);
         int game_speed = 1;//asteroids
         int shot_size = 40;
@@ -44,7 +44,9 @@ namespace eclipse {
     public:
         int coins = 0;
         int lives = 3;
-        int coins_to_buy_live = 5;
+        //int coins_to_buy_live = 5;
+        int coins_to_buy_live = 0;
+        GameState game_state = kOngoing;
         Game() {}
 
         std::vector<Changes> changes = {Changes{Create_ship,
