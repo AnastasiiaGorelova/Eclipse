@@ -32,6 +32,7 @@ buy_live_for_coins_window::~buy_live_for_coins_window() {
 
 void buy_live_for_coins_window::_on_yes_button_clicked() {
     damn->add_life_and_restart_game();
+    damn->controller_out.change_coins_counter(coins);
 }
 
 void buy_live_for_coins_window::_on_no_button_clicked() {
@@ -39,7 +40,8 @@ void buy_live_for_coins_window::_on_no_button_clicked() {
     damn->show_game_finish_window();
 }
 
-void buy_live_for_coins_window::buy_for_n_coins(int n) {
+void buy_live_for_coins_window::buy_for_n_coins(int n, int k) {
+    coins = k;
     auto *vlay = new QVBoxLayout(this);
     vlay->setAlignment(Qt::AlignCenter);
 

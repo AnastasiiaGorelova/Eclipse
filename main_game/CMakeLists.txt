@@ -7,12 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Do not specify /O2 because there are Debug/Release modes.
 if (MSVC)
     add_compile_options(/W4 /WX /D_CRT_SECURE_NO_WARNINGS)  # Disable warnings about VS-only _s functions (e.g. scanf_s).
-else()
+else ()
     if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Debug CACHE STRING "Default build type from CMakeLists.txt" FORCE)  # Add debug information
     endif (NOT CMAKE_BUILD_TYPE)
 
-    add_compile_options(-Wall -Wextra )
+    add_compile_options(-Wall -Wextra)
     if (UNIX AND NOT CMAKE_CXX_FLAGS)  # Do not add if -DCMAKE_CXX_FLAGS is passed
         add_compile_options(-fsanitize=address -fsanitize=undefined)
         add_link_options(-fsanitize=address -fsanitize=undefined)
@@ -26,13 +26,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*.cpp" #[["src_in_controllers/*.cpp"]])
-qt5_wrap_cpp(SOURCES "include_qt/game_window.h" "include_qt/main_window.h" "include_qt/Selection.h" "include_qt/name_enter_qt.h" "include_qt/game_finish_window.h" "include_qt/error_massage_window.h" "include_qt/buy_live_for_coins_window.h")
+file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*.cpp" "src_in_controllers/*.cpp" "src_local_leaderboard/*.cpp")
+qt5_wrap_cpp(SOURCES "include_qt/game_window.h" "include_qt/main_window.h" "include_qt/Selection.h" "include_qt/name_enter_qt.h" "include_qt/game_finish_window.h" "include_qt/error_massage_window.h" "include_qt/buy_live_for_coins_window.h" "include_qt/local_leaderboard_ui.h" "include_qt/legend_window.h")
 add_subdirectory(dependencies)
 
 # GAME
 add_executable(main_game ${SOURCES})
-target_include_directories(main_game PUBLIC "include" "include_qt")
+target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard")
 target_link_libraries(main_game serial)
 target_link_libraries(main_game nlohmann_json::nlohmann_json) # json
 target_link_libraries(main_game Boost::program_options)

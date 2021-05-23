@@ -31,6 +31,20 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="history">
+      <property name="text">
+       <string>История</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="local_board">
+      <property name="text">
+       <string>Локальная таблица рекордов</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="exit">
       <property name="text">
        <string>Выйти</string>

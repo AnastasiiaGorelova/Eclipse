@@ -1,6 +1,5 @@
 
 #include "God.h"
-#include <unistd.h>
 
 void God::show_menu() {
     controller_out.show_menu(this);
@@ -27,28 +26,33 @@ void God::make_changes_in_out_controller() {
                 controller_out.delete_obj(i.id);
                 break;
             case eclipse::Move_object:
-                controller_out.move_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                        i.id);
+                controller_out.move_obj(i.new_coordinates.first,
+                                        i.new_coordinates.second, i.id);
                 break;
             case eclipse::Create_ship:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "ship");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "ship");
                 break;
             case eclipse::Create_asteroid:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "asteroid");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "asteroid");
                 break;
             case eclipse::Create_shot:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "shot");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "shot");
                 break;
             case eclipse::Create_coin:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "coin");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "coin");
                 break;
             case eclipse::Create_heart:
-                controller_out.set_obj(i.new_coordinates.first, i.new_coordinates.second,
-                                       i.size, i.id, "heart");
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "heart");
                 break;
             case eclipse::Break_asteroid:
                 controller_out.change_obj_pic(i.id, i.size);
@@ -119,26 +123,19 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in = new Key_Controller();
+            controller_in = new Key_Controller();  // NOLINT
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
-            /*ReadingFromPort::Ports my_ports;
+            ReadingFromPort::Ports my_ports;
             std::string port = my_ports.get_arduino_port();
 
             if (port == "There is no Arduino plugged into port") {
                 error = arduino_setting_error;
             } else {
-                controller_in.arduino_controller =
-                        new ReadingFromPort::Arduino(port);
-                auto worker = [&]() {
-                    while (true) {
-                        controller_in.arduino_controller->make_a_move();
-                    }
-                };
-                std::thread ta(worker);
-                ta.detach();
-            }*/
+                controller_in = new ReadingFromPort::Arduino(port);  // NOLINT
+                controller_in->set_God(this);
+            }
 
         } break;
         default:
@@ -150,8 +147,9 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 void God::show_game_finish_window() {
     controller_out.delete_obj("abcd");//?????? не уверена, что вставила туда
     delete_controller_in();
-    controller_out.show_game_finish_window(this);
     cur_player.time = get_time();
+    update_local_leaderboard(cur_player);
+    controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
 }
 
@@ -171,8 +169,8 @@ void God::check_connection_message(message_errors error) {
     }
 }
 
-void God::show_buy_live_for_coins_window(int n) {
-    controller_out.show_live_for_coins_window(n, this);
+void God::show_buy_live_for_coins_window(int n, int k) {
+    controller_out.show_live_for_coins_window(n, k, this);
 }
 
 void God::stop_timers() const {
@@ -209,10 +207,19 @@ void God::delete_controller_in() {
         delete dynamic_cast<Key_Controller *>(controller_in);
         controller_in = nullptr;
     } else {
-        //удалить все ардуиновские штуки
+        delete dynamic_cast<ReadingFromPort::Arduino *>(controller_in);
+        controller_in = nullptr;
     }
 }
 
 void God::show_selection_window() {
     controller_out.show_selection_window(this);
+}
+
+void God::show_local_leaderboard() {
+    controller_out.show_local_leaderboard();
+}
+
+void God::show_legend_window() {
+    controller_out.show_legend_window();
 }

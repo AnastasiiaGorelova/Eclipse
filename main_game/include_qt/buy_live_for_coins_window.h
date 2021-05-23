@@ -20,7 +20,8 @@ public:
     ~buy_live_for_coins_window() override;
 
     void set_god(God* damn_);
-    void buy_for_n_coins(int n);
+    void buy_for_n_coins(int n, int k);
+    int coins;
 
 private:
     Ui::buy_live_for_coins_window *ui;

@@ -112,10 +112,10 @@ void Controller_out::stop_timers() const {
     game_window_->timer_for_ticks->stop();
 }
 
-void Controller_out::show_live_for_coins_window(int n, God* damn) {
+void Controller_out::show_live_for_coins_window(int n, int k, God* damn) {
     buy_live_for_coins_window_ = new buy_live_for_coins_window();
     buy_live_for_coins_window_->set_god(damn);
-    buy_live_for_coins_window_->buy_for_n_coins(n);
+    buy_live_for_coins_window_->buy_for_n_coins(n, k);
     buy_live_for_coins_window_->show();
 }
 
@@ -139,6 +139,16 @@ void Controller_out::close_error_massage_window() {
     error_massage_window_->close();
     error_massage_window_->deleteLater();
     error_massage_window_ = nullptr;
+}
+
+void Controller_out::show_local_leaderboard() {
+    local_leaderboard_ui_ = new local_leaderboard_ui();
+    local_leaderboard_ui_->show();
+}
+
+void Controller_out::show_legend_window() {
+    legend_window_ = new legend_window();
+    legend_window_->show();
 }
 
 
