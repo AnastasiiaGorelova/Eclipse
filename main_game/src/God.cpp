@@ -109,9 +109,8 @@ void God::finish_or_continue_game() {
     if (!game->get_game_state()) {//failed
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
-            show_buy_live_for_coins_window(game->coins_to_buy_live);
             game->coins -= game->coins_to_buy_live;
-            controller_out.change_coins_counter(game->coins);
+            show_buy_live_for_coins_window(game->coins_to_buy_live, game->coins);
             game->coins_to_buy_live += 5;
         } else {
             show_game_finish_window();
@@ -189,7 +188,8 @@ void God::stop_timers() const {
     controller_out.stop_timers();
 }
 
-void God::add_life_and_restart_game() {
+void God::add_life_and_restart_game(int coins) {
+    controller_out.change_coins_counter(coins);
     controller_out.close_live_for_coins_window();
     controller_out.add_live();
     controller_out.start_timers();
