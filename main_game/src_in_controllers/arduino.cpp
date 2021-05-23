@@ -1,5 +1,6 @@
 #include "arduino.h"
 #include "God.h"
+#include "game.h"
 
 namespace ReadingFromPort {
 
@@ -28,23 +29,28 @@ void Arduino::make_a_move_void() {
         std::string line;
         line = serial_.readline();  // get line from arduino
         if (line == "MENU\n") {
-            // TODO тыкнуть функцию выхода в меню
             std::cerr << "m" << std::endl;
+            // TODO тыкнуть функцию выхода в меню
+
         } else if (line == "RIGHT\n") {
-            damn->train.pushed_button_right();  // тык
             std::cerr << "r" << std::endl;
+            damn->train.pushed_button_right();  // тык
 
         } else if (line == "LEFT\n") {
-            damn->train.pushed_button_left();  // тык
             std::cerr << "l" << std::endl;
+            damn->train.pushed_button_left();  // тык
+
         } else if (line == "NO\n") {
-
             std::cerr << "n" << std::endl;
-        } else if (line == "YES\n") {
+            damn->controller_out.close_live_for_coins_window();
+            damn->show_game_finish_window();
 
+        } else if (line == "YES\n") {
             std::cerr << "y" << std::endl;
+            damn->add_life_and_restart_game(damn->game->coins);
+
         } else {
-            //            std::cerr << "wtf??" << std::endl;
+            // std::cerr << "wtf??" << std::endl;
             continue;
         }
     }

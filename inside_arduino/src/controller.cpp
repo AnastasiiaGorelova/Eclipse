@@ -91,12 +91,12 @@ TSPoint waitOneTouch() {
     tft.setTextSize (4);
     tft.fillScreen(BLACK);
     tft.fillRect(0, 160, WIDTH, HEIGHT, MAGENTA);
-    tft.setCursor(90, 90);
+    tft.setCursor(80, 90);
     tft.setTextColor(WHITE);
-    tft.print("NO");
-    tft.setTextColor(BLACK);
-    tft.setCursor(80, 220);
     tft.print("YES");
+    tft.setTextColor(BLACK);
+    tft.setCursor(90, 220);
+    tft.print("NO");
   }
 
   void draw_playground(){
@@ -186,7 +186,7 @@ while (Serial.available() > 0) {  //если есть доступные дан�
 if (FLAG == 1){
    change_window();
    TSPoint p = waitOneTouch();
-   if(p.y > 450){
+   if(p.y < 450){
      Serial.print("NO");
      Serial.print("\n");
    } else {
