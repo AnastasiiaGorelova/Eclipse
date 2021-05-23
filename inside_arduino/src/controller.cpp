@@ -91,12 +91,12 @@ TSPoint waitOneTouch() {
     tft.setTextSize (4);
     tft.fillScreen(BLACK);
     tft.fillRect(0, 160, WIDTH, HEIGHT, MAGENTA);
-    tft.setCursor(25, 90);
+    tft.setCursor(90, 90);
     tft.setTextColor(WHITE);
-    tft.print("CONTINUE");
+    tft.print("NO");
     tft.setTextColor(BLACK);
-    tft.setCursor(73, 220);
-    tft.print("EXIT");
+    tft.setCursor(80, 220);
+    tft.print("YES");
   }
 
   void draw_playground(){
@@ -162,7 +162,8 @@ void setup() {
 
 void loop(){
 
-  Serial.println("NEWLOOP");
+  Serial.print("NEWLOOP");
+  Serial.print("\n");
 
 /// IMPORTANT
         TSPoint p = ts.getPoint();
@@ -184,9 +185,16 @@ while (Serial.available() > 0) {  //если есть доступные дан�
 
 if (FLAG == 1){
    change_window();
-   waitOneTouch();
-   draw_playground();
+   TSPoint p = waitOneTouch();
+   if(p.y > 450){
+     Serial.print("NO");
+     Serial.print("\n");
+   } else {
+     Serial.print("YES");
+     Serial.print("\n");
+   }
    FLAG = 0;
+   draw_playground();
 }
 
 
@@ -204,14 +212,16 @@ if (FLAG == 1){
 
       /// нажали направо
       if (p.x < 570){
-          Serial.println("RIGHT");
+          Serial.print("RIGHT");
+          Serial.print("\n");
           // Keyboard.write(KEY_RIGHT_ARROW);
           touched(HALFX, 70, HALFX, HEIGHT, MAGENTA);
           stop_touch(HALFX, 70, HALFX, HEIGHT, MAGENTA);
 
       /// нажали налево
       } else {
-        Serial.println("LEFT");
+        Serial.print("LEFT");
+        Serial.print("\n");
         // Keyboard.write(KEY_LEFT_ARROW);
         touched(0, 70, HALFX, HEIGHT, CYAN);
         stop_touch(0, 70, HALFX, HEIGHT, CYAN);
@@ -219,7 +229,8 @@ if (FLAG == 1){
 
     /// нажали на меню
     } else {
-      Serial.println("MENU");
+      Serial.print("MENU");
+      Serial.print("\n");
       // Keyboard.write(KEY_Q);
       touched(0, 0, WIDTH, 70, BLACK);
       stop_touch(0, 0, WIDTH, 70, BLACK);

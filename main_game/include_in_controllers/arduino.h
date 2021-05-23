@@ -18,6 +18,7 @@ struct Arduino : virtual Controller_in {
     serial::Serial serial_;
     std::thread ta;
     std::atomic<bool> keep_going{};
+    std::mutex m;
 
     Arduino(const std::string &port, uint32_t baudrate = 9600);
 
@@ -26,6 +27,8 @@ struct Arduino : virtual Controller_in {
     void make_a_move_void();
 
     void start_thread();
+
+    void write_to_port() override;
 
     void set_God(God *damn_) override;
 

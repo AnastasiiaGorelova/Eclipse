@@ -1,4 +1,4 @@
-#include "../include_in_controllers/arduino.h"
+#include "arduino.h"
 #include "God.h"
 
 namespace ReadingFromPort {
@@ -15,14 +15,21 @@ std::string Ports::get_arduino_port() const {
     return "There is no Arduino plugged into port";
 }
 
+void Arduino::write_to_port() {
+    std::unique_lock l(m);
+    std::cerr << "!!!!!write_to_port!!!!!" << std::endl;
+    size_t bytes_wrote = serial_.write("1");
+    std::cerr << "bytes_wrote: " << bytes_wrote << std::endl;
+}
+
 void Arduino::make_a_move_void() {
     while (keep_going) {
+        std::unique_lock l(m);
         std::string line;
         line = serial_.readline();  // get line from arduino
         if (line == "MENU\n") {
             // TODO тыкнуть функцию выхода в меню
             std::cerr << "m" << std::endl;
-
         } else if (line == "RIGHT\n") {
             damn->train.pushed_button_right();  // тык
             std::cerr << "r" << std::endl;
@@ -30,8 +37,14 @@ void Arduino::make_a_move_void() {
         } else if (line == "LEFT\n") {
             damn->train.pushed_button_left();  // тык
             std::cerr << "l" << std::endl;
+        } else if (line == "NO\n") {
+
+            std::cerr << "n" << std::endl;
+        } else if (line == "YES\n") {
+
+            std::cerr << "y" << std::endl;
         } else {
-            std::cerr << "wtf??" << std::endl;
+            //            std::cerr << "wtf??" << std::endl;
             continue;
         }
     }

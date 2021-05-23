@@ -1,4 +1,3 @@
-
 #include "God.h"
 
 void God::show_menu() {
@@ -183,6 +182,7 @@ void God::check_connection_message(message_errors error) {
 
 void God::show_buy_live_for_coins_window(int n, int k) {
     controller_out.show_live_for_coins_window(n, k, this);
+    controller_in->write_to_port();  ///// !!!!!
 }
 
 void God::stop_timers() const {

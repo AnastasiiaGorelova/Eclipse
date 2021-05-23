@@ -2,13 +2,13 @@
 #define MAIN_GAME_GOD_H
 
 #include <memory>
-#include "../include_in_controllers/arduino.h"
-#include "../include_leaderboard/local_leaderboard.h"
 #include "Key_Controller_.h"
 #include "Modification_store.h"
+#include "arduino.h"
 #include "controllers_in.h"
 #include "game.h"
 #include "game_ui.h"
+#include "local_leaderboard.h"
 
 enum message_errors { no_errors, arduino_setting_error };
 
