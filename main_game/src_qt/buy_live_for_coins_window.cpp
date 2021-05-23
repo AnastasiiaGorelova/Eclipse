@@ -31,8 +31,7 @@ buy_live_for_coins_window::~buy_live_for_coins_window() {
 }
 
 void buy_live_for_coins_window::_on_yes_button_clicked() {
-    damn->add_life_and_restart_game();
-    damn->controller_out.change_coins_counter(coins);
+    damn->add_life_and_restart_game(coins);
 }
 
 void buy_live_for_coins_window::_on_no_button_clicked() {

@@ -45,7 +45,7 @@ public:
     void make_move_in_logic_and_ui();
     void stop_timers() const;
     void start_timers();
-    void add_life_and_restart_game();
+    void add_life_and_restart_game(int coins);
     void name_entered(const std::string &player_name);
     void finish_or_continue_game();
 
