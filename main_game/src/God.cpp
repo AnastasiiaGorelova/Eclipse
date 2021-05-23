@@ -160,7 +160,7 @@ void God::show_game_finish_window() {
     controller_out.delete_obj("abcd");//?????? не уверена, что вставила туда
     delete_controller_in();
     cur_player.time = get_time();
-    update_local_leaderboard(cur_player);
+    update_local_leaderboard(cur_player); ///
     controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
 }

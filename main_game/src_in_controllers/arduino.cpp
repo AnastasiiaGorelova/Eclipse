@@ -30,6 +30,9 @@ void Arduino::make_a_move_void() {
         } else if (line == "LEFT\n") {
             damn->train.pushed_button_left();  // тык
             std::cerr << "l" << std::endl;
+        } else {
+            std::cerr << "wtf??" << std::endl;
+            continue;
         }
     }
 }
