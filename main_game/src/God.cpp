@@ -23,9 +23,13 @@ void God::make_changes_in_out_controller() {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
+                std::cerr << "delete object in qt"
+                          << "\n";
                 controller_out.delete_obj(i.id);
                 break;
             case eclipse::Move_object:
+                std::cerr << "move object in qt"
+                          << "\n";
                 controller_out.move_obj(i.new_coordinates.first,
                                         i.new_coordinates.second, i.id);
                 break;
@@ -35,11 +39,15 @@ void God::make_changes_in_out_controller() {
                                        "ship");
                 break;
             case eclipse::Create_asteroid:
+                std::cerr << "create asteroid in qt"
+                          << "\n";
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
                                        "asteroid");
                 break;
             case eclipse::Create_shot:
+                std::cerr << "create shot in qt"
+                          << "\n";
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
                                        "shot");
@@ -55,6 +63,8 @@ void God::make_changes_in_out_controller() {
                                        "heart");
                 break;
             case eclipse::Break_asteroid:
+                std::cerr << "break asteroid in qt"
+                          << "\n";
                 controller_out.change_obj_pic(i.id, i.size);
                 break;
             case eclipse::Add_coin:
@@ -93,6 +103,8 @@ void God::make_changes_in_out_controller() {
 }
 
 void God::finish_or_continue_game() {
+    std::cerr << "finish or continue game"
+              << "\n";
     make_changes_in_out_controller();
     if (!game->get_game_state()) {//failed
         stop_timers();
@@ -123,7 +135,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in = new Key_Controller();  // NOLINT
+            controller_in = new Key_Controller();// NOLINT
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
@@ -133,7 +145,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
             if (port == "There is no Arduino plugged into port") {
                 error = arduino_setting_error;
             } else {
-                controller_in = new ReadingFromPort::Arduino(port);  // NOLINT
+                controller_in = new ReadingFromPort::Arduino(port);// NOLINT
                 controller_in->set_God(this);
             }
 
