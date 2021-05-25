@@ -133,7 +133,7 @@ namespace eclipse {
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 50) == 5 && asteroids_in_the_field.size() < 3) {
+        if (random_number(0, 50) == 5 && asteroids_in_the_field.size() < 4) {
             //            std::cerr << "generate asteroid"
             //                      << "\n";
             int size = random_number(70, 120);

@@ -44,15 +44,15 @@ void main_window::make_field() {
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
-    font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
-    font.setPixelSize(200); // this for setting font size
+    font.setWeight(QFont::ExtraBold);// set font weight with enum QFont::Weight
+    font.setPixelSize(200);          // this for setting font size
 
     text = new QLabel("");
     text->setParent(this);
     text->setStyleSheet("background-color: rgba(0,0,0,0%); color : white;");
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
-    vlay -> addWidget(text);
+    vlay->addWidget(text);
 }
 
 void main_window::set(int x,
@@ -179,8 +179,8 @@ void main_window::start_timer() {
     connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
     connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
     timer->start(1000);
-    timer_for_ticks->start(1000 / 60);
-    timer_for_shots->start(1000 / 1.5);
+    timer_for_ticks->start(1000 / 70);
+    timer_for_shots->start(1000 / 1.7);
 }
 
 void main_window::tick_god() {
@@ -203,7 +203,7 @@ void main_window::change_label() {
     time_for_start++;
     if (time_for_start < 4) {
         text->setText(QString::fromStdString(std::to_string(4 - time_for_start)));
-    } else if (time_for_start == 4){
+    } else if (time_for_start == 4) {
         text->setText("GO!");
     } else {
         timer_for_start->stop();
@@ -268,6 +268,6 @@ void main_window::add_life() {
     }
 }
 
-void main_window::set_God(God* damn_) {
+void main_window::set_God(God *damn_) {
     damn = damn_;
 }

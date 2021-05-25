@@ -12,7 +12,8 @@ namespace eclipse {
         int size = 40;//fixed
         int x;
         int y;
-        int speed = 2;//влияет на расстояние между выстрелами
+        //int speed = 2;//влияет на расстояние между выстрелами
+        int speed = 3;//влияет на расстояние между выстрелами
         std::string id;
 
     public:
