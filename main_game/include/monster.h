@@ -2,13 +2,15 @@
 #define MAIN_GAME_MONSTER_H
 
 #include "game_fwd.h"
+#include "shots.h"
 #include "util.h"
+#include <set>
 #include <string>
 
 namespace eclipse {
     struct monster {
     private:
-        const int size = 150;
+        const int size = 130;
         int x;
         int y = 0;
         std::string id;
@@ -21,7 +23,9 @@ namespace eclipse {
     public:
         monster(int width, std::string id) : x(width / 2 - size / 2), id(std::move(id)) {
         }
-        std::pair<int, int> get_coordinates() const;
+        std::set<Shot> alien_shots_in_the_field;
+        std::pair<int, int>
+        get_coordinates() const;
         std::string get_id() const;
         int get_size() const;
         void move(MoveDirection direction);

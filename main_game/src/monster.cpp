@@ -33,8 +33,8 @@ namespace eclipse {
         }
         if (new_direction == kDown) {
             y += speed;
-            if (y >= kHeight / 6) {
-                y = kHeight / 6;
+            if (y >= kHeight / 8) {
+                y = kHeight / 8;
                 state = On_the_field;
             }
         }
