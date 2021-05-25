@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <memory>
+#include <QTimer>
 
 class God;
 
@@ -27,6 +28,7 @@ private:
     Ui::buy_live_for_coins_window *ui;
 
     God* damn;
+    QTimer* timer;
 
     QPushButton* yes_button;
     QPushButton* no_button;
@@ -34,6 +36,7 @@ private:
 private slots:
     void _on_yes_button_clicked();
     void _on_no_button_clicked();
+    void check_status();
 };
 
 #endif //MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H

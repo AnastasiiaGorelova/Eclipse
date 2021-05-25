@@ -7,16 +7,23 @@
 #include <fstream>
 #include <iostream>
 
+#define window_width 400
+#define window_height 325
+#define row_count 10
+#define column_count 2
+#define point_size 20
+#define column_width 180
+
 local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
         QWidget(parent), ui(new Ui::local_leaderboard_ui) {
     ui->setupUi(this);
 
-    setFixedSize(400, 325);
+    setFixedSize(window_width, window_height);
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
-    QPixmap backgroung("../../images/menu_background.png");  //поменять картинку
+    QPixmap backgroung("../../images/background_leaderboard.png");  //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, backgroung);
@@ -32,16 +39,16 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
     table->horizontalHeader()->setVisible(false);
     table->verticalHeader()->setVisible(false);
 
-    table->setRowCount(10);
-    table->setColumnCount(2);
+    table->setRowCount(row_count);
+    table->setColumnCount(column_count);
 
     table->horizontalHeader()->setStretchLastSection(true);
-    table->horizontalHeader()->resizeSection(0, 180);
-    table->horizontalHeader()->resizeSection(1, 180);
+    table->horizontalHeader()->resizeSection(0, column_width);
+    table->horizontalHeader()->resizeSection(1, column_width);
     table->setFocusPolicy(Qt::NoFocus);
 
     auto fnt = table->font();
-    fnt.setPointSize(20);
+    fnt.setPointSize(point_size);
     table->setFont(fnt);
 
     std::ifstream in("LocalLeaderBoard.txt"); // окрываем файл для чтения

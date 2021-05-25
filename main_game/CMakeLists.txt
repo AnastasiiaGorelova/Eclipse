@@ -14,8 +14,8 @@ else ()
 
     add_compile_options(-Wall -Wextra)
     if (UNIX AND NOT CMAKE_CXX_FLAGS)  # Do not add if -DCMAKE_CXX_FLAGS is passed
-#        add_compile_options(-fsanitize=address -fsanitize=undefined) BAD_FOR_QT
-#        add_link_options(-fsanitize=address -fsanitize=undefined) BAD_FOR_QT
+        add_compile_options(-fsanitize=address -fsanitize=undefined)
+        add_link_options(-fsanitize=address -fsanitize=undefined)
     endif (UNIX AND NOT CMAKE_CXX_FLAGS)
 endif (MSVC)
 

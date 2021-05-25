@@ -17,7 +17,7 @@ std::string Ports::get_arduino_port() const {
 }
 
 void Arduino::write_to_port() {
-    std::unique_lock l(m);
+    //std::unique_lock l(m);
     std::cerr << "!!!!!write_to_port!!!!!" << std::endl;
     size_t bytes_wrote = serial_.write("1");
     std::cerr << "bytes_wrote: " << bytes_wrote << std::endl;
@@ -25,7 +25,7 @@ void Arduino::write_to_port() {
 
 void Arduino::make_a_move_void() {
     while (keep_going) {
-        std::unique_lock l(m);
+        //std::unique_lock l(m);
         std::string line;
         line = serial_.readline();  // get line from arduino
         if (line == "MENU\n") {
@@ -42,12 +42,14 @@ void Arduino::make_a_move_void() {
 
         } else if (line == "NO\n") {
             std::cerr << "n" << std::endl;
-            damn->controller_out.close_live_for_coins_window();
-            damn->show_game_finish_window();
+            /*damn->controller_out.close_live_for_coins_window();
+            damn->show_game_finish_window();*/
+            damn->gamer_choice = God::stop_game;
 
         } else if (line == "YES\n") {
             std::cerr << "y" << std::endl;
-            damn->add_life_and_restart_game(damn->game->coins);
+            /*damn->add_life_and_restart_game(damn->game->coins);*/
+            damn->gamer_choice = God::continue_game;
 
         } else {
             // std::cerr << "wtf??" << std::endl;

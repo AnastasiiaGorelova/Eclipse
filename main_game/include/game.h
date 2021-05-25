@@ -18,7 +18,7 @@ namespace eclipse {
 
 struct Game {
 private:
-    GameState game_state = kOngoing;
+
     spaceship ship = spaceship(kWidth, kHeight);
     int game_speed = 1;  // asteroids
     int shot_size = 40;
@@ -47,6 +47,7 @@ private:
     bool destroy_objects_by_shots(int x1, int y1, int size1);
 
 public:
+    GameState game_state = kOngoing;
     int coins = 0;
     int lives = 3;
     int coins_to_buy_live = 5;

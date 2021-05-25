@@ -106,6 +106,7 @@ void God::finish_or_continue_game() {
               << "\n";
     make_changes_in_out_controller();
     if (!game->get_game_state()) {//failed
+        controller_out.delete_live(); //???????
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
             game->coins -= game->coins_to_buy_live;
@@ -181,7 +182,9 @@ void God::check_connection_message(message_errors error) {
 
 void God::show_buy_live_for_coins_window(int n, int k) {
     controller_out.show_live_for_coins_window(n, k, this);
-    controller_in->write_to_port();  ///// !!!!!
+    if (dynamic_cast<ReadingFromPort::Arduino *>(controller_in) != nullptr) {
+        controller_in->write_to_port();  ///// !!!!!
+    }
 }
 
 void God::stop_timers() const {
@@ -189,6 +192,9 @@ void God::stop_timers() const {
 }
 
 void God::add_life_and_restart_game(int coins) {
+    game->game_state = eclipse::kOngoing;
+    gamer_choice = wait;
+
     controller_out.change_coins_counter(coins);
     controller_out.close_live_for_coins_window();
     controller_out.add_live();

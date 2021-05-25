@@ -5,6 +5,10 @@
 #include "God.h"
 #include "ui_game_finish_window.h"
 
+#define window_width 400
+#define window_height 300
+#define point_size 25
+
 game_finish_window::game_finish_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_finish_window) {
     ui->setupUi(this);
@@ -20,7 +24,7 @@ game_finish_window::game_finish_window(QWidget *parent)
     this->setPalette(palette);
 
     setWindowTitle("Game over");
-    setFixedSize(400, 300);
+    setFixedSize(window_width, window_height);
 }
 
 game_finish_window::~game_finish_window() {
