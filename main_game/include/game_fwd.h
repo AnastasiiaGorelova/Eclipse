@@ -31,6 +31,13 @@ namespace eclipse {
         Decrease_lives
     };
 
+    enum MonsterState {
+        Going_out,
+        Leaving,
+        On_the_field,
+        Not_on_the_field
+    };
+
 }// namespace eclipse
 
 #endif// MAIN_GAME_GAME_FWD_H
