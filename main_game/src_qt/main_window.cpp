@@ -11,8 +11,8 @@
 #define point_size 200
 #define scene_info_height 30
 #define lives_and_coins_size 25
-#define timer_for_ticks_timeout 1000/60
-#define timer_for_shots_timeout  1000/1.5
+#define timer_for_ticks_timeout 1000/65
+#define timer_for_shots_timeout  1000/1.6
 #define timer_for_start_timeout 1200
 #define timer_timeout 1000
 
@@ -54,13 +54,8 @@ void main_window::make_field() {
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
-<<<<<<< HEAD
     font.setWeight(QFont::ExtraBold);// set font weight with enum QFont::Weight
     font.setPixelSize(200);          // this for setting font size
-=======
-    font.setWeight(QFont::ExtraBold);
-    font.setPixelSize(point_size);
->>>>>>> upstream/for_nastya
 
     text = new QLabel("");
     text->setParent(this);
