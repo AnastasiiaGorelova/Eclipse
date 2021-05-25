@@ -16,3 +16,9 @@ std::string new_uuid() {
 
     return str;
 }
+
+int random_number(int l, int r) {
+    std::mt19937 gen{std::random_device{}()};
+    std::uniform_int_distribution<> dist(l, r);
+    return dist(gen);
+}

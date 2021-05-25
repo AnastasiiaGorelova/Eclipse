@@ -22,13 +22,9 @@ void God::make_changes_in_out_controller() {
     for (auto &i : game->changes) {
         switch (i.action) {
             case eclipse::Delete_object:
-                //                std::cerr << "delete object in qt"
-                //                          << "\n";
                 controller_out.delete_obj(i.id);
                 break;
             case eclipse::Move_object:
-                //                std::cerr << "move object in qt"
-                //                          << "\n";
                 controller_out.move_obj(i.new_coordinates.first,
                                         i.new_coordinates.second, i.id);
                 break;
@@ -36,6 +32,11 @@ void God::make_changes_in_out_controller() {
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
                                        "ship");
+                break;
+            case eclipse::Create_alien:
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "monster");
                 break;
             case eclipse::Create_asteroid:
                 controller_out.set_obj(i.new_coordinates.first,
@@ -70,26 +71,6 @@ void God::make_changes_in_out_controller() {
                 std::cerr << game->lives << '\n';
                 controller_out.delete_live();
                 break;
-                //            case eclipse::Finish_game:
-                //                controller_out.delete_live();
-                //                stop_timers();
-                //                if (game->coins >= game->coins_to_buy_live) {
-                //                    reverse(game->changes.begin(), game->changes.end());
-                //                    game->changes.resize(game->changes.size() - id - 1);
-                //                    reverse(game->changes.begin(), game->changes.end());
-                //                    game->clear_field();
-                //                    make_changes_in_out_controller();
-                //                    show_buy_live_for_coins_window(game->coins_to_buy_live);
-                //                    game->coins -= game->coins_to_buy_live;
-                //                    controller_out.change_coins_counter(game->coins);
-                //                    game->coins_to_buy_live += 5;
-                //                } else {
-                //                    flag = 1;
-                //                    game->changes.clear();
-                //                    show_game_finish_window();
-                //                    //finish game
-                //                }
-                //                break;
         }
         id++;
     }
@@ -97,10 +78,8 @@ void God::make_changes_in_out_controller() {
 }
 
 void God::finish_or_continue_game() {
-    //    std::cerr << "finish or continue game"
-    //              << "\n";
     make_changes_in_out_controller();
-    if (!game->get_game_state()) {//failed
+    if (!game->get_game_state()) {
         std::cerr << "failed " << game->lives << '\n';
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
@@ -109,7 +88,6 @@ void God::finish_or_continue_game() {
             game->coins_to_buy_live += 5;
         } else {
             show_game_finish_window();
-            //finish game
         }
     }
 }
@@ -154,7 +132,7 @@ void God::show_game_finish_window() {
     controller_out.delete_obj(game->get_ship_id());//?????? не уверена, что вставила туда
     delete_controller_in();
     cur_player.time = get_time();
-    update_local_leaderboard(cur_player); ///
+    update_local_leaderboard(cur_player);///
     controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
 }
@@ -178,7 +156,7 @@ void God::check_connection_message(message_errors error) {
 void God::show_buy_live_for_coins_window(int n, int k) {
     controller_out.show_live_for_coins_window(n, k, this);
     if (dynamic_cast<ReadingFromPort::Arduino *>(controller_in) != nullptr) {
-        controller_in->write_to_port();  ///// !!!!!
+        controller_in->write_to_port();///// !!!!!
     }
 }
 

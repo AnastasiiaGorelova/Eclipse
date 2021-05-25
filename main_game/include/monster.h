@@ -1,8 +1,9 @@
 #ifndef MAIN_GAME_MONSTER_H
 #define MAIN_GAME_MONSTER_H
 
-#include <string>
 #include "game_fwd.h"
+#include "util.h"
+#include <string>
 
 namespace eclipse {
     struct monster {
@@ -11,8 +12,12 @@ namespace eclipse {
         int x;
         int y = 0;
         std::string id;
-        int speed = 16;
+        int speed = 5;
         MonsterState state = Not_on_the_field;
+        int lives = 5;
+        int steps_to_one_side = 0;
+        MoveDirection direction = kRight;
+
     public:
         monster(int width, std::string id) : x(width / 2 - size / 2), id(std::move(id)) {
         }
@@ -22,8 +27,9 @@ namespace eclipse {
         void move(MoveDirection direction);
         MonsterState get_state() const;
         void change_state(MonsterState new_state);
+        void decrease_lives();
     };
-}
+}// namespace eclipse
 
 
 #endif//MAIN_GAME_MONSTER_H

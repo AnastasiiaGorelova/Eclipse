@@ -6,4 +6,6 @@
 
 std::string new_uuid();
 
-#endif  // MAIN_GAME_UTIL_H
+int random_number(int l, int r);
+
+#endif// MAIN_GAME_UTIL_H

@@ -8,7 +8,7 @@
 namespace eclipse {
     struct spaceship {
     private:
-        const int size = 150;
+        const int size = 120;
         int x;
         int y;
         std::string id;

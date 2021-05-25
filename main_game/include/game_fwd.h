@@ -12,13 +12,16 @@ namespace eclipse {
                      kFinished };
     enum MoveDirection { kLeft,
                          kRight,
-                         kNoMove };
+                         kNoMove,
+                         kUp,
+                         kDown };
     enum ObjectState { kAlive,
                        kDead };
     enum Controllers { Key,
                        Arduino };
     enum Actions {
         Create_ship,
+        Create_alien,
         Create_shot,
         Create_asteroid,
         Create_coin,

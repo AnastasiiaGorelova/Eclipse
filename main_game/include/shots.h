@@ -22,6 +22,7 @@ namespace eclipse {
         std::pair<int, int> get_coordinates() const;
         std::string get_id() const;
         void move();
+        void move_for_alien();
 
         friend bool operator<(const Shot& first, const Shot& second);
     };
