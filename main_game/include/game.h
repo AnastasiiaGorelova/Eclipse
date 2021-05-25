@@ -5,8 +5,10 @@
 #include "bonus.h"
 #include "changes.h"
 #include "game_fwd.h"
+#include "monster.h"
 #include "shots.h"
 #include "space_ship.h"
+#include "util.h"
 #include <random>
 #include <set>
 #include <string>
@@ -18,8 +20,8 @@ namespace eclipse {
 
     struct Game {
     private:
-
-        spaceship ship = spaceship(kWidth, kHeight);
+        spaceship ship = spaceship(kWidth, kHeight, new_uuid());
+        monster alien= monster(kWidth, new_uuid());
         int game_speed = 1;//asteroids
         int shot_size = 40;
         int bonus_size = 60;
@@ -58,6 +60,7 @@ namespace eclipse {
         void make_move(MoveDirection direction = kNoMove);
         void shoot();
         void clear_field();
+        std::string get_ship_id() const;
     };
 
 }// namespace eclipse

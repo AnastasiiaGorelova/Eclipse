@@ -1,27 +1,26 @@
-#ifndef MAIN_GAME_SPACE_SHIP_H
-#define MAIN_GAME_SPACE_SHIP_H
+#ifndef MAIN_GAME_MONSTER_H
+#define MAIN_GAME_MONSTER_H
 
-#include "game_fwd.h"
 #include <string>
-#include <utility>
+#include "game_fwd.h"
 
 namespace eclipse {
-    struct spaceship {
+    struct monster {
     private:
         int size = 150;
         int x;
-        int y;
+        int y = 0;
         std::string id;
         int speed = 16;
-
     public:
-        spaceship(int width, int height, std::string id) : x(width / 2 - size / 2), y(height - size), id(std::move(id)) {
+        monster(int width, std::string id) : x(width / 2 - size / 2), id(std::move(id)) {
         }
         std::pair<int, int> get_coordinates() const;
         std::string get_id() const;
         int get_size() const;
         void move(MoveDirection direction);
     };
-}// namespace eclipse
+}
 
-#endif// MAIN_GAME_SPACE_SHIP_H
+
+#endif//MAIN_GAME_MONSTER_H

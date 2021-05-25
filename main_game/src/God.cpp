@@ -153,7 +153,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 }
 
 void God::show_game_finish_window() {
-    controller_out.delete_obj("abcd");//?????? не уверена, что вставила туда
+    controller_out.delete_obj(game->get_ship_id());//?????? не уверена, что вставила туда
     delete_controller_in();
     cur_player.time = get_time();
     update_local_leaderboard(cur_player);

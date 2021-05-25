@@ -1,6 +1,5 @@
 #include "game.h"
 #include "game_fwd.h"
-#include "util.h"
 #include <vector>
 
 #include "God.h"
@@ -16,6 +15,10 @@ namespace eclipse {
         }
 
     }// namespace
+
+    std::string Game::get_ship_id() const {
+        return ship.get_id();
+    }
 
     bool Game::check_for_borders(int y, int size) const {
         if (y < 0 || y + size >= kHeight) {
