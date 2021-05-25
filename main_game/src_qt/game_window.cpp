@@ -5,11 +5,15 @@
 #include <QStyle>
 #include "ui_game_window.h"
 
+#define window_width 800
+#define window_height 630
+#define point_size 35
+
 game_window::game_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
     QPixmap pix("../../images/main.jpg");
-    ui->label->setPixmap(pix.scaled(800, 630));
+    ui->label->setPixmap(pix.scaled(window_width, window_height));
 
     QString style = "QPushButton{border: 1px solid transparent;text-align: center;"
                     "color:rgba(255,255,255,255);"

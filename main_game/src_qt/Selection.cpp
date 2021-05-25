@@ -6,6 +6,10 @@
 #include <QVBoxLayout>
 #include "ui_Selection.h"
 
+#define window_width 400
+#define window_height 300
+#define point_size 35
+
 Selection::Selection(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Selection) {
     ui->setupUi(this);
@@ -25,7 +29,7 @@ Selection::Selection(QWidget *parent)
     QFont font;
     font.setWeight(
         QFont::ExtraBold);  // set font weight with enum QFont::Weight
-    font.setPixelSize(35);  // this for setting font size
+    font.setPixelSize(point_size);  // this for setting font size
 
     auto text = new QLabel("Выберите\n тип управления\n");
     text->setParent(this);
@@ -34,43 +38,29 @@ Selection::Selection(QWidget *parent)
     text->setAlignment(Qt::AlignCenter);
     vlay->addWidget(text);
 
+    QString style = "QPushButton{border: 1px solid transparent;text-align: center;"
+                    "color:rgba(255,255,255,255);"
+                    "border-radius: 8px;"
+                    "border-width: 3px;"
+                    "border-image: 9,2,5,2; "
+                    "background-position: top left;"
+                    "background-origin: content;"
+                    "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, "
+                    "stop:0 rgba(200, 110, 100, 200), stop:1 rgba(130, 148, 130, 200));}"
+                    "QPushButton::chunk {background-color: qlineargradient(x1: 0, y1: 0, "
+                    "x2: 0, y2: 1, stop: 0 rgba(255,200,0,255), stop: 1 "
+                    "rgba(255,0,0,255));}"
+                    "QPushButton{border-color:qlineargradient(spread:pad, x1:0, y1:0, "
+                    "x2:1, y2:1, stop:0 rgba(255, 200, 200, 200), stop:1 rgba(255, 200, "
+                    "200, 200));}";
+
     key = new QPushButton("Клавиатура");
     key->setParent(this);
-    key->setStyleSheet(
-        "QPushButton{border: 1px solid transparent;text-align: center;"
-        "color:rgba(255,255,255,255);"
-        "border-radius: 8px;"
-        "border-width: 3px;"
-        "border-image: 9,2,5,2; "
-        "background-position: top left;"
-        "background-origin: content;"
-        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, "
-        "stop:0 rgba(200, 110, 100, 200), stop:1 rgba(130, 148, 130, 200));}"
-        "QPushButton::chunk {background-color: qlineargradient(x1: 0, y1: 0, "
-        "x2: 0, y2: 1, stop: 0 rgba(255,200,0,255), stop: 1 "
-        "rgba(255,0,0,255));}"
-        "QPushButton{border-color:qlineargradient(spread:pad, x1:0, y1:0, "
-        "x2:1, y2:1, stop:0 rgba(255, 200, 200, 200), stop:1 rgba(255, 200, "
-        "200, 200));}");
+    key->setStyleSheet(style);
     vlay->addWidget(key);
     ard = new QPushButton("Arduino");
     ard->setParent(this);
-    ard->setStyleSheet(
-        "QPushButton{border: 1px solid transparent;text-align: center;"
-        "color:rgba(255,255,255,255);"
-        "border-radius: 8px;"
-        "border-width: 3px;"
-        "border-image: 9,2,5,2; "
-        "background-position: top left;"
-        "background-origin: content;"
-        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, "
-        "stop:0 rgba(200, 110, 100, 200), stop:1 rgba(130, 148, 130, 200));}"
-        "QPushButton::chunk {background-color: qlineargradient(x1: 0, y1: 0, "
-        "x2: 0, y2: 1, stop: 0 rgba(255,200,0,255), stop: 1 "
-        "rgba(255,0,0,255));}"
-        "QPushButton{border-color:qlineargradient(spread:pad, x1:0, y1:0, "
-        "x2:1, y2:1, stop:0 rgba(255, 200, 200, 200), stop:1 rgba(255, 200, "
-        "200, 200));}");
+    ard->setStyleSheet(style);
     vlay->addWidget(ard);
 
     vlay->setAlignment(Qt::AlignCenter);
@@ -81,7 +71,7 @@ Selection::Selection(QWidget *parent)
     connect(ard, &QPushButton::released, this, &Selection::_on_ard_clicked);
 
     setWindowTitle("Set Controller");
-    setFixedSize(400, 300);
+    setFixedSize(window_width, window_height);
 
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),

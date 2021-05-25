@@ -1,4 +1,3 @@
-
 #include "God.h"
 
 void God::show_menu() {
@@ -105,9 +104,8 @@ void God::finish_or_continue_game() {
         std::cerr << "failed " << game->lives << '\n';
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
-            show_buy_live_for_coins_window(game->coins_to_buy_live);
             game->coins -= game->coins_to_buy_live;
-            controller_out.change_coins_counter(game->coins);
+            show_buy_live_for_coins_window(game->coins_to_buy_live, game->coins);
             game->coins_to_buy_live += 5;
         } else {
             show_game_finish_window();
@@ -156,7 +154,7 @@ void God::show_game_finish_window() {
     controller_out.delete_obj(game->get_ship_id());//?????? не уверена, что вставила туда
     delete_controller_in();
     cur_player.time = get_time();
-    update_local_leaderboard(cur_player);
+    update_local_leaderboard(cur_player); ///
     controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
 }
@@ -179,13 +177,20 @@ void God::check_connection_message(message_errors error) {
 
 void God::show_buy_live_for_coins_window(int n, int k) {
     controller_out.show_live_for_coins_window(n, k, this);
+    if (dynamic_cast<ReadingFromPort::Arduino *>(controller_in) != nullptr) {
+        controller_in->write_to_port();  ///// !!!!!
+    }
 }
 
 void God::stop_timers() const {
     controller_out.stop_timers();
 }
 
-void God::add_life_and_restart_game() {
+void God::add_life_and_restart_game(int coins) {
+    game->game_state = eclipse::kOngoing;
+    gamer_choice = wait;
+
+    controller_out.change_coins_counter(coins);
     controller_out.close_live_for_coins_window();
     controller_out.add_live();
     controller_out.start_timers();

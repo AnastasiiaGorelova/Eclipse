@@ -1,6 +1,4 @@
-#include "../include_leaderboard/local_leaderboard.h"
-#include <cassert>
-#include <algorithm>
+#include "local_leaderboard.h"
 
 bool LocalLeaderboard::comp(Player p1, Player p2) {
     std::ostringstream first_m;
@@ -44,7 +42,7 @@ void LocalLeaderboard::deserialization() {
     }
 }
 
-void LocalLeaderboard::add_player_to_leaderboard(const Player &cur_player) {
+void LocalLeaderboard::add_player_to_leaderboard(Player &cur_player) {
     leaderboard_array.push_back(cur_player);
     sort(leaderboard_array.begin(), leaderboard_array.end(), comp);
     assert(leaderboard_array.size() <= 11);
@@ -73,12 +71,20 @@ void LocalLeaderboard::serialization() {
                          << leaderboard_array[i].time << std::endl;
     }
 }
+void LocalLeaderboard::delete_spaces_from_name(Player &cur_player) {
+    for (char &i : cur_player.name) {
+        if (i == ' ') {
+            i = '_';
+        }
+    }
+}
 
-void update_local_leaderboard(const Player cur_player) {
+void update_local_leaderboard(Player &cur_player) {
     // открыть/создать файл
     LocalLeaderboard my_leaderboard;
     my_leaderboard.open_to_read();
     // десериальзовать данные в массив
+    LocalLeaderboard::delete_spaces_from_name(cur_player);
     my_leaderboard.deserialization();
     // добавить новый результат в массив, отсортировать массив
     my_leaderboard.add_player_to_leaderboard(cur_player);

@@ -4,20 +4,7 @@ project(main_game)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Do not specify /O2 because there are Debug/Release modes.
-if (MSVC)
-    add_compile_options(/W4 /WX /D_CRT_SECURE_NO_WARNINGS)  # Disable warnings about VS-only _s functions (e.g. scanf_s).
-else ()
-    if (NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE Debug CACHE STRING "Default build type from CMakeLists.txt" FORCE)  # Add debug information
-    endif (NOT CMAKE_BUILD_TYPE)
-
-    add_compile_options(-Wall -Wextra)
-    if (UNIX AND NOT CMAKE_CXX_FLAGS)  # Do not add if -DCMAKE_CXX_FLAGS is passed
-        add_compile_options(-fsanitize=address -fsanitize=undefined)
-        add_link_options(-fsanitize=address -fsanitize=undefined)
-    endif (UNIX AND NOT CMAKE_CXX_FLAGS)
-endif (MSVC)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 
 find_package(Boost 1.75.0 COMPONENTS program_options REQUIRED) # boost
 find_package(nlohmann_json 3.2.0 REQUIRED) # json

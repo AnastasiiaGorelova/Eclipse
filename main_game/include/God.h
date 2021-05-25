@@ -2,13 +2,13 @@
 #define MAIN_GAME_GOD_H
 
 #include <memory>
-#include "../include_in_controllers/arduino.h"
-#include "../include_leaderboard/local_leaderboard.h"
 #include "Key_Controller_.h"
 #include "Modification_store.h"
+#include "arduino.h"
 #include "controllers_in.h"
 #include "game.h"
 #include "game_ui.h"
+#include "local_leaderboard.h"
 
 enum message_errors { no_errors, arduino_setting_error };
 
@@ -27,6 +27,8 @@ public:
     void show_buy_live_for_coins_window(int n = 5, int k = 0);
     void close_error_massage_window();
     void show_selection_window();
+    void show_local_leaderboard();
+    void show_legend_window();
 
     void make_changes_in_out_controller();
 
@@ -45,13 +47,17 @@ public:
     void make_move_in_logic_and_ui();
     void stop_timers() const;
     void start_timers();
-    void add_life_and_restart_game();
+    void add_life_and_restart_game(int coins);
     void name_entered(const std::string &player_name);
     void finish_or_continue_game();
 
-    void show_local_leaderboard();
+    enum Choice {
+        wait,
+        continue_game,
+        stop_game
+    };
 
-    void show_legend_window();
+    Choice gamer_choice = wait;
 };
 
 #endif  // MAIN_GAME_GOD_H

@@ -6,6 +6,16 @@
 #include <QKeyEvent>
 #include <QStyle>
 
+#define window_width 800
+#define window_height 630
+#define point_size 200
+#define scene_info_height 30
+#define lives_and_coins_size 25
+#define timer_for_ticks_timeout 1000/60
+#define timer_for_shots_timeout  1000/1.5
+#define timer_for_start_timeout 1200
+#define timer_timeout 1000
+
 main_window::main_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::main_window) {
     ui->setupUi(this);
@@ -29,14 +39,14 @@ void main_window::make_field() {
     ui->graphicsView->setFrameShape(QFrame::NoFrame);
 
     scene_info = new QGraphicsScene();
-    scene_info->setSceneRect(0, 0, width, 30);
+    scene_info->setSceneRect(0, 0, width, scene_info_height);
     ui->graphicsView_2->setScene(scene_info);
     scene_info->setBackgroundBrush(Qt::black);
     ui->graphicsView_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView_2->setFrameShape(QFrame::NoFrame);
 
-    setFixedSize(800, 630);
+    setFixedSize(window_width, window_height);
     setWindowTitle("Eclipse");
 
     //для отсчета
@@ -44,8 +54,13 @@ void main_window::make_field() {
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
+<<<<<<< HEAD
     font.setWeight(QFont::ExtraBold);// set font weight with enum QFont::Weight
     font.setPixelSize(200);          // this for setting font size
+=======
+    font.setWeight(QFont::ExtraBold);
+    font.setPixelSize(point_size);
+>>>>>>> upstream/for_nastya
 
     text = new QLabel("");
     text->setParent(this);
@@ -105,7 +120,7 @@ void main_window::set_timer() {
 }
 
 void main_window::set_lives() {
-    auto img_heart = QPixmap("../../images/heart.png").scaled(25, 25);
+    auto img_heart = QPixmap("../../images/heart.png").scaled(lives_and_coins_size, lives_and_coins_size);
     auto *object_1 = new GameObject();
     object_1->setParent(this);
     object_1->setPixmap(img_heart);
@@ -178,9 +193,9 @@ void main_window::start_timer() {
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
     connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
     connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
-    timer->start(1000);
-    timer_for_ticks->start(1000 / 70);
-    timer_for_shots->start(1000 / 1.7);
+    timer->start(timer_timeout);
+    timer_for_ticks->start(timer_for_ticks_timeout);
+    timer_for_shots->start(timer_for_shots_timeout);
 }
 
 void main_window::tick_god() {
@@ -216,11 +231,11 @@ void main_window::start_timer_for_beginning() {
     timer_for_start = new QTimer();
     timer_for_start->setParent(this);
     connect(timer_for_start, SIGNAL(timeout()), this, SLOT(change_label()));
-    timer_for_start->start(1200);
+    timer_for_start->start(timer_for_start_timeout);
 }
 
 void main_window::set_coins_counter() {
-    auto img_coin = QPixmap("../../images/coin.png").scaled(25, 25);
+    auto img_coin = QPixmap("../../images/coin.png").scaled(lives_and_coins_size, lives_and_coins_size);
     auto *object_1 = new GameObject();
     object_1->setPixmap(img_coin);
     object_1->setParent(this);
@@ -243,7 +258,7 @@ void main_window::change_coins_counter(int count) const {
 }
 
 void main_window::add_life() {
-    auto img_heart = QPixmap("../../images/heart.png").scaled(25, 25);
+    auto img_heart = QPixmap("../../images/heart.png").scaled(lives_and_coins_size, lives_and_coins_size);
     if (hash_table.find("heart_3") == hash_table.end()) {
         auto *object_3 = new GameObject();
         object_3->setParent(this);

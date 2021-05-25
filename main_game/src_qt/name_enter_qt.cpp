@@ -8,7 +8,9 @@
 #include <iostream>
 #include "God.h"
 
-extern God damn;
+#define window_width 350
+#define window_height 220
+#define point_size 35
 
 name_enter_qt::name_enter_qt(QWidget *parent) :
         QWidget(parent), ui(new Ui::name_enter_qt) {
@@ -18,7 +20,6 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
-    //установка фона
     ui->setupUi(this);
     QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
@@ -31,7 +32,7 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
 
     QFont font;
     font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
-    font.setPixelSize(35); // this for setting font size
+    font.setPixelSize(point_size); // this for setting font size
 
     auto text = new QLabel("Введите\n имя пользователя\n и нажмите enter\n");
     text->setParent(this);
@@ -50,7 +51,7 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
     this->setLayout(vlay);
 
     setWindowTitle("Enter name");
-    setFixedSize(350, 220);
+    setFixedSize(window_width, window_height);
 }
 
 name_enter_qt::~name_enter_qt() {
