@@ -19,13 +19,14 @@ namespace eclipse {
         int lives = 5;
         int steps_to_one_side = 0;
         MoveDirection direction = kRight;
+        void set_hearts();
 
     public:
         monster(int width, std::string id) : x(width / 2 - size / 2), id(std::move(id)) {
         }
         std::set<Shot> alien_shots_in_the_field;
-        std::pair<int, int>
-        get_coordinates() const;
+        std::vector<std::pair<int,int>> heart_coordinates;
+        std::pair<int, int> get_coordinates() const;
         std::string get_id() const;
         int get_size() const;
         void move(MoveDirection direction);
