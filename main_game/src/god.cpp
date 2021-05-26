@@ -247,3 +247,7 @@ void God::make_move_in_logic_and_ui_with_monster() {
     }
     finish_or_continue_game();
 }
+
+void God::change_game_speed(int diff) {
+    game_speed+= diff;
+}

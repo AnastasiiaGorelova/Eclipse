@@ -52,6 +52,7 @@ public:
     void add_life_and_restart_game(int coins);
     void name_entered(const std::string &player_name);
     void finish_or_continue_game();
+    void change_game_speed(int diff);
 
     enum Choice {
         wait,
@@ -60,6 +61,7 @@ public:
     };
 
     Choice gamer_choice = wait;
+    int game_speed = 65; // ~ ticks_per_second
 };
 
 #endif// MAIN_GAME_GOD_H

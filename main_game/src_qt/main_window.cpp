@@ -351,6 +351,7 @@ void main_window::check_keys() {
 
 void main_window::seven_points_acceleration() {
     if (ticks_for_second < 120) {
-        ticks_for_second += 10;
+        ticks_for_second += 7;
+        damn->change_game_speed(7);
     }
 }
