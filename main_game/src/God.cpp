@@ -89,7 +89,8 @@ void God::finish_or_continue_game() {
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
             game->coins -= game->coins_to_buy_live;
-            show_buy_live_for_coins_window(game->coins_to_buy_live, game->coins);
+            show_buy_live_for_coins_window(game->coins_to_buy_live,
+                                           game->coins);
             game->coins_to_buy_live += 5;
         } else {
             show_game_finish_window();
@@ -113,7 +114,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in = new Key_Controller();// NOLINT
+            controller_in = new Key_Controller();  // NOLINT
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
@@ -123,7 +124,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
             if (port == "There is no Arduino plugged into port") {
                 error = arduino_setting_error;
             } else {
-                controller_in = new ReadingFromPort::Arduino(port);// NOLINT
+                controller_in = new ReadingFromPort::Arduino(port);  // NOLINT
                 controller_in->set_God(this);
             }
 
@@ -135,10 +136,11 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 }
 
 void God::show_game_finish_window() {
-    controller_out.delete_obj(game->get_ship_id());//?????? не уверена, что вставила туда
+    controller_out.delete_obj(
+        game->get_ship_id());  //?????? не уверена, что вставила туда
     delete_controller_in();
     cur_player.time = get_time();
-    update_local_leaderboard(cur_player);///
+    update_local_leaderboard(cur_player);  ///
     controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
 }
@@ -162,7 +164,7 @@ void God::check_connection_message(message_errors error) {
 void God::show_buy_live_for_coins_window(int n, int k) {
     controller_out.show_live_for_coins_window(n, k, this);
     if (dynamic_cast<ReadingFromPort::Arduino *>(controller_in) != nullptr) {
-        controller_in->write_to_port();///// !!!!!
+        controller_in->write_to_port();  ///// !!!!!
     }
 }
 
