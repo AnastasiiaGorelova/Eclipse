@@ -23,7 +23,7 @@ namespace eclipse {
 
     private:
         spaceship ship = spaceship(kWidth, kHeight, new_uuid());
-        int game_speed = 1;//asteroids
+        int game_speed = 1; //speed for asteroid, bonuses
         int shot_size = 40;
         int bonus_size = 60;
         std::set<Asteroid> asteroids_in_the_field;
@@ -40,11 +40,11 @@ namespace eclipse {
         void moving_ship(MoveDirection direction);
         void shoot_by_alien();
 
-        bool check_for_borders(int y, int size) const;
-        bool check_for_nothing(int x, int size) const;
-        bool check_for_conflict_with_ship(int x, int y, int size) const;
-        bool check_for_conflict(int x1, int y1, int size1, int x2, int y2, int size2) const;
-        bool destroy_objects_by_shots(int x1, int y1, int size1);
+        [[nodiscard]] bool check_for_borders(int y, int size) const;
+        [[nodiscard]] bool check_for_nothing(int x, int size) const;
+        [[nodiscard]] bool check_for_conflict_with_ship(int x, int y, int size) const;
+        [[nodiscard]] bool check_for_conflict(int x1, int y1, int size1, int x2, int y2, int size2) const;
+        [[nodiscard]] bool destroy_objects_by_shots(int x1, int y1, int size1);
 
     public:
         int coins = 0;
@@ -57,17 +57,16 @@ namespace eclipse {
                                                 ship.get_id(),
                                                 ship.get_coordinates(), ship.get_size()}};
 
-        bool get_game_state() const;
-
-        void make_move(MoveDirection direction = kNoMove);
-        void make_move_with_alien(MoveDirection direction = kNoMove);
+        [[nodiscard]] bool get_game_state() const;
+        [[nodiscard]] bool check_the_field() const;
+        [[nodiscard]] std::string get_ship_id() const;
         void shoot();
         void clear_field();
-        std::string get_ship_id() const;
         void attack_by_alien();
         void set_alien();
-        void move_before_alien(MoveDirection direction);
-        bool check_the_field() const;
+        void make_move(MoveDirection direction = kNoMove);
+        void make_move_with_alien(MoveDirection direction = kNoMove);
+        void move_objects_without_generating(MoveDirection direction);
     };
 
 }// namespace eclipse
