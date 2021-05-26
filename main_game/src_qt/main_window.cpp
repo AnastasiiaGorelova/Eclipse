@@ -12,10 +12,25 @@
 #define point_size 200
 #define scene_info_height 30
 #define lives_and_coins_size 25
-#define timer_for_ticks_timeout 1000 / 65
-#define timer_for_shots_timeout 1000 / 1.6
+#define timer_for_ticks_timeout 1000/65
+#define timer_for_shots_timeout 1000/1.6
 #define timer_for_start_timeout 1200
 #define timer_timeout 1000
+#define text_timer_width 100
+#define text_timer_height 30
+#define text_timer_pos_width 10
+#define text_timer_pos_height 7
+#define text_timer_counters_pos_width 60
+#define text_timer_counters_pos_height 7
+#define lives1_pos_width 700
+#define lives2_pos_width 730
+#define lives3_pos_width 760
+#define lives_and_coins_pos_height 3.5
+#define text_coins_pos_width 620
+#define text_coins_pos_height 7
+#define coins_pos_width 640
+#define alien_timeout_come_in_sec 15
+#define ticks_in_sec 65
 
 main_window::main_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::main_window) {
@@ -51,7 +66,6 @@ void main_window::make_field() {
 
     setWindowTitle("Eclipse");
 
-    //для подготовительного таймера
     vlay = new QVBoxLayout(this);
     vlay->setAlignment(Qt::AlignCenter);
 
@@ -102,18 +116,18 @@ void main_window::set_timer() {
     number_for_time->setStyleSheet("background-color: black; color : white;");
 
     auto *item_1 = new QGraphicsRectItem;
-    item_1->setRect(QRect(0, 0, 80, 30));
+    item_1->setRect(QRect(0, 0, text_timer_width, text_timer_height));
     scene_info->addItem(item_1);
     auto *pMyProxy_1 = new QGraphicsProxyWidget(item_1);
     pMyProxy_1->setWidget(time);
-    pMyProxy_1->setPos(10, 7);
+    pMyProxy_1->setPos(text_timer_pos_width, text_timer_pos_height);
 
     auto *item_2 = new QGraphicsRectItem;
-    item_2->setRect(QRect(0, 0, 80, 30));
+    item_2->setRect(QRect(0, 0, text_timer_width, text_timer_height));
     scene_info->addItem(item_2);
     auto *pMyProxy_2 = new QGraphicsProxyWidget(item_2);
     pMyProxy_2->setWidget(number_for_time);
-    pMyProxy_2->setPos(60, 7);
+    pMyProxy_2->setPos(text_timer_counters_pos_width, text_timer_counters_pos_height);
 }
 
 void main_window::set_lives() {
@@ -122,20 +136,20 @@ void main_window::set_lives() {
     object_1->setParent(this);
     object_1->setPixmap(img_heart);
     scene_info->addItem(object_1);
-    object_1->setPos(700, 3.5);
+    object_1->setPos(lives1_pos_width, lives_and_coins_pos_height);
     hash_table["heart_1"] = object_1;
 
     auto *object_2 = new GameObject();
     object_2->setParent(this);
     object_2->setPixmap(img_heart);
-    object_2->setPos(730, 3.5);
+    object_2->setPos(lives2_pos_width, lives_and_coins_pos_height);
     scene_info->addItem(object_2);
     hash_table["heart_2"] = object_2;
 
     auto *object_3 = new GameObject();
     object_3->setParent(this);
     object_3->setPixmap(img_heart);
-    object_3->setPos(760, 3.5);
+    object_3->setPos(lives3_pos_width, lives_and_coins_pos_height);
     scene_info->addItem(object_3);
     hash_table["heart_3"] = object_3;
 }
@@ -204,7 +218,7 @@ void main_window::start_timer() {
 void main_window::tick_god() {
     static int time_lasts = 0;
     time_lasts++;
-    if (time_lasts == 900) {
+    if (time_lasts == alien_timeout_come_in_sec * ticks_in_sec) {
         time_lasts = 0;
         timer_for_ticks->stop();
         cur_enemy = alien;
@@ -255,17 +269,17 @@ void main_window::set_coins_counter() {
     object_1->setPixmap(img_coin);
     object_1->setParent(this);
     scene_info->addItem(object_1);
-    object_1->setPos(640, 3.5);
+    object_1->setPos(coins_pos_width, lives_and_coins_pos_height);
     hash_table["coin_img"] = object_1;
 
     auto *item_1 = new QGraphicsRectItem;
-    item_1->setRect(QRect(0, 0, 100, 30));
+    item_1->setRect(QRect(0, 0, text_timer_width, text_timer_height));
     scene_info->addItem(item_1);
     auto *pMyProxy_1 = new QGraphicsProxyWidget(item_1);
     coins_counter = new QLabel("  0  ");
     coins_counter->setStyleSheet("background-color: black; color : white;");
     pMyProxy_1->setWidget(coins_counter);
-    pMyProxy_1->setPos(620, 7);
+    pMyProxy_1->setPos(text_coins_pos_width, text_coins_pos_height);
 }
 
 void main_window::change_coins_counter(int count) const {
@@ -278,14 +292,14 @@ void main_window::add_life() {
         auto *object_3 = new GameObject();
         object_3->setParent(this);
         object_3->setPixmap(img_heart);
-        object_3->setPos(760, 3.5);
+        object_3->setPos(lives3_pos_width, lives_and_coins_pos_height);
         scene_info->addItem(object_3);
         hash_table["heart_3"] = object_3;
     } else if (hash_table.find("heart_2") == hash_table.end()) {
         auto *object_2 = new GameObject();
         object_2->setParent(this);
         object_2->setPixmap(img_heart);
-        object_2->setPos(730, 3.5);
+        object_2->setPos(lives2_pos_width, lives_and_coins_pos_height);
         scene_info->addItem(object_2);
         hash_table["heart_2"] = object_2;
     } else if (hash_table.find("heart_1") == hash_table.end()) {
@@ -293,7 +307,7 @@ void main_window::add_life() {
         object_1->setParent(this);
         object_1->setPixmap(img_heart);
         scene_info->addItem(object_1);
-        object_1->setPos(700, 3.5);
+        object_1->setPos(lives1_pos_width, lives_and_coins_pos_height);
         hash_table["heart_1"] = object_1;
     }
 }
