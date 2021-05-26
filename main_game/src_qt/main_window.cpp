@@ -49,7 +49,7 @@ void main_window::make_field() {
     scene->setParent(this);
     scene->setSceneRect(0, 0, window_width, play_field_height);
     ui->graphicsView->setScene(scene);
-    scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(window_width, window_width)));
+    scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(window_width, window_height)));
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setFrameShape(QFrame::NoFrame);

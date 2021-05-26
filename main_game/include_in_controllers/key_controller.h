@@ -14,7 +14,7 @@ struct Key_Controller : QObject, virtual Controller_in {
 
     explicit Key_Controller(QObject *parent = nullptr);
     bool eventFilter(QObject *obj, QEvent *event) override;
-    void write_to_port() override;
+    void write_to_port_for_coins() override;
 };
 
 #endif  // MAIN_GAME_KEY_CONTROLLER_H
