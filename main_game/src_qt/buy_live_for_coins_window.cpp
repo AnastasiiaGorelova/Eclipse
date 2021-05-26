@@ -74,6 +74,8 @@ void buy_live_for_coins_window::check_status() {
 }
 
 void buy_live_for_coins_window::set_window_options() {
+    setWindowFlags(Qt::WindowMinimizeButtonHint);
+
     timer = new QTimer();
     timer->setParent(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(check_status()));

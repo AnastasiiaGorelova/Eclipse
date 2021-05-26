@@ -30,6 +30,7 @@ legend_window::legend_window(QWidget *parent)
             )
     );
 
+
   QPixmap backgroung("../../images/background_manual.png"); //поменять картинку
   backgroung = backgroung.scaled(window_width, window_height, Qt::IgnoreAspectRatio);
   QPalette palette;

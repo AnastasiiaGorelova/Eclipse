@@ -20,6 +20,8 @@ game_finish_window::game_finish_window(QWidget *parent)
     setWindowTitle("Game over");
     setFixedSize(window_width, window_height);
 
+    setWindowFlags(Qt::WindowMinimizeButtonHint);
+
     QPixmap backgroung("../../images/menu_background.png");  //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;

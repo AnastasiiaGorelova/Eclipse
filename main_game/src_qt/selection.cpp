@@ -21,6 +21,8 @@ Selection::Selection(QWidget *parent)
     setWindowTitle("Set Controller");
     setFixedSize(window_width, window_height);
 
+    setWindowFlags(Qt::WindowMinimizeButtonHint);
+
     QPixmap backgroung("../../images/menu_background.png");
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;

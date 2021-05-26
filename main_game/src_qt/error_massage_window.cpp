@@ -22,6 +22,8 @@ error_massage_window::error_massage_window(QWidget *parent) :
     setWindowTitle("Error");
     setFixedSize(window_width, window_height);
 
+    setWindowFlags(Qt::WindowMinimizeButtonHint);
+
     QPixmap backgroung("../../images/menu_background.png");
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;

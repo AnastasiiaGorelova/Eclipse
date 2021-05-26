@@ -23,6 +23,8 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
     setWindowTitle("Enter name");
     setFixedSize(window_width, window_height);
 
+    setWindowFlags(Qt::WindowMinimizeButtonHint);
+
     ui->setupUi(this);
     QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);

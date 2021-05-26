@@ -17,6 +17,8 @@ game_window::game_window(QWidget *parent)
     QPixmap pix("../../images/main.png");
     ui->label->setPixmap(pix.scaled(window_width, window_height));
 
+    setWindowFlags(Qt::WindowMinimizeButtonHint);
+
     QString style = "QPushButton{border: 1px solid transparent;text-align: center;"
                     "color:rgba(255,255,255,255);"
                     "border-radius: 8px;"
