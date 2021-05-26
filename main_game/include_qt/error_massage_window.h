@@ -13,7 +13,6 @@ QT_END_NAMESPACE
 
 class error_massage_window : public QWidget {
 Q_OBJECT
-
 public:
     explicit error_massage_window(QWidget *parent = nullptr);
     ~error_massage_window() override;

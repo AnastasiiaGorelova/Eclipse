@@ -3,7 +3,7 @@
 #define MAIN_GAME_GAME_UI_H
 
 #include <game_window.h>
-#include <Selection.h>
+#include <selection.h>
 #include <name_enter_qt.h>
 #include <game_finish_window.h>
 #include <error_massage_window.h>
@@ -39,7 +39,6 @@ public:
     void start_game_preview();
     void show_live_for_coins_window(int n, int k, God* damn);
     void close_live_for_coins_window();
-    void close_enter_name_window() const;
     void show_local_leaderboard();
     void show_legend_window();
 

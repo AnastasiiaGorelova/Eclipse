@@ -17,8 +17,6 @@ class Selection : public QMainWindow {
 Q_OBJECT
 
 public:
-    God* damn;
-
     explicit Selection(QWidget *parent = nullptr);
     ~Selection() override;
 
@@ -27,13 +25,13 @@ public:
 private:
     Ui::Selection *ui;
 
+    God* damn = nullptr;
     QPushButton *key;
     QPushButton *ard;
 
 private slots:
-    void _on_key_clicked();
-    void _on_ard_clicked();
-
+    void _on_key_clicked() const;
+    void _on_ard_clicked() const;
 };
 
 #endif //MAIN_GAME_SELECTION_H

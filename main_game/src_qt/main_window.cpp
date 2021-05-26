@@ -1,5 +1,5 @@
 #include "main_window.h"
-#include "God.h"
+#include "god.h"
 #include "ui_main_window.h"
 #include <QDesktopWidget>
 #include <QGraphicsProxyWidget>
@@ -8,6 +8,7 @@
 
 #define window_width 800
 #define window_height 630
+#define play_field_height 600
 #define point_size 200
 #define scene_info_height 30
 #define lives_and_coins_size 25
@@ -19,6 +20,8 @@
 main_window::main_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::main_window) {
     ui->setupUi(this);
+
+    setFixedSize(window_width, window_height);
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
@@ -31,31 +34,30 @@ main_window::~main_window() {
 void main_window::make_field() {
     scene = new QGraphicsScene();
     scene->setParent(this);
-    scene->setSceneRect(0, 0, width, height);
+    scene->setSceneRect(0, 0, window_width, play_field_height);
     ui->graphicsView->setScene(scene);
-    scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(width, height)));
+    scene->setBackgroundBrush(QBrush(QImage("../../images/background.png").scaled(window_width, window_width)));
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setFrameShape(QFrame::NoFrame);
 
     scene_info = new QGraphicsScene();
-    scene_info->setSceneRect(0, 0, width, scene_info_height);
+    scene_info->setSceneRect(0, 0, window_width, scene_info_height);
     ui->graphicsView_2->setScene(scene_info);
     scene_info->setBackgroundBrush(Qt::black);
     ui->graphicsView_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView_2->setFrameShape(QFrame::NoFrame);
 
-    setFixedSize(window_width, window_height);
     setWindowTitle("Eclipse");
 
-    //для отсчета
+    //для подготовительного таймера
     vlay = new QVBoxLayout(this);
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
-    font.setWeight(QFont::ExtraBold);// set font weight with enum QFont::Weight
-    font.setPixelSize(200);          // this for setting font size
+    font.setWeight(QFont::ExtraBold);
+    font.setPixelSize(point_size);
 
     text = new QLabel("");
     text->setParent(this);
@@ -181,19 +183,22 @@ std::pair<std::string, std::string> main_window::find_time_string(int x) {
 void main_window::start_timer() {
     timer = new QTimer();
     timer->setParent(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
+    timer->start(timer_timeout);
+
     timer_for_ticks = new QTimer();
     timer_for_ticks->setParent(this);
+    connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
+    timer_for_ticks->start(timer_for_ticks_timeout);
+
     timer_for_shots = new QTimer();
     timer_for_shots->setParent(this);
+    connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
+    timer_for_shots->start(timer_for_shots_timeout);
+
     timer_for_monster = new QTimer();
     timer_for_monster->setParent(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
-    connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
-    connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
     connect(timer_for_monster, SIGNAL(timeout()), this, SLOT(tick_god_with_monster()));
-    timer->start(timer_timeout);
-    timer_for_ticks->start(timer_for_ticks_timeout);
-    timer_for_shots->start(timer_for_shots_timeout);
 }
 
 void main_window::tick_god() {
@@ -202,7 +207,6 @@ void main_window::tick_god() {
     if (time_lasts == 900) {
         time_lasts = 0;
         timer_for_ticks->stop();
-        //        damn->game->set_alien();
         damn->game->alien.change_state(eclipse::Going_out);
         timer_for_monster->start(timer_for_ticks_timeout);
         return;
@@ -223,12 +227,14 @@ void main_window::change_asteroid_crack(const std::string &hash, int size) {
 }
 
 void main_window::change_label() {
+    static int time_for_start = 0;
     time_for_start++;
     if (time_for_start < 4) {
         text->setText(QString::fromStdString(std::to_string(4 - time_for_start)));
     } else if (time_for_start == 4) {
         text->setText("GO!");
     } else {
+        time_for_start = 0;
         timer_for_start->stop();
         text->setText("");
         damn->start_timers();

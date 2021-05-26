@@ -1,4 +1,4 @@
-#include "God.h"
+#include "god.h"
 
 void God::show_menu() {
     controller_out.show_menu(this);
@@ -116,7 +116,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in = new Key_Controller();// NOLINT
+            controller_in = new Key_Controller();
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {

@@ -1,6 +1,6 @@
 
-#include "Selection.h"
-#include <God.h>
+#include "selection.h"
+#include <god.h>
 #include <QLabel>
 #include <QLineEdit>
 #include <QVBoxLayout>
@@ -14,22 +14,25 @@ Selection::Selection(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Selection) {
     ui->setupUi(this);
 
-    //установка фона
-    ui->setupUi(this);
-    QPixmap backgroung("../../images/menu_background.png");  //поменять картинку
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
+                                    (*this).size(),
+                                    qApp->desktop()->availableGeometry()));
+
+    setWindowTitle("Set Controller");
+    setFixedSize(window_width, window_height);
+
+    QPixmap backgroung("../../images/menu_background.png");
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, backgroung);
     this->setPalette(palette);
 
-    //установка кнопок и текста
     auto *wdg = new QWidget(this);
     auto *vlay = new QVBoxLayout(wdg);
 
     QFont font;
-    font.setWeight(
-        QFont::ExtraBold);  // set font weight with enum QFont::Weight
-    font.setPixelSize(point_size);  // this for setting font size
+    font.setWeight(QFont::ExtraBold);
+    font.setPixelSize(point_size);
 
     auto text = new QLabel("Выберите\n тип управления\n");
     text->setParent(this);
@@ -69,24 +72,17 @@ Selection::Selection(QWidget *parent)
 
     connect(key, &QPushButton::released, this, &Selection::_on_key_clicked);
     connect(ard, &QPushButton::released, this, &Selection::_on_ard_clicked);
-
-    setWindowTitle("Set Controller");
-    setFixedSize(window_width, window_height);
-
-    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
-                                    (*this).size(),
-                                    qApp->desktop()->availableGeometry()));
 }
 
 Selection::~Selection() {
     delete ui;
 }
 
-void Selection::_on_key_clicked() {
+void Selection::_on_key_clicked() const {
     damn->select_game_controller(eclipse::Key);
 }
 
-void Selection::_on_ard_clicked() {
+void Selection::_on_ard_clicked() const {
     damn->select_game_controller(eclipse::Arduino);
 }
 
