@@ -110,6 +110,7 @@ void Controller_out::stop_timers() const {
     game_window_->timer->stop();
     game_window_->timer_for_shots->stop();
     game_window_->timer_for_ticks->stop();
+    game_window_->timer_for_monster->stop();
 }
 
 void Controller_out::show_live_for_coins_window(int n, int k, God* damn) {
