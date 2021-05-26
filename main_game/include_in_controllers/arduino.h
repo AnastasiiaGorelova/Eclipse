@@ -28,7 +28,8 @@ public:
 
     void make_a_move();
     void start_thread();
-    void write_to_port() override;
+    void write_to_port_for_coins() override;
+    void write_to_port_for_pause();
     void set_God(God *damn_) override;
 
     virtual ~Arduino();

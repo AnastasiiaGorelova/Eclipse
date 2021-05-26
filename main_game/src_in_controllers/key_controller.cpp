@@ -29,4 +29,5 @@ Key_Controller::Key_Controller(QObject *parent) : QObject(parent) {
 void Key_Controller::set_God(God *damn_) {
     damn = damn_;
 }
-void Key_Controller::write_to_port() {}
+void Key_Controller::write_to_port_for_coins() {
+}
