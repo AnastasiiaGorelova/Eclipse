@@ -5,7 +5,7 @@
 #include "QObject"
 
 struct GameObject : public QObject, public QGraphicsPixmapItem {
-    void del();
+  void del();
 };
 
-#endif  // MAIN_GAME_GAME_OBJECT_H
+#endif // MAIN_GAME_GAME_OBJECT_H
