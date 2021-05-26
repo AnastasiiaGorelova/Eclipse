@@ -27,6 +27,7 @@ namespace eclipse {
         Create_asteroid,
         Create_coin,
         Create_heart,
+        Create_alien_heart,
         Move_object,
         Delete_object,
         Break_asteroid,

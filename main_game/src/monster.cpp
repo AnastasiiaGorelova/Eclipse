@@ -65,11 +65,11 @@ namespace eclipse {
     }
 
     void monster::set_hearts() {
-        int heart_size = size / lives;
+        int heart_size = size / lives;//скорректировать размеры
         int heart_y = y - heart_size;
-        int heart_x = x;
-        for(int i = 0; i < lives; i++) {
-            heart_coordinates.emplace_back(heart_x, heart_y);
+        int heart_x = 0;
+        for (int i = 0; i < lives; i++) {
+            heart_coordinates.emplace_back(alien_heart{heart_x, heart_y, heart_size, new_uuid()});
             heart_x += heart_size;
         }
     }

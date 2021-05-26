@@ -89,6 +89,10 @@ namespace eclipse {
 
     bool Game::destroy_objects_by_shots(int x1, int y1, int size1) {
         if (alien.get_state() != Not_on_the_field && !check_for_conflict(x1, y1, size1, alien.get_coordinates().first, alien.get_coordinates().second, alien.get_size())) {
+            if (!alien.heart_coordinates.empty()) {
+                changes.emplace_back(Changes{Delete_object, alien.heart_coordinates[alien.heart_coordinates.size() - 1].id});
+                alien.heart_coordinates.pop_back();
+            }
             alien.decrease_lives();
             return false;
         }
@@ -306,6 +310,8 @@ namespace eclipse {
 
     void Game::attack_by_alien() {
         if (alien.get_state() == Not_on_the_field) {
+            ///УБРАТЬ!!
+            set_alien();
             return;
         }
         if (alien.get_state() == Going_out) {
@@ -313,7 +319,7 @@ namespace eclipse {
             changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
             if (alien.get_state() == On_the_field) {
                 for (const auto &i : alien.heart_coordinates) {
-                    changes.emplace_back(Changes{});///TODO
+                    changes.emplace_back(Changes{Create_alien_heart, i.id, {alien.get_coordinates().first + i.x, i.y}, i.size});
                 }
             }
             return;
@@ -327,8 +333,13 @@ namespace eclipse {
             }
             return;
         }
-        alien.move(kNoMove);
-        changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+        if (alien.get_state() == On_the_field) {
+            alien.move(kNoMove);
+            changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+            for (const auto &i : alien.heart_coordinates) {
+                changes.emplace_back(Changes{Move_object, i.id, {alien.get_coordinates().first + i.x, i.y}});
+            }
+        }
     }
 
     void Game::shoot_by_alien() {

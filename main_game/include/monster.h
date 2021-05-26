@@ -8,6 +8,14 @@
 #include <string>
 
 namespace eclipse {
+
+    struct alien_heart {
+        int x;
+        int y;
+        int size;
+        std::string id;
+    };
+
     struct monster {
     private:
         const int size = 130;
@@ -25,7 +33,7 @@ namespace eclipse {
         monster(int width, std::string id) : x(width / 2 - size / 2), id(std::move(id)) {
         }
         std::set<Shot> alien_shots_in_the_field;
-        std::vector<std::pair<int,int>> heart_coordinates;
+        std::vector<alien_heart> heart_coordinates;
         std::pair<int, int> get_coordinates() const;
         std::string get_id() const;
         int get_size() const;
