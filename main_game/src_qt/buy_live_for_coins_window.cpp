@@ -44,13 +44,10 @@ buy_live_for_coins_window::~buy_live_for_coins_window() {
 }
 
 void buy_live_for_coins_window::_on_yes_button_clicked() {
-    /*damn->add_life_and_restart_game(coins);*/
     damn->gamer_choice = God::continue_game;
 }
 
 void buy_live_for_coins_window::_on_no_button_clicked() {
-    /*damn->controller_out.close_live_for_coins_window();
-    damn->show_game_finish_window();*/
     damn->gamer_choice = God::stop_game;
 }
 
@@ -60,8 +57,8 @@ void buy_live_for_coins_window::buy_for_n_coins(int n, int k) {
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
-    font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
-    font.setPixelSize(point_size); // this for setting font size
+    font.setWeight(QFont::ExtraBold);
+    font.setPixelSize(point_size);
 
     QString line = QString::fromStdString("Купить\n дополнительную жизнь\n за " + std::to_string(n) + " монет?\n");
     auto text = new QLabel(line);
@@ -109,7 +106,6 @@ void buy_live_for_coins_window::set_god(God *damn_) {
 }
 
 void buy_live_for_coins_window::check_status() {
-    std::cerr << "check_status\n";
     if (damn->gamer_choice == God::continue_game) {
         timer->stop();
         damn->add_life_and_restart_game(coins);
