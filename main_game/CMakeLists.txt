@@ -31,6 +31,7 @@ target_link_libraries(local_leaderboard nlohmann_json::nlohmann_json) # json
 
 # For Arduino test
 add_executable(arduino_info "test_arduino/main.cpp" "src_in_controllers/arduino.cpp" "src_in_controllers/ports.cpp")
+target_include_directories(arduino_info PUBLIC "include_in_controllers")
 target_link_libraries(arduino_info serial)
 
 ## For Server test
