@@ -89,11 +89,13 @@ namespace eclipse {
 
     bool Game::destroy_objects_by_shots(int x1, int y1, int size1) {
         if (alien.get_state() != Not_on_the_field && !check_for_conflict(x1, y1, size1, alien.get_coordinates().first, alien.get_coordinates().second, alien.get_size())) {
-            if (!alien.heart_coordinates.empty()) {
-                changes.emplace_back(Changes{Delete_object, alien.heart_coordinates[alien.heart_coordinates.size() - 1].id});
-                alien.heart_coordinates.pop_back();
+            if (alien.get_state() == On_the_field) {
+                if (!alien.heart_coordinates.empty()) {
+                    changes.emplace_back(Changes{Delete_object, alien.heart_coordinates[alien.heart_coordinates.size() - 1].id});
+                    alien.heart_coordinates.pop_back();
+                }
+                alien.decrease_lives();
             }
-            alien.decrease_lives();
             return false;
         }
         auto it1 = asteroids_in_the_field.begin();

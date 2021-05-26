@@ -57,8 +57,6 @@ namespace eclipse {
     }
 
     void monster::decrease_lives() {
-        if (state != On_the_field)
-            return;
         lives--;
         if (lives == 0) {
             state = Leaving;
@@ -66,11 +64,11 @@ namespace eclipse {
     }
 
     void monster::set_hearts() {
-        lives = 3;
+        lives = 5;
         int heart_size = size / lives;//скорректировать размеры
         int heart_y = y - heart_size;
         int heart_x = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < lives; i++) {
             heart_coordinates.emplace_back(alien_heart{heart_x, heart_y, heart_size, new_uuid()});
             heart_x += heart_size;
         }
