@@ -279,6 +279,10 @@ namespace eclipse {
         moving_ship(direction);
         moving_alien_shots();
         moving_shots();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
         attack_by_alien();
         if (alien.get_state() == On_the_field && random_number(0, 70) == 5) {//надосделать отдельным таймером
             shoot_by_alien();                                                //??
@@ -318,6 +322,10 @@ namespace eclipse {
         }
         alien.alien_shots_in_the_field.clear();
         if (alien.get_state() != Not_on_the_field) {
+            for (const auto &i : alien.heart_coordinates) {
+                changes.emplace_back(Changes{Delete_object, i.id});
+            }
+            alien.heart_coordinates.clear();
             changes.emplace_back(Changes{Delete_object, alien.get_id()});
         }
     }
