@@ -57,6 +57,8 @@ namespace eclipse {
     }
 
     void monster::decrease_lives() {
+        if (state != On_the_field)
+            return;
         lives--;
         if (lives == 0) {
             state = Leaving;

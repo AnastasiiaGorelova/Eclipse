@@ -49,7 +49,6 @@ namespace eclipse {
     public:
         int coins = 0;
         int lives = 3;
-        //int coins_to_buy_live = 5;
         int coins_to_buy_live = 5;
         GameState game_state = kOngoing;
         Game() {}
