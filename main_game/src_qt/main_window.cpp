@@ -12,7 +12,6 @@
 #define point_size 200
 #define scene_info_height 30
 #define lives_and_coins_size 25
-#define timer_for_ticks_timeout 1000/65
 #define timer_for_shots_timeout 1000/1.6
 #define timer_for_start_timeout 1200
 #define timer_timeout 1000
@@ -30,7 +29,6 @@
 #define text_coins_pos_height 7
 #define coins_pos_width 640
 #define alien_timeout_come_in_sec 15
-#define ticks_in_sec 65
 
 main_window::main_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::main_window) {
@@ -203,7 +201,7 @@ void main_window::start_timer() {
     timer_for_ticks = new QTimer();
     timer_for_ticks->setParent(this);
     connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
-    timer_for_ticks->start(timer_for_ticks_timeout);
+    timer_for_ticks->start(1000/ticks_for_second);
 
     timer_for_shots = new QTimer();
     timer_for_shots->setParent(this);
@@ -218,12 +216,12 @@ void main_window::start_timer() {
 void main_window::tick_god() {
     static int time_lasts = 0;
     time_lasts++;
-    if (time_lasts == alien_timeout_come_in_sec * ticks_in_sec) {
+    if (time_lasts == alien_timeout_come_in_sec * ticks_for_second) {
         time_lasts = 0;
         timer_for_ticks->stop();
         cur_enemy = alien;
         damn->game->alien.change_state(eclipse::Going_out);
-        timer_for_monster->start(timer_for_ticks_timeout);
+        timer_for_monster->start(1000/ticks_for_second);
         return;
     }
     damn->make_move_in_logic_and_ui();
@@ -319,8 +317,9 @@ void main_window::set_God(God *damn_) {
 void main_window::tick_god_with_monster() {
     if (damn->game->alien.get_state() == eclipse::Not_on_the_field) {
         timer_for_monster->stop();
+        seven_points_acceleration();
         cur_enemy = asteroids;
-        timer_for_ticks->start();
+        timer_for_ticks->start(1000/ticks_for_second);
         return;
     }
     damn->make_move_in_logic_and_ui_with_monster();
@@ -347,5 +346,11 @@ void main_window::check_keys() {
         } else {
             timer_for_monster->start();
         }
+    }
+}
+
+void main_window::seven_points_acceleration() {
+    if (ticks_for_second < 120) {
+        ticks_for_second += 10;
     }
 }

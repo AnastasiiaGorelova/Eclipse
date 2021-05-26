@@ -54,6 +54,7 @@ public:
     QTimer *timer_for_shots = nullptr;
     QTimer *timer_for_monster = nullptr;
     QTimer *timer_for_pause = nullptr;
+    QTimer *timer_for_acceleration = nullptr;
 
     QLabel *text = nullptr;
 
@@ -76,6 +77,7 @@ private:
     Ui::main_window *ui;
 
     God* damn;
+    int ticks_for_second = 65;
 
     QGraphicsScene *scene = nullptr;
     QGraphicsScene *scene_info = nullptr;
@@ -90,6 +92,8 @@ private:
 
     std::unordered_map<std::string, GameObject *> hash_table;
     static std::pair<std::string, std::string> find_time_string(int x);
+
+    void seven_points_acceleration();
 };
 
 #endif// MAIN_GAME_MAIN_WINDOW_H
