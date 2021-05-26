@@ -13,7 +13,7 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
                 damn->train.pushed_button_right();
                 break;
             case Qt::Key_Space:
-                damn->train.pushed_space();
+                damn->train.pushed_pause_or_play();
                 break;
             default:
                 break;

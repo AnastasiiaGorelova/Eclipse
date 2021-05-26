@@ -5,11 +5,11 @@
 #include "game_fwd.h"
 
 struct Modification_store {
-    void pushed_button_left();
-    void pushed_button_right();
     eclipse::MoveDirection get_aggregated_changes();
 
-    void pushed_space();
+    void pushed_button_left();
+    void pushed_button_right();
+    void pushed_pause_or_play();
 
 private:
     std::vector<eclipse::MoveDirection> modifications;

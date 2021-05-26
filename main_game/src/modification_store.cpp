@@ -9,7 +9,7 @@ void Modification_store::pushed_button_right() {
     modifications.push_back(eclipse::kRight);
 }
 
-void Modification_store::pushed_space() {
+void Modification_store::pushed_pause_or_play() {
     modifications.push_back(eclipse::kChangeGameState);
 }
 

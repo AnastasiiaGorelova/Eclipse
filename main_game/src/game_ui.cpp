@@ -58,7 +58,6 @@ void Controller_out::set_obj(int x,
                              const std::string &hash,
                              const std::string &object_name) const {
     game_window_->set(x, y, size, hash, object_name);
-
 }
 
 void Controller_out::move_obj(int x, int y, const std::string &hash) const {
