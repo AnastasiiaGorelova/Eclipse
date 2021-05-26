@@ -32,7 +32,7 @@ namespace eclipse {
             steps_to_one_side++;
         }
         if (new_direction == kDown) {
-            y += speed;
+            y += speed / 2;
             if (y >= kHeight / 10) {
                 y = kHeight / 10;
                 state = On_the_field;
@@ -40,7 +40,7 @@ namespace eclipse {
             }
         }
         if (new_direction == kUp) {
-            y -= speed;
+            y -= speed / 2;
             if (y <= 0) {
                 y = 0;
                 state = Not_on_the_field;
@@ -60,15 +60,15 @@ namespace eclipse {
         lives--;
         if (lives == 0) {
             state = Leaving;
-            lives = 5;//надо перенести в другое место
         }
     }
 
     void monster::set_hearts() {
+        lives = 3;
         int heart_size = size / lives;//скорректировать размеры
         int heart_y = y - heart_size;
         int heart_x = 0;
-        for (int i = 0; i < lives; i++) {
+        for (int i = 0; i < 3; i++) {
             heart_coordinates.emplace_back(alien_heart{heart_x, heart_y, heart_size, new_uuid()});
             heart_x += heart_size;
         }

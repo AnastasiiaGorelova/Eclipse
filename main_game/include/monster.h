@@ -22,7 +22,7 @@ namespace eclipse {
         int x;
         int y = 0;
         std::string id;
-        int speed = 3;
+        int speed = 2;
         MonsterState state = Not_on_the_field;
         int lives = 3;
         int steps_to_one_side = 0;
