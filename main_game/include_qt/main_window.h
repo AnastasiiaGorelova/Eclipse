@@ -93,7 +93,7 @@ private:
     std::unordered_map<std::string, GameObject *> hash_table;
     static std::pair<std::string, std::string> find_time_string(int x);
 
-    void seven_points_acceleration();
+    void ten_points_acceleration();
 };
 
 #endif// MAIN_GAME_MAIN_WINDOW_H
