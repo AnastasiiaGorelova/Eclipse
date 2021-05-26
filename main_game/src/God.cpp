@@ -92,7 +92,7 @@ void God::finish_or_continue_game() {
     if (!game->get_game_state()) {
         std::cerr << "failed " << game->lives << '\n';
         stop_timers();
-        if (game->coins >= /*game->coins_to_buy_live*/ -1) {
+        if (game->coins >= game->coins_to_buy_live) {
             game->coins -= game->coins_to_buy_live;
             show_buy_live_for_coins_window(game->coins_to_buy_live,
                                            game->coins);
