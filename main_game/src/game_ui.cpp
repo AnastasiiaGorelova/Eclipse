@@ -153,4 +153,8 @@ void Controller_out::show_legend_window() {
     legend_window_->show();
 }
 
+void Controller_out::game_pause() {
+    game_window_->set_game_on_pause();
+}
+
 

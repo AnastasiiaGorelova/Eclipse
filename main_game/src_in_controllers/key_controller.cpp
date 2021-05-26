@@ -12,6 +12,9 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
             case Qt::Key_Right:
                 damn->train.pushed_button_right();
                 break;
+            case Qt::Key_Space:
+                damn->train.pushed_space();
+                break;
             default:
                 break;
         }

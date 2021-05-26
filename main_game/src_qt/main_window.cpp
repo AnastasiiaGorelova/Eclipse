@@ -207,6 +207,7 @@ void main_window::tick_god() {
     if (time_lasts == 900) {
         time_lasts = 0;
         timer_for_ticks->stop();
+        cur_enemy = alien;
         damn->game->alien.change_state(eclipse::Going_out);
         timer_for_monster->start(timer_for_ticks_timeout);
         return;
@@ -304,8 +305,33 @@ void main_window::set_God(God *damn_) {
 void main_window::tick_god_with_monster() {
     if (damn->game->alien.get_state() == eclipse::Not_on_the_field) {
         timer_for_monster->stop();
+        cur_enemy = asteroids;
         timer_for_ticks->start();
         return;
     }
     damn->make_move_in_logic_and_ui_with_monster();
+}
+
+void main_window::set_game_on_pause() {
+    text->setText("| |");
+
+    timer_for_pause = new QTimer();
+    timer_for_pause->setParent(this);
+    connect(timer_for_pause, SIGNAL(timeout()), this, SLOT(check_keys()));
+    timer_for_pause->start(timer_for_start_timeout);
+}
+
+void main_window::check_keys() {
+    auto status = damn->train.get_aggregated_changes();
+    if (status == eclipse::kChangeGameState) {
+        text->setText("");
+        timer_for_pause->stop();
+        timer_for_shots->start();
+        timer->start();
+        if (cur_enemy == asteroids) {
+            timer_for_ticks->start();
+        } else {
+            timer_for_monster->start();
+        }
+    }
 }

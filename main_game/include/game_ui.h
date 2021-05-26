@@ -60,6 +60,8 @@ public:
     std::pair<std::string, std::string> get_current_time();
     void start_timers();
     void stop_timers() const;
+
+    void game_pause();
 };
 
 #endif //MAIN_GAME_GAME_UI_H

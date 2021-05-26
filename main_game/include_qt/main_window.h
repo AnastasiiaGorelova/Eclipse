@@ -43,6 +43,7 @@ public:
     void decrease_lives();
     void change_coins_counter(int count) const;
     void change_asteroid_crack(const std::string &hash, int size);
+    void set_game_on_pause();
 
     void start_timer();
     void start_timer_for_beginning();
@@ -52,6 +53,9 @@ public:
     QTimer *timer_for_ticks = nullptr;
     QTimer *timer_for_shots = nullptr;
     QTimer *timer_for_monster = nullptr;
+    QTimer *timer_for_pause = nullptr;
+
+    QLabel *text = nullptr;
 
 private slots:
     void change_timer();
@@ -59,8 +63,16 @@ private slots:
     void make_shot();
     void change_label();
     void tick_god_with_monster();
+    void check_keys();
 
 private:
+    enum enemy {
+        asteroids,
+        alien
+    };
+
+    enemy cur_enemy = asteroids;
+
     Ui::main_window *ui;
 
     God* damn;
@@ -72,7 +84,6 @@ private:
     QLabel *number_for_time = nullptr;
     QLabel *coins_counter = nullptr;
 
-    QLabel *text = nullptr;
     QVBoxLayout *vlay = nullptr;
 
     int cur_time = 0;

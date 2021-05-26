@@ -15,9 +15,11 @@ namespace eclipse {
                          kRight,
                          kNoMove,
                          kUp,
-                         kDown };
+                         kDown,
+                         kChangeGameState };
     enum ObjectState { kAlive,
                        kDead };
+
     enum Controllers { Key,
                        Arduino };
     enum Actions {

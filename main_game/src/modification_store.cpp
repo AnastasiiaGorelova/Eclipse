@@ -1,8 +1,6 @@
 #include "modification_store.h"
 #include <god.h>
 
-extern God damn;
-
 void Modification_store::pushed_button_left() {
     modifications.push_back(eclipse::kLeft);
 }
@@ -11,9 +9,14 @@ void Modification_store::pushed_button_right() {
     modifications.push_back(eclipse::kRight);
 }
 
+void Modification_store::pushed_space() {
+    modifications.push_back(eclipse::kChangeGameState);
+}
+
 eclipse::MoveDirection Modification_store::get_aggregated_changes() {
     int all_right = 0;
     int all_left = 0;
+    int is_stop = 0;
     for (auto x : modifications) {
         switch (x) {
             case eclipse::kRight:
@@ -22,9 +25,15 @@ eclipse::MoveDirection Modification_store::get_aggregated_changes() {
             case eclipse::kLeft:
                 all_left++;
                 break;
+            case eclipse::kChangeGameState:
+                is_stop = 1;
+                break;
         }
     }
     modifications.clear();
+    if (is_stop) {
+        return eclipse::kChangeGameState;
+    }
     int result = all_right - all_left;
     if (result == 0) {
         return eclipse::kNoMove;
