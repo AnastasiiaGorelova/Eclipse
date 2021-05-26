@@ -22,16 +22,11 @@ namespace eclipse {
             : x(x), size(size), id(std::move(id)) {
         }
 
-        ObjectState get_state() const;
-
+        [[nodiscard]] ObjectState get_state() const;
+        [[nodiscard]] std::pair<int, int> get_coordinates() const;// x,y coordinates
+        [[nodiscard]] std::string get_id() const;
+        [[nodiscard]] int get_size() const;
         void move(int speed);
-
-        std::pair<int, int> get_coordinates() const;// x,y coordinates
-
-        std::string get_id() const;
-
-        int get_size() const;
-
         void destroy();
     };
 

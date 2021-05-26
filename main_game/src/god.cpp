@@ -66,7 +66,7 @@ void God::make_changes_in_out_controller() {
             case eclipse::Create_alien_heart:
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
-                                       "monster_heart");//monster heart
+                                       "monster_heart");
                 break;
             case eclipse::Break_asteroid:
                 controller_out.change_obj_pic(i.id, i.size);
@@ -78,7 +78,6 @@ void God::make_changes_in_out_controller() {
                 controller_out.add_live();
                 break;
             case eclipse::Decrease_lives:
-                std::cerr << game->lives << '\n';
                 controller_out.delete_live();
                 break;
         }
@@ -139,8 +138,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 }
 
 void God::show_game_finish_window() {
-    controller_out.delete_obj(
-            game->get_ship_id());
+    controller_out.delete_obj(game->get_ship_id());
     delete_controller_in();
     cur_player.time = get_time();
     update_local_leaderboard(cur_player);
@@ -230,9 +228,8 @@ void God::show_legend_window() {
 void God::make_move_in_logic_and_ui_with_monster() {
     auto direction = train.get_aggregated_changes();
     if (!game->check_the_field()) {
-        game->move_before_alien(direction);
+        game->move_objects_without_generating(direction);
         if (game->check_the_field()) {
-            std::cerr << "set_alien" << '\n';
             game->set_alien();
         }
     } else {

@@ -14,10 +14,10 @@ namespace eclipse {
     public:
         Bonus(int x, std::string id, std::string type) : x(x), id(std::move(id)), type(std::move(type)) {}
 
+        [[nodiscard]] std::pair<int, int> get_coordinates() const;// x,y coordinates
+        [[nodiscard]] std::string get_id() const;
+        [[nodiscard]] std::string get_type() const;
         void move(int speed);
-        std::pair<int, int> get_coordinates() const;// x,y coordinates
-        std::string get_id() const;
-        std::string get_type() const;
 
         friend bool operator<(const Bonus &first, const Bonus &second);
     };

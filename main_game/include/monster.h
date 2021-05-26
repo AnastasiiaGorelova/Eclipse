@@ -24,7 +24,7 @@ namespace eclipse {
         std::string id;
         int speed = 2;
         MonsterState state = Not_on_the_field;
-        int lives = 5;
+        int lives = alien_lives;
         int steps_to_one_side = 0;
         MoveDirection direction = kRight;
         void set_hearts();
@@ -34,13 +34,14 @@ namespace eclipse {
         }
         std::set<Shot> alien_shots_in_the_field;
         std::vector<alien_heart> heart_coordinates;
-        std::pair<int, int> get_coordinates() const;
-        std::string get_id() const;
-        int get_size() const;
-        void move(MoveDirection direction);
-        MonsterState get_state() const;
+
+        [[nodiscard]] std::pair<int, int> get_coordinates() const;
+        [[nodiscard]] std::string get_id() const;
+        [[nodiscard]] int get_size() const;
+        [[nodiscard]] MonsterState get_state() const;
         void change_state(MonsterState new_state);
         void decrease_lives();
+        void move(MoveDirection direction);
     };
 }// namespace eclipse
 
