@@ -51,7 +51,7 @@ namespace eclipse {
         int lives = 3;
         int coins_to_buy_live = 5;
         GameState game_state = kOngoing;
-        Game() {}
+        Game() = default;
 
         std::vector<Changes> changes = {Changes{Create_ship,
                                                 ship.get_id(),
