@@ -1,6 +1,7 @@
 #include "bonus.h"
 
 namespace eclipse {
+
     void Bonus::move(int speed) {
         y += speed;
     }

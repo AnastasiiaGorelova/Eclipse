@@ -1,5 +1,5 @@
 
-#include "God.h"
+#include "god.h"
 #include <QApplication>
 
 /*void print(eclipse::Game &game) {

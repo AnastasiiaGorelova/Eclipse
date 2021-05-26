@@ -16,7 +16,6 @@ Q_OBJECT
 
 public:
     explicit legend_window(QWidget *parent = nullptr);
-
     ~legend_window() override;
 
 private:

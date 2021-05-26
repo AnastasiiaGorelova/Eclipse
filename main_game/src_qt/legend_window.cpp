@@ -14,6 +14,22 @@ legend_window::legend_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::legend_window) {
   ui->setupUi(this);
 
+  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
+                                    (*this).size(),
+                                    qApp->desktop()->availableGeometry()));
+
+  setWindowTitle("Legend");
+  setFixedSize(window_width, window_height);
+
+  setGeometry(
+            QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    this->size(),
+                    qApp->desktop()->availableGeometry()
+            )
+    );
+
   QPixmap backgroung("../../images/background_manual.png"); //поменять картинку
   backgroung = backgroung.scaled(window_width, window_height, Qt::IgnoreAspectRatio);
   QPalette palette;
@@ -23,8 +39,8 @@ legend_window::legend_window(QWidget *parent)
   auto *vlay = new QVBoxLayout(this);
 
   QFont font;
-  font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
-  font.setPixelSize(point_size);            // this for setting font size
+  font.setWeight(QFont::ExtraBold);
+  font.setPixelSize(point_size);
 
   auto text = new QLabel(
       "Землю атакуют астероиды и требуется\n самый отважный житель планеты для\n "
@@ -42,16 +58,8 @@ legend_window::legend_window(QWidget *parent)
   text->setFont(font);
   text->setAlignment(Qt::AlignCenter);
   vlay->addWidget(text);
-
-  vlay->setAlignment(Qt::AlignCenter);
   this->setLayout(vlay);
 
-  setWindowTitle("Legend");
-  setFixedSize(window_width, window_height);
-
-  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
-                                  (*this).size(),
-                                  qApp->desktop()->availableGeometry()));
 }
 
 legend_window::~legend_window() { delete ui; }

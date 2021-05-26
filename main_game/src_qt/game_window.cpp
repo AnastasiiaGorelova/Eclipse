@@ -1,18 +1,18 @@
-#include <God.h>
+#include <god.h>
 #include <game_window.h>
 #include <QDesktopWidget>
-#include <QLineEdit>
 #include <QStyle>
 #include "ui_game_window.h"
 
 #define window_width 800
 #define window_height 630
-#define point_size 35
+#define point_size 120
 
 game_window::game_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
-    QPixmap pix("../../images/main.jpg");
+
+    QPixmap pix("../../images/main.png");
     ui->label->setPixmap(pix.scaled(window_width, window_height));
 
     QString style = "QPushButton{border: 1px solid transparent;text-align: center;"
@@ -45,7 +45,7 @@ game_window::game_window(QWidget *parent)
         "background-color: rgba(0,0,0,0%); color : white;");
     QFont font;
     font.setWeight(QFont::ExtraBold);
-    font.setPixelSize(120);
+    font.setPixelSize(point_size);
     ui->Eclipse->setFont(font);
     ui->Eclipse->setAlignment(Qt::AlignCenter);
 

@@ -2,6 +2,7 @@
 #define MAIN_GAME_CHANGES_H
 
 namespace eclipse {
+
     struct Changes {
         Actions action;
         std::string id = "-";

@@ -1,7 +1,7 @@
 #include "game_ui.h"
 
 void Controller_out::show_menu(God* damn) {
-    menu_window_ = new game_window(); // NOLINT
+    menu_window_ = new game_window();
     menu_window_-> set_god(damn);
     menu_window_->show_menu_first();
 }
@@ -13,7 +13,7 @@ void Controller_out::close_menu() {
 }
 
 void Controller_out::show_game_field(God* damn) {
-    game_window_ = new main_window(); // NOLINT
+    game_window_ = new main_window();
     game_window_->make_field();
     game_window_->set_God(damn);
     game_window_->set_lives();
@@ -58,7 +58,6 @@ void Controller_out::set_obj(int x,
                              const std::string &hash,
                              const std::string &object_name) const {
     game_window_->set(x, y, size, hash, object_name);
-
 }
 
 void Controller_out::move_obj(int x, int y, const std::string &hash) const {
@@ -116,6 +115,7 @@ void Controller_out::stop_timers() const {
 void Controller_out::show_live_for_coins_window(int n, int k, God* damn) {
     buy_live_for_coins_window_ = new buy_live_for_coins_window();
     buy_live_for_coins_window_->set_god(damn);
+    buy_live_for_coins_window_->set_window_options();
     buy_live_for_coins_window_->buy_for_n_coins(n, k);
     buy_live_for_coins_window_->show();
 }
@@ -151,5 +151,10 @@ void Controller_out::show_legend_window() {
     legend_window_ = new legend_window();
     legend_window_->show();
 }
+
+void Controller_out::game_pause() {
+    game_window_->set_game_on_pause();
+}
+
 
 

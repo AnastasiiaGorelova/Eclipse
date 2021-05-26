@@ -1,7 +1,7 @@
 #ifndef MAIN_GAME_MAIN_WINDOW_H
 #define MAIN_GAME_MAIN_WINDOW_H
 
-#include <GameObject.h>
+#include <game_object.h>
 #include <QGraphicsScene>
 #include <QLabel>
 #include <QTimer>
@@ -19,30 +19,9 @@ QT_END_NAMESPACE
 
 class main_window : public QWidget {
     Q_OBJECT
-
-    std::unordered_map<std::string, GameObject *> hash_table;
-    God* damn;
 public:
-    std::pair<std::string, std::string> get_cur_time();
-
-    void start_timer_for_beginning();
-    void add_life();
-
     explicit main_window(QWidget *parent = nullptr);
     ~main_window() override;
-
-    QGraphicsScene *scene{};
-    QGraphicsScene *scene_info{};
-
-    QLabel *time;
-    QLabel *number_for_time;
-    QLabel *coins_counter;
-
-    QTimer *timer_for_start;
-    QTimer *timer;
-    QTimer *timer_for_ticks;
-    QTimer *timer_for_shots;
-    QTimer *timer_for_monster;
 
     void make_field();
     void set(int x,
@@ -53,16 +32,31 @@ public:
     void delete_obj(const std::string &hash);
     void move(int x, int y, const std::string &hash);
 
-    void start_timer();
-
     void set_timer();
     void set_lives();
     void set_coins_counter();
-
-    void change_coins_counter(int count) const;
-    void decrease_lives();
-    void change_asteroid_crack(const std::string &hash, int size);
     void set_God(God* damn_);
+
+    std::pair<std::string, std::string> get_cur_time();
+
+    void add_life();
+    void decrease_lives();
+    void change_coins_counter(int count) const;
+    void change_asteroid_crack(const std::string &hash, int size);
+    void set_game_on_pause();
+
+    void start_timer();
+    void start_timer_for_beginning();
+
+    QTimer *timer_for_start = nullptr;
+    QTimer *timer = nullptr;
+    QTimer *timer_for_ticks = nullptr;
+    QTimer *timer_for_shots = nullptr;
+    QTimer *timer_for_monster = nullptr;
+    QTimer *timer_for_pause = nullptr;
+    QTimer *timer_for_acceleration = nullptr;
+
+    QLabel *text = nullptr;
 
 private slots:
     void change_timer();
@@ -70,18 +64,36 @@ private slots:
     void make_shot();
     void change_label();
     void tick_god_with_monster();
+    void check_keys();
 
 private:
+    enum enemy {
+        asteroids,
+        alien
+    };
 
-    int time_for_start = 0;
-    QLabel *text;
-    QVBoxLayout *vlay;
-    size_t width = 800;
-    size_t height = 600;
+    enemy cur_enemy = asteroids;
+
     Ui::main_window *ui;
 
+    God* damn;
+    int ticks_for_second = 65;
+
+    QGraphicsScene *scene = nullptr;
+    QGraphicsScene *scene_info = nullptr;
+
+    QLabel *time = nullptr;
+    QLabel *number_for_time = nullptr;
+    QLabel *coins_counter = nullptr;
+
+    QVBoxLayout *vlay = nullptr;
+
     int cur_time = 0;
+
+    std::unordered_map<std::string, GameObject *> hash_table;
     static std::pair<std::string, std::string> find_time_string(int x);
+
+    void seven_points_acceleration();
 };
 
 #endif// MAIN_GAME_MAIN_WINDOW_H

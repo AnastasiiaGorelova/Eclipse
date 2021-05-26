@@ -1,6 +1,6 @@
 
-#ifndef MAIN_GAME_KEY_CONTROLLER__H
-#define MAIN_GAME_KEY_CONTROLLER__H
+#ifndef MAIN_GAME_KEY_CONTROLLER_H
+#define MAIN_GAME_KEY_CONTROLLER_H
 
 #include <QEvent>
 #include <QKeyEvent>
@@ -17,4 +17,4 @@ struct Key_Controller : QObject, virtual Controller_in {
     void write_to_port() override;
 };
 
-#endif  // MAIN_GAME_KEY_CONTROLLER__H
+#endif  // MAIN_GAME_KEY_CONTROLLER_H

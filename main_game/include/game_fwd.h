@@ -7,6 +7,7 @@ namespace eclipse {
     struct Game;
     static const int kWidth = 800;
     static const int kHeight = 600;
+    static const int alien_lives = 5;
     static const std::string default_id = "nothing";
     enum GameState { kOngoing,
                      kFinished };
@@ -14,9 +15,11 @@ namespace eclipse {
                          kRight,
                          kNoMove,
                          kUp,
-                         kDown };
+                         kDown,
+                         kChangeGameState };
     enum ObjectState { kAlive,
                        kDead };
+
     enum Controllers { Key,
                        Arduino };
     enum Actions {

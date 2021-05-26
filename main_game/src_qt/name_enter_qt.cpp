@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <iostream>
-#include "God.h"
+#include "god.h"
 
 #define window_width 350
 #define window_height 220
@@ -19,6 +19,9 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
+
+    setWindowTitle("Enter name");
+    setFixedSize(window_width, window_height);
 
     ui->setupUi(this);
     QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
@@ -49,9 +52,6 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
 
     vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
-
-    setWindowTitle("Enter name");
-    setFixedSize(window_width, window_height);
 }
 
 name_enter_qt::~name_enter_qt() {

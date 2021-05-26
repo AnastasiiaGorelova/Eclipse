@@ -17,9 +17,9 @@ namespace eclipse {
     public:
         spaceship(int width, int height, std::string id) : x(width / 2 - size / 2), y(height - size), id(std::move(id)) {
         }
-        std::pair<int, int> get_coordinates() const;
-        std::string get_id() const;
-        int get_size() const;
+        [[nodiscard]] std::pair<int, int> get_coordinates() const;
+        [[nodiscard]] std::string get_id() const;
+        [[nodiscard]] int get_size() const;
         void move(MoveDirection direction);
     };
 }// namespace eclipse

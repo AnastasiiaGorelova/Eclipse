@@ -1,6 +1,6 @@
-#include <Key_Controller_.h>
+#include <key_controller.h>
 #include <QApplication>
-#include "God.h"
+#include "god.h"
 
 bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::KeyPress) {
@@ -11,6 +11,9 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
                 break;
             case Qt::Key_Right:
                 damn->train.pushed_button_right();
+                break;
+            case Qt::Key_Space:
+                damn->train.pushed_pause_or_play();
                 break;
             default:
                 break;
@@ -26,6 +29,4 @@ Key_Controller::Key_Controller(QObject *parent) : QObject(parent) {
 void Key_Controller::set_God(God *damn_) {
     damn = damn_;
 }
-void Key_Controller::write_to_port() {
-    std:: cerr << "DO NOTHING" << std:: endl;
-}
+void Key_Controller::write_to_port() {}

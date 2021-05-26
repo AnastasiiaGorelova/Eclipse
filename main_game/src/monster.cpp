@@ -10,7 +10,7 @@ namespace eclipse {
         return id;
     }
 
-    int monster::get_size() const {
+    int monster::get_size() const {// NOLINT
         return size;
     }
 
@@ -64,7 +64,7 @@ namespace eclipse {
     }
 
     void monster::set_hearts() {
-        lives = 5;
+        lives = alien_lives;
         int heart_size = size / lives;//скорректировать размеры
         int heart_y = y - heart_size;
         int heart_x = 0;

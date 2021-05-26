@@ -1,5 +1,5 @@
 #include "game.h"
-#include "God.h"
+#include "god.h"
 #include "game_fwd.h"
 #include <vector>
 
@@ -19,18 +19,17 @@ namespace eclipse {
     }
 
     bool Game::check_for_conflict_with_ship(int x, int y, int size) const {
-        if (y + size < ship.get_coordinates().second) {//не пересекаются по y
+        if (y + size < ship.get_coordinates().second) {
             return true;
         }
         if (x + size < ship.get_coordinates().first || ship.get_coordinates().first + ship.get_size() < x) {
             return true;
         }
-        return false;//столкнулись
+        return false;//bumped
     }
 
     void Game::check_for_living() {
         --lives;
-        std::cerr << "minus life" << lives << '\n';
         if (lives <= 0) {// dead
             game_state = kFinished;
         }
@@ -52,12 +51,12 @@ namespace eclipse {
         shots_in_the_field.insert(std::move(new_shot));
     }
 
-    bool Game::check_for_nothing(int x, int size) const {//проверка на то что пусто
+    bool Game::check_for_nothing(int x, int size) const {
         for (auto it1 = asteroids_in_the_field.begin(); it1 != asteroids_in_the_field.end(); it1++) {
             if (it1->get_coordinates().second < size) {
                 if ((it1->get_coordinates().first >= x && it1->get_coordinates().first <= x + size) ||
                     (x >= it1->get_coordinates().first && x <= it1->get_coordinates().first + it1->get_size())) {
-                    return false;//пересекаются
+                    return false;//bumped
                 }
             }
         }
@@ -65,7 +64,7 @@ namespace eclipse {
             if (it2->get_coordinates().second < size) {
                 if ((it2->get_coordinates().first >= x && it2->get_coordinates().first <= x + size) ||
                     (x >= it2->get_coordinates().first && x <= it2->get_coordinates().first + bonus_size)) {
-                    return false;//пересекаются
+                    return false;//bumped
                 }
             }
         }
@@ -73,7 +72,7 @@ namespace eclipse {
             if (it3->get_coordinates().second < size) {
                 if ((it3->get_coordinates().first >= x && it3->get_coordinates().first <= x + size) ||
                     (x >= it3->get_coordinates().first && x <= it3->get_coordinates().first + it3->get_size())) {
-                    return false;//пересекаются
+                    return false;//bumped
                 }
             }
         }
@@ -84,7 +83,7 @@ namespace eclipse {
         if ((x1 > x2 + size2 || x2 > x1 + size1) || (y1 > y2 + size2 || y2 > y1 + size1)) {
             return true;
         }
-        return false;//пересекаются
+        return false;//bumped
     }
 
     bool Game::destroy_objects_by_shots(int x1, int y1, int size1) {
@@ -100,7 +99,7 @@ namespace eclipse {
         }
         auto it1 = asteroids_in_the_field.begin();
         while (it1 != asteroids_in_the_field.end()) {
-            if (!check_for_conflict(x1, y1, size1, it1->get_coordinates().first, it1->get_coordinates().second, it1->get_size())) {//ударил астероид
+            if (!check_for_conflict(x1, y1, size1, it1->get_coordinates().first, it1->get_coordinates().second, it1->get_size())) {
                 Asteroid temp_asteroid = *it1;
                 asteroids_in_the_field.erase(it1);
                 temp_asteroid.destroy();
@@ -116,7 +115,7 @@ namespace eclipse {
         }
         auto it2 = bonus_in_the_field.begin();
         while (it2 != bonus_in_the_field.end()) {
-            if (!check_for_conflict(x1, y1, size1, it2->get_coordinates().first, it2->get_coordinates().second, bonus_size)) {//ударил астероид
+            if (!check_for_conflict(x1, y1, size1, it2->get_coordinates().first, it2->get_coordinates().second, bonus_size)) {
                 changes.emplace_back(Changes{Delete_object, it2->get_id()});
                 if (it2->get_type() == "coin") {
                     coins++;
@@ -146,7 +145,7 @@ namespace eclipse {
         if (random_number(0, 50) == 5 && asteroids_in_the_field.size() < 4) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
-            if (check_for_nothing(x, size)) {//проверка на то что пусто
+            if (check_for_nothing(x, size)) {
                 Asteroid new_asteroid(x, size, new_uuid());
                 changes.emplace_back(Changes{Create_asteroid,
                                              new_asteroid.get_id(),
@@ -178,13 +177,13 @@ namespace eclipse {
         auto it = shots_in_the_field.begin();
         std::set<Shot> after_changes;
         while (it != shots_in_the_field.end()) {
-            if (!destroy_objects_by_shots(it->get_coordinates().first, it->get_coordinates().second, it->get_size())) {//столкнулись
+            if (!destroy_objects_by_shots(it->get_coordinates().first, it->get_coordinates().second, it->get_size())) {//bumped
                 changes.emplace_back(Changes{Delete_object, it->get_id()});
             } else {
                 Shot temp_shot = *it;
                 temp_shot.move();
                 if (!check_for_borders(temp_shot.get_coordinates().second, temp_shot.get_size()) ||
-                    !destroy_objects_by_shots(temp_shot.get_coordinates().first, temp_shot.get_coordinates().second, temp_shot.get_size())) {//столкнулись
+                    !destroy_objects_by_shots(temp_shot.get_coordinates().first, temp_shot.get_coordinates().second, temp_shot.get_size())) {//bumped
                     changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
                 } else {
                     after_changes.insert(temp_shot);
@@ -203,11 +202,11 @@ namespace eclipse {
             Asteroid cur_asteroid = *it;
             cur_asteroid.move(game_speed);
             if (!check_for_borders(cur_asteroid.get_coordinates().second, cur_asteroid.get_size()) ||
-                !check_for_conflict_with_ship(cur_asteroid.get_coordinates().first, cur_asteroid.get_coordinates().second, cur_asteroid.get_size())) {//врезались в границу
+                !check_for_conflict_with_ship(cur_asteroid.get_coordinates().first, cur_asteroid.get_coordinates().second, cur_asteroid.get_size())) {//bumped into the border
                 check_for_living();
                 changes.emplace_back(Changes{Delete_object,
                                              cur_asteroid.get_id()});
-            } else {//можем двигать
+            } else {// we can move object
                 changes.emplace_back(Changes{Move_object,
                                              cur_asteroid.get_id(),
                                              cur_asteroid.get_coordinates()});
@@ -260,15 +259,7 @@ namespace eclipse {
     }
 
     void Game::make_move(MoveDirection direction) {
-        moving_ship(direction);
-        moving_asteroids();
-        if (!get_game_state()) {
-            clear_field();
-            return;
-        }
-        moving_bonus();
-        moving_alien_shots();
-        moving_shots();
+        move_objects_without_generating(direction);
         if (!get_game_state()) {
             clear_field();
             return;
@@ -286,12 +277,12 @@ namespace eclipse {
             return;
         }
         attack_by_alien();
-        if (alien.get_state() == On_the_field && random_number(0, 70) == 5) {//надосделать отдельным таймером
-            shoot_by_alien();                                                //??
+        if (alien.get_state() == On_the_field && random_number(0, 70) == 5) {
+            shoot_by_alien();
         }
     }
 
-    void Game::move_before_alien(MoveDirection direction) {
+    void Game::move_objects_without_generating(MoveDirection direction) {
         moving_ship(direction);
         moving_asteroids();
         if (!get_game_state()) {
@@ -299,6 +290,7 @@ namespace eclipse {
             return;
         }
         moving_bonus();
+        moving_alien_shots();
         moving_shots();
         if (!get_game_state()) {
             clear_field();
@@ -323,13 +315,12 @@ namespace eclipse {
             changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         alien.alien_shots_in_the_field.clear();
-        if (alien.get_state() != Not_on_the_field) {
-            for (const auto &i : alien.heart_coordinates) {
-                changes.emplace_back(Changes{Delete_object, i.id});
-            }
-            alien.heart_coordinates.clear();
-            changes.emplace_back(Changes{Delete_object, alien.get_id()});
+        for (const auto &i : alien.heart_coordinates) {
+            changes.emplace_back(Changes{Delete_object, i.id});
         }
+        alien.heart_coordinates.clear();
+        alien.change_state(Not_on_the_field);
+        changes.emplace_back(Changes{Delete_object, alien.get_id()});
     }
 
     std::pair<int, int> get_field_size() {
@@ -337,14 +328,16 @@ namespace eclipse {
     }
 
     void Game::set_alien() {
-        changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
-        alien.change_state(Going_out);
+        if (get_game_state()) {
+            changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
+            alien.change_state(Going_out);
+        } else {
+            alien.change_state(Not_on_the_field);
+        }
     }
 
     void Game::attack_by_alien() {
         if (alien.get_state() == Not_on_the_field) {
-            //            ///УБРАТЬ!!
-            //            set_alien();
             return;
         }
         if (alien.get_state() == Going_out) {
@@ -376,7 +369,6 @@ namespace eclipse {
     }
 
     void Game::shoot_by_alien() {
-        std::cerr << "shoot" << '\n';
         Shot new_shot(alien.get_coordinates().first + (alien.get_size() / 2), alien.get_coordinates().second + alien.get_size(), new_uuid());
         changes.emplace_back(Changes{Create_alien_shot, new_shot.get_id(), new_shot.get_coordinates(), new_shot.get_size()});
         alien.alien_shots_in_the_field.insert(std::move(new_shot));
@@ -395,7 +387,6 @@ namespace eclipse {
             }
             if (!check_for_conflict_with_ship(temp_shot.get_coordinates().first, temp_shot.get_coordinates().second, temp_shot.get_size())) {
                 changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
-                std::cerr << "killed" << '\n';
                 check_for_living();
             } else {
                 changes.emplace_back(Changes{Move_object, temp_shot.get_id(), temp_shot.get_coordinates()});

@@ -1,7 +1,7 @@
 
 
-#ifndef MAIN_GAME_LOCAL_LEADERBOARD_UI_H
-#define MAIN_GAME_LOCAL_LEADERBOARD_UI_H
+#ifndef MAIN_GAME_LEADERBOARD_UI_H
+#define MAIN_GAME_LEADERBOARD_UI_H
 
 #include <QWidget>
 #include <QTableWidget>
@@ -15,13 +15,11 @@ Q_OBJECT
 
 public:
     explicit local_leaderboard_ui(QWidget *parent = nullptr);
-
     ~local_leaderboard_ui() override;
 
 private:
     Ui::local_leaderboard_ui *ui;
-
     QTableWidget *table;
 };
 
-#endif //MAIN_GAME_LOCAL_LEADERBOARD_UI_H
+#endif //MAIN_GAME_LEADERBOARD_UI_H

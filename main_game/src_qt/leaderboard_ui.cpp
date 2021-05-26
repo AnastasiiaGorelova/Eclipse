@@ -1,6 +1,6 @@
 
 #include <QHBoxLayout>
-#include "local_leaderboard_ui.h"
+#include "leaderboard_ui.h"
 #include "ui_local_leaderboard_ui.h"
 #include <QDesktopWidget>
 #include <QHeaderView>
@@ -18,10 +18,12 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
         QWidget(parent), ui(new Ui::local_leaderboard_ui) {
     ui->setupUi(this);
 
-    setFixedSize(window_width, window_height);
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
+
+    setFixedSize(window_width, window_height);
+    setWindowTitle("Score table");
 
     QPixmap backgroung("../../images/background_leaderboard.png");  //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
@@ -29,19 +31,14 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
     palette.setBrush(QPalette::Background, backgroung);
     this->setPalette(palette);
 
-    setWindowTitle("Score table");
     table = new QTableWidget;
-
     table->setStyleSheet("QTableWidget {background-color: transparent;}");
-
     table->horizontalHeader()->hide();
     table->verticalHeader()->hide();
     table->horizontalHeader()->setVisible(false);
     table->verticalHeader()->setVisible(false);
-
     table->setRowCount(row_count);
     table->setColumnCount(column_count);
-
     table->horizontalHeader()->setStretchLastSection(true);
     table->horizontalHeader()->resizeSection(0, column_width);
     table->horizontalHeader()->resizeSection(1, column_width);

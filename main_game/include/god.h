@@ -1,16 +1,17 @@
 #ifndef MAIN_GAME_GOD_H
 #define MAIN_GAME_GOD_H
 
-#include <memory>
-#include "Key_Controller_.h"
-#include "Modification_store.h"
 #include "arduino.h"
 #include "controllers_in.h"
 #include "game.h"
 #include "game_ui.h"
+#include "key_controller.h"
 #include "local_leaderboard.h"
+#include "modification_store.h"
+#include <memory>
 
-enum message_errors { no_errors, arduino_setting_error };
+enum message_errors { no_errors,
+                      arduino_setting_error };
 
 class God {
 public:
@@ -61,4 +62,4 @@ public:
     Choice gamer_choice = wait;
 };
 
-#endif  // MAIN_GAME_GOD_H
+#endif// MAIN_GAME_GOD_H

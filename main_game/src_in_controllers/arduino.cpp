@@ -1,5 +1,5 @@
 #include "arduino.h"
-#include "God.h"
+#include "god.h"
 
 namespace ReadingFromPort {
 

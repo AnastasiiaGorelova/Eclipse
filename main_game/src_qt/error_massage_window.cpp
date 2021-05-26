@@ -5,7 +5,7 @@
 #include "ui_error_massage_window.h"
 #include <QStyle>
 #include <QDesktopWidget>
-#include "God.h"
+#include "god.h"
 
 #define window_width 400
 #define window_height 300
@@ -19,15 +19,14 @@ error_massage_window::error_massage_window(QWidget *parent) :
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
+    setWindowTitle("Error");
+    setFixedSize(window_width, window_height);
 
-    QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
+    QPixmap backgroung("../../images/menu_background.png");
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, backgroung);
     this->setPalette(palette);
-
-    setWindowTitle("Error");
-    setFixedSize(window_width, window_height);
 }
 
 error_massage_window::~error_massage_window() {
@@ -39,8 +38,8 @@ void error_massage_window::arduino_setting_error() {
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
-    font.setWeight(QFont::ExtraBold); // set font weight with enum QFont::Weight
-    font.setPixelSize(point_size); // this for setting font size
+    font.setWeight(QFont::ExtraBold);
+    font.setPixelSize(point_size);
 
     auto text = new QLabel("Ардуино не подключено.\n Проверьте соединение\n или выберите другой\n режим управления\n");
     text->setParent(this);
@@ -72,7 +71,6 @@ void error_massage_window::arduino_setting_error() {
 
     connect(back_to_selection_window, &QPushButton::released, this, &error_massage_window::_on_back_to_menu_clicked);
 
-    vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
 }
 
