@@ -222,8 +222,8 @@ void God::show_selection_window() {
     controller_out.show_selection_window(this);
 }
 
-void God::show_local_leaderboard() {
-    controller_out.show_local_leaderboard();
+void God::show_leaderboard(int param) {
+    controller_out.show_leaderboard(param);
 }
 
 void God::show_legend_window() {
@@ -246,4 +246,8 @@ void God::make_move_in_logic_and_ui_with_monster() {
         game->make_move_with_alien(direction);
     }
     finish_or_continue_game();
+}
+
+void God::change_game_speed(int diff) {
+    game_speed+= diff;
 }

@@ -39,9 +39,8 @@ public:
     void start_game_preview();
     void show_live_for_coins_window(int n, int k, God* damn);
     void close_live_for_coins_window();
-    void show_local_leaderboard();
+    void show_leaderboard(int param);
     void show_legend_window();
-
 
     //отрисовка - перемещение - удаление объектов
     void set_obj(int x,

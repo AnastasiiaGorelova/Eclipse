@@ -1,5 +1,8 @@
 #include "game_ui.h"
 
+#define local_leaderboard 0
+#define server_leaderboard 1
+
 void Controller_out::show_menu(God* damn) {
     menu_window_ = new game_window();
     menu_window_-> set_god(damn);
@@ -142,8 +145,13 @@ void Controller_out::close_error_massage_window() {
     error_massage_window_ = nullptr;
 }
 
-void Controller_out::show_local_leaderboard() {
+void Controller_out::show_leaderboard(int param) {
     local_leaderboard_ui_ = new local_leaderboard_ui();
+    if (param == local_leaderboard) {
+        local_leaderboard_ui_->download_local_leaderboard();
+    } else if (param == server_leaderboard){
+        local_leaderboard_ui_->download_server_leaderboard();
+    }
     local_leaderboard_ui_->show();
 }
 

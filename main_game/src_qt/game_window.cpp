@@ -7,6 +7,8 @@
 #define window_width 800
 #define window_height 630
 #define point_size 120
+#define local_leaderboard 0
+#define server_leaderboard 1
 
 game_window::game_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_window) {
@@ -35,6 +37,8 @@ game_window::game_window(QWidget *parent)
     ui->start->setStyleSheet(style);
     ui->local_board->setText("Локальная таблица рекордов");
     ui->local_board->setStyleSheet(style);
+    ui->server_board->setText("Глобальная таблица рекордов");
+    ui->server_board->setStyleSheet(style);
     ui->history->setText("История");
     ui->history->setStyleSheet(style);
     ui->exit->setText("Выход");
@@ -77,10 +81,14 @@ void game_window::set_god(God* damn_) {
 }
 
 void game_window::on_local_board_clicked() {
-    damn->show_local_leaderboard();
+    damn->show_leaderboard(local_leaderboard);
 }
 
 void game_window::on_history_clicked() {
     damn->show_legend_window();
+}
+
+void game_window::on_server_board_clicked() {
+    damn->show_leaderboard(server_leaderboard);
 }
 

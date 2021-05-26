@@ -12,10 +12,12 @@ QT_END_NAMESPACE
 
 class local_leaderboard_ui : public QWidget {
 Q_OBJECT
-
 public:
     explicit local_leaderboard_ui(QWidget *parent = nullptr);
     ~local_leaderboard_ui() override;
+
+    void download_server_leaderboard();
+    void download_local_leaderboard();
 
 private:
     Ui::local_leaderboard_ui *ui;
