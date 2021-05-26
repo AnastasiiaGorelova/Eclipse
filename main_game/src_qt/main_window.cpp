@@ -185,15 +185,28 @@ void main_window::start_timer() {
     timer_for_ticks->setParent(this);
     timer_for_shots = new QTimer();
     timer_for_shots->setParent(this);
+    timer_for_monster = new QTimer();
+    timer_for_monster->setParent(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(change_timer()));
     connect(timer_for_ticks, SIGNAL(timeout()), this, SLOT(tick_god()));
     connect(timer_for_shots, SIGNAL(timeout()), this, SLOT(make_shot()));
+    connect(timer_for_monster, SIGNAL(timeout()), this, SLOT(tick_god_with_monster()));
     timer->start(timer_timeout);
     timer_for_ticks->start(timer_for_ticks_timeout);
     timer_for_shots->start(timer_for_shots_timeout);
 }
 
 void main_window::tick_god() {
+    static int time_lasts = 0;
+    time_lasts++;
+    if (time_lasts == 500) {
+        time_lasts = 0;
+        timer_for_ticks->stop();
+        damn->game->alien.change_state(eclipse::Going_out);
+        std::cout << damn->game->alien.get_state() << '\n';
+        timer_for_monster->start(timer_for_ticks_timeout);
+        return;
+    }
     damn->make_move_in_logic_and_ui();
 }
 
@@ -280,4 +293,13 @@ void main_window::add_life() {
 
 void main_window::set_God(God *damn_) {
     damn = damn_;
+}
+
+void main_window::tick_god_with_monster() {
+    if (damn->game->alien.get_state() == eclipse::Not_on_the_field) {
+        timer_for_monster->stop();
+        timer_for_ticks->start();
+        return;
+    }
+    damn->make_move_in_logic_and_ui_with_monster();
 }

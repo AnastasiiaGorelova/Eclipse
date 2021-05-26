@@ -99,8 +99,8 @@ void God::finish_or_continue_game() {
 
 void God::make_move_in_logic_and_ui() {
     auto direction = train.get_aggregated_changes();
-    //game->make_move(direction);
-    game->make_move_with_alien(direction);//for debug
+    game->make_move(direction);
+    //game->make_move_with_alien(direction);//for debug
     finish_or_continue_game();
 }
 
@@ -220,4 +220,11 @@ void God::show_local_leaderboard() {
 
 void God::show_legend_window() {
     controller_out.show_legend_window();
+}
+
+void God::make_move_in_logic_and_ui_with_monster() {
+    auto direction = train.get_aggregated_changes();
+    //game->make_move(direction);
+    game->make_move_with_alien(direction);//for debug
+    finish_or_continue_game();
 }

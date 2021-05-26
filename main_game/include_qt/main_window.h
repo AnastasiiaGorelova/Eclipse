@@ -42,6 +42,7 @@ public:
     QTimer *timer;
     QTimer *timer_for_ticks;
     QTimer *timer_for_shots;
+    QTimer *timer_for_monster;
 
     void make_field();
     void set(int x,
@@ -68,6 +69,7 @@ private slots:
     void tick_god();
     void make_shot();
     void change_label();
+    void tick_god_with_monster();
 
 private:
 
