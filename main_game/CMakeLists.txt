@@ -22,7 +22,7 @@ add_subdirectory(dependencies)
 
 # GAME
 add_executable(main_game ${SOURCES})
-target_include_directories(main_game PUBLIC Boost::filesystem "include" "include_qt" "include_in_controllers" "include_leaderboard")
+target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard")
 target_link_libraries(main_game serial)
 target_link_libraries(main_game Boost::filesystem)
 target_link_libraries(main_game Qt5::Widgets)
@@ -37,6 +37,8 @@ target_link_libraries(arduino_info serial)
 
 # For Server test
 add_executable(server "src_upstream_leaderboard/server.cpp")
+target_link_libraries(server Boost::filesystem)
 
 # For client test
 add_executable(client "src_upstream_leaderboard/client.cpp")
+target_link_libraries(client Boost::filesystem)
