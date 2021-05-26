@@ -51,7 +51,7 @@ void God::make_changes_in_out_controller() {
             case eclipse::Create_alien_shot:
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
-                                       "AquaShot");
+                                       "monster_shot");
                 break;
             case eclipse::Create_coin:
                 controller_out.set_obj(i.new_coordinates.first,

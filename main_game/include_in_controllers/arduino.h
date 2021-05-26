@@ -2,12 +2,12 @@
 #define MAIN_GAME_ARDUINO_H
 
 #include <serial/serial.h>
+#include <atomic>
 #include <iostream>
+#include <mutex>
 #include <stdexcept>
 #include <thread>
-#include <atomic>
 #include "controllers_in.h"
-#include <mutex>
 
 class God;
 
@@ -23,9 +23,7 @@ struct Arduino : virtual Controller_in {
 
     Arduino(const std::string &port, uint32_t baudrate = 9600);
 
-    Move make_a_move();
-
-    void make_a_move_void();
+    void make_a_move();
 
     void start_thread();
 

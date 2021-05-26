@@ -17,15 +17,13 @@ std::string Ports::get_arduino_port() const {
 }
 
 void Arduino::write_to_port() {
-    //std::unique_lock l(m);
-    std::cerr << "!!!!!write_to_port!!!!!" << std::endl;
+    std::cerr << "writing into port..." << std::endl;
     size_t bytes_wrote = serial_.write("1");
     std::cerr << "bytes_wrote: " << bytes_wrote << std::endl;
 }
 
-void Arduino::make_a_move_void() {
+void Arduino::make_a_move() {
     while (keep_going) {
-        //std::unique_lock l(m);
         std::string line;
         line = serial_.readline();  // get line from arduino
         if (line == "MENU\n") {
@@ -42,13 +40,10 @@ void Arduino::make_a_move_void() {
 
         } else if (line == "NO\n") {
             std::cerr << "n" << std::endl;
-            /*damn->controller_out.close_live_for_coins_window();
-            damn->show_game_finish_window();*/
             damn->gamer_choice = God::stop_game;
 
         } else if (line == "YES\n") {
             std::cerr << "y" << std::endl;
-            /*damn->add_life_and_restart_game(damn->game->coins);*/
             damn->gamer_choice = God::continue_game;
 
         } else {
@@ -59,7 +54,7 @@ void Arduino::make_a_move_void() {
 }
 
 void Arduino::start_thread() {
-    ta = std::thread(&Arduino::make_a_move_void, this);
+    ta = std::thread(&Arduino::make_a_move, this);
 }
 
 Arduino::Arduino(const std::string &port, uint32_t baudrate) {
@@ -71,25 +66,6 @@ Arduino::Arduino(const std::string &port, uint32_t baudrate) {
     serial_.open();
     keep_going = true;
     this->start_thread();
-}
-
-Move Arduino::make_a_move() {
-    std::string line;
-    line = serial_.readline();  // get line from arduino
-    if (line == "MENU\n") {
-        // TODO тыкнуть функцию выхода в меню
-        return menu;
-    } else if (line == "RIGHT\n") {
-        damn->train.pushed_button_right();  // тык
-        std::cerr << "r" << std::endl;
-        return right;
-    } else if (line == "LEFT\n") {
-        damn->train.pushed_button_left();  // тык
-        std::cerr << "l" << std::endl;
-        return left;
-    } else {
-        return exception;
-    }
 }
 
 void Arduino::set_God(God *damn_) {
