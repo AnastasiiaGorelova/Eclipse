@@ -1,7 +1,7 @@
 #include "game.h"
+#include "God.h"
 #include "game_fwd.h"
 #include <vector>
-#include "God.h"
 
 extern ::God damn;
 
@@ -30,6 +30,7 @@ namespace eclipse {
 
     void Game::check_for_living() {
         --lives;
+        std::cerr << "minus life" << lives << '\n';
         if (lives <= 0) {// dead
             game_state = kFinished;
         }
@@ -87,6 +88,10 @@ namespace eclipse {
     }
 
     bool Game::destroy_objects_by_shots(int x1, int y1, int size1) {
+        if (alien.get_state() != Not_on_the_field && !check_for_conflict(x1, y1, size1, alien.get_coordinates().first, alien.get_coordinates().second, alien.get_size())) {
+            alien.decrease_lives();
+            return false;
+        }
         auto it1 = asteroids_in_the_field.begin();
         while (it1 != asteroids_in_the_field.end()) {
             if (!check_for_conflict(x1, y1, size1, it1->get_coordinates().first, it1->get_coordinates().second, it1->get_size())) {//ударил астероид
@@ -118,6 +123,15 @@ namespace eclipse {
                 return false;
             }
             it2++;
+        }
+        auto it3 = alien.alien_shots_in_the_field.begin();
+        while (it3 != alien.alien_shots_in_the_field.end()) {
+            if (!check_for_conflict(x1, y1, size1, it3->get_coordinates().first, it3->get_coordinates().second, bonus_size)) {//ударил астероид
+                changes.emplace_back(Changes{Delete_object, it3->get_id()});
+                alien.alien_shots_in_the_field.erase(it3);
+                return false;
+            }
+            it3++;
         }
         return true;
     }
@@ -241,20 +255,29 @@ namespace eclipse {
 
     void Game::make_move(MoveDirection direction) {
         moving_ship(direction);
-        //        moving_asteroids();
-        //        if (!get_game_state()) {
-        //            clear_field();
-        //            return;
-        //        }
-        //        moving_bonus();
+        moving_asteroids();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
+        moving_bonus();
         moving_shots();
-        //        if (!get_game_state()) {
-        //            clear_field();
-        //            return;
-        //        }
-        //        generate_asteroid();
-        //        generate_bonus();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
+        generate_asteroid();
+        generate_bonus();
+    }
+
+    void Game::make_move_with_alien(MoveDirection direction) {
+        moving_ship(direction);
+        moving_alien_shots();
+        moving_shots();
         attack_by_alien();
+        if (alien.get_state() == On_the_field && random_number(0, 70) == 5) {//надосделать отдельным таймером
+            shoot_by_alien();                                                //??
+        }
     }
 
     void Game::clear_field() {
@@ -298,6 +321,37 @@ namespace eclipse {
         }
         alien.move(kNoMove);
         changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+    }
+
+    void Game::shoot_by_alien() {
+        std::cerr << "shoot" << '\n';
+        Shot new_shot(alien.get_coordinates().first + (alien.get_size() / 2), alien.get_coordinates().second + alien.get_size(), new_uuid());
+        changes.emplace_back(Changes{Create_alien_shot, new_shot.get_id(), new_shot.get_coordinates(), new_shot.get_size()});
+        alien.alien_shots_in_the_field.insert(std::move(new_shot));
+    }
+
+    void Game::moving_alien_shots() {
+        auto it = alien.alien_shots_in_the_field.begin();
+        std::set<Shot> after_changes;
+        while (it != alien.alien_shots_in_the_field.end()) {
+            Shot temp_shot = *it;
+            temp_shot.move_for_alien();
+            if (!check_for_borders(temp_shot.get_coordinates().second, temp_shot.get_size())) {
+                changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
+                it++;
+                continue;
+            }
+            if (!check_for_conflict_with_ship(temp_shot.get_coordinates().first, temp_shot.get_coordinates().second, temp_shot.get_size())) {
+                changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
+                std::cerr << "killed" << '\n';
+                check_for_living();
+            } else {
+                changes.emplace_back(Changes{Move_object, temp_shot.get_id(), temp_shot.get_coordinates()});
+                after_changes.insert(std::move(temp_shot));
+            }
+            it++;
+        }
+        alien.alien_shots_in_the_field = after_changes;
     }
 
 }// namespace eclipse

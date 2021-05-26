@@ -21,7 +21,7 @@ namespace eclipse {
     struct Game {
     private:
         spaceship ship = spaceship(kWidth, kHeight, new_uuid());
-        monster alien= monster(kWidth, new_uuid());
+        monster alien = monster(kWidth, new_uuid());
         int game_speed = 1;//asteroids
         int shot_size = 40;
         int bonus_size = 60;
@@ -33,9 +33,11 @@ namespace eclipse {
         void generate_asteroid();
         void generate_bonus();
         void moving_shots();
+        void moving_alien_shots();
         void moving_bonus();
         void moving_asteroids();
         void moving_ship(MoveDirection direction);
+        void shoot_by_alien();
 
         bool check_for_borders(int y, int size) const;
         bool check_for_nothing(int x, int size) const;
@@ -58,6 +60,7 @@ namespace eclipse {
         bool get_game_state() const;
 
         void make_move(MoveDirection direction = kNoMove);
+        void make_move_with_alien(MoveDirection direction = kNoMove);
         void shoot();
         void clear_field();
         std::string get_ship_id() const;

@@ -9,7 +9,7 @@
 namespace eclipse {
     struct Shot {
     private:
-        int size = 40;//fixed
+        int size = 35;//fixed
         int x;
         int y;
         int speed = 3;//влияет на расстояние между выстрелами
@@ -24,7 +24,7 @@ namespace eclipse {
         void move();
         void move_for_alien();
 
-        friend bool operator<(const Shot& first, const Shot& second);
+        friend bool operator<(const Shot &first, const Shot &second);
     };
 }// namespace eclipse
 

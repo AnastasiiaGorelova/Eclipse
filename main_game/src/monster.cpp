@@ -33,8 +33,8 @@ namespace eclipse {
         }
         if (new_direction == kDown) {
             y += speed;
-            if (y >= kHeight / 8) {
-                y = kHeight / 8;
+            if (y >= kHeight / 10) {
+                y = kHeight / 10;
                 state = On_the_field;
             }
         }
@@ -59,6 +59,7 @@ namespace eclipse {
         lives--;
         if (lives == 0) {
             state = Leaving;
+            lives = 5;//надо перенести в другое место
         }
     }
 }// namespace eclipse

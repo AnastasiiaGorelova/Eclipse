@@ -23,6 +23,7 @@ namespace eclipse {
         Create_ship,
         Create_alien,
         Create_shot,
+        Create_alien_shot,
         Create_asteroid,
         Create_coin,
         Create_heart,
