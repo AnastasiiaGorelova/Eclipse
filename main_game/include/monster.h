@@ -24,7 +24,7 @@ namespace eclipse {
         std::string id;
         int speed = 3;
         MonsterState state = Not_on_the_field;
-        int lives = 5;
+        int lives = 3;
         int steps_to_one_side = 0;
         MoveDirection direction = kRight;
         void set_hearts();

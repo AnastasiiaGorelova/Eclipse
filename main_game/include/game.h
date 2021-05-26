@@ -20,6 +20,7 @@ namespace eclipse {
 
     struct Game {
         monster alien = monster(kWidth, new_uuid());
+
     private:
         spaceship ship = spaceship(kWidth, kHeight, new_uuid());
         int game_speed = 1;//asteroids
@@ -66,6 +67,8 @@ namespace eclipse {
         std::string get_ship_id() const;
         void attack_by_alien();
         void set_alien();
+        void move_before_alien(MoveDirection direction);
+        bool check_the_field() const;
     };
 
 }// namespace eclipse

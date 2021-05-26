@@ -265,6 +265,7 @@ namespace eclipse {
             return;
         }
         moving_bonus();
+        moving_alien_shots();
         moving_shots();
         if (!get_game_state()) {
             clear_field();
@@ -281,6 +282,21 @@ namespace eclipse {
         attack_by_alien();
         if (alien.get_state() == On_the_field && random_number(0, 70) == 5) {//надосделать отдельным таймером
             shoot_by_alien();                                                //??
+        }
+    }
+
+    void Game::move_before_alien(MoveDirection direction) {
+        moving_ship(direction);
+        moving_asteroids();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
+        moving_bonus();
+        moving_shots();
+        if (!get_game_state()) {
+            clear_field();
+            return;
         }
     }
 
@@ -310,8 +326,8 @@ namespace eclipse {
 
     void Game::attack_by_alien() {
         if (alien.get_state() == Not_on_the_field) {
-            ///УБРАТЬ!!
-            set_alien();
+            //            ///УБРАТЬ!!
+            //            set_alien();
             return;
         }
         if (alien.get_state() == Going_out) {
@@ -371,6 +387,10 @@ namespace eclipse {
             it++;
         }
         alien.alien_shots_in_the_field = after_changes;
+    }
+
+    bool Game::check_the_field() const {
+        return asteroids_in_the_field.empty() && bonus_in_the_field.empty();
     }
 
 }// namespace eclipse

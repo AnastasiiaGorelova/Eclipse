@@ -66,7 +66,7 @@ void God::make_changes_in_out_controller() {
             case eclipse::Create_alien_heart:
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
-                                       "heart");//monster heart
+                                       "monster_heart");//monster heart
                 break;
             case eclipse::Break_asteroid:
                 controller_out.change_obj_pic(i.id, i.size);
@@ -231,7 +231,15 @@ void God::show_legend_window() {
 
 void God::make_move_in_logic_and_ui_with_monster() {
     auto direction = train.get_aggregated_changes();
-    //game->make_move(direction);
-    game->make_move_with_alien(direction);//for debug
+    if (!game->check_the_field()) {
+        game->move_before_alien(direction);
+        if (game->check_the_field()) {
+            std::cerr << "set_alien" << '\n';
+            game->set_alien();
+        }
+    } else {
+        //game->make_move(direction);
+        game->make_move_with_alien(direction);//for debug
+    }
     finish_or_continue_game();
 }
