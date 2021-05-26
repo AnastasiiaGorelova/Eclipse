@@ -201,9 +201,8 @@ void main_window::tick_god() {
     time_lasts++;
     if (time_lasts == 900) {
         time_lasts = 0;
-        damn->game->set_alien();
         timer_for_ticks->stop();
-        tick_god_with_monster();
+        damn->game->set_alien();
         timer_for_monster->start(timer_for_ticks_timeout);
         return;
     }
