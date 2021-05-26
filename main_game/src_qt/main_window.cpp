@@ -199,11 +199,11 @@ void main_window::start_timer() {
 void main_window::tick_god() {
     static int time_lasts = 0;
     time_lasts++;
-    if (time_lasts == 500) {
+    if (time_lasts == 900) {
         time_lasts = 0;
+        damn->game->set_alien();
         timer_for_ticks->stop();
-        damn->game->alien.change_state(eclipse::Going_out);
-        std::cout << damn->game->alien.get_state() << '\n';
+        tick_god_with_monster();
         timer_for_monster->start(timer_for_ticks_timeout);
         return;
     }
