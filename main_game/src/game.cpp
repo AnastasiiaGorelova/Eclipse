@@ -323,13 +323,12 @@ namespace eclipse {
             changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         alien.alien_shots_in_the_field.clear();
-        if (alien.get_state() != Not_on_the_field) {
-            for (const auto &i : alien.heart_coordinates) {
-                changes.emplace_back(Changes{Delete_object, i.id});
-            }
-            alien.heart_coordinates.clear();
-            changes.emplace_back(Changes{Delete_object, alien.get_id()});
+        for (const auto &i : alien.heart_coordinates) {
+            changes.emplace_back(Changes{Delete_object, i.id});
         }
+        alien.heart_coordinates.clear();
+        alien.change_state(Not_on_the_field);
+        changes.emplace_back(Changes{Delete_object, alien.get_id()});
     }
 
     std::pair<int, int> get_field_size() {
@@ -337,8 +336,10 @@ namespace eclipse {
     }
 
     void Game::set_alien() {
-        changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
-        alien.change_state(Going_out);
+        if (get_game_state()) {
+            changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
+            alien.change_state(Going_out);
+        }
     }
 
     void Game::attack_by_alien() {
