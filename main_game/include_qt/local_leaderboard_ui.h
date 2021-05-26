@@ -15,12 +15,10 @@ Q_OBJECT
 
 public:
     explicit local_leaderboard_ui(QWidget *parent = nullptr);
-
     ~local_leaderboard_ui() override;
 
 private:
     Ui::local_leaderboard_ui *ui;
-
     QTableWidget *table;
 };
 

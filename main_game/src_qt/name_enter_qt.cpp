@@ -20,6 +20,9 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
+    setWindowTitle("Enter name");
+    setFixedSize(window_width, window_height);
+
     ui->setupUi(this);
     QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
@@ -49,9 +52,6 @@ name_enter_qt::name_enter_qt(QWidget *parent) :
 
     vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
-
-    setWindowTitle("Enter name");
-    setFixedSize(window_width, window_height);
 }
 
 name_enter_qt::~name_enter_qt() {

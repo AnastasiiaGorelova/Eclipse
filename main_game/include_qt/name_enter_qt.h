@@ -15,8 +15,6 @@ class name_enter_qt : public QWidget {
 Q_OBJECT
 
 public:
-    God* damn;
-
     explicit name_enter_qt(QWidget *parent = nullptr);
     ~name_enter_qt() override;
 
@@ -25,6 +23,7 @@ public:
 private:
     Ui::name_enter_qt *ui;
     QLineEdit *echoLineEdit;
+    God* damn;
     void _line_edit();
 };
 

@@ -7,7 +7,7 @@
 
 #define window_width 400
 #define window_height 300
-#define point_size 25
+#define point_size 35
 
 game_finish_window::game_finish_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_finish_window) {
@@ -17,14 +17,14 @@ game_finish_window::game_finish_window(QWidget *parent)
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
+    setWindowTitle("Game over");
+    setFixedSize(window_width, window_height);
+
     QPixmap backgroung("../../images/menu_background.png");  //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, backgroung);
     this->setPalette(palette);
-
-    setWindowTitle("Game over");
-    setFixedSize(window_width, window_height);
 }
 
 game_finish_window::~game_finish_window() {
@@ -34,14 +34,13 @@ game_finish_window::~game_finish_window() {
 void game_finish_window::set_god(God *damn_) {
     damn = damn_;
 
-    //need here :(
     auto *vlay = new QVBoxLayout(this);
     vlay->setAlignment(Qt::AlignCenter);
 
     QFont font;
     font.setWeight(
-            QFont::ExtraBold);  // set font weight with enum QFont::Weight
-    font.setPixelSize(35);  // this for setting font size
+            QFont::ExtraBold);
+    font.setPixelSize(point_size);
 
     auto text = new QLabel("Конец игры!");
     text->setParent(this);
@@ -82,7 +81,6 @@ void game_finish_window::set_god(God *damn_) {
 
     connect(back_to_menu, &QPushButton::released, this, &game_finish_window::_on_continue_game_clicked);
 
-    vlay->setAlignment(Qt::AlignCenter);
     this->setLayout(vlay);
 }
 

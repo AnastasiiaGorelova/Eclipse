@@ -7,11 +7,12 @@
 
 #define window_width 800
 #define window_height 630
-#define point_size 35
+#define point_size 120
 
 game_window::game_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
+
     QPixmap pix("../../images/main.jpg");
     ui->label->setPixmap(pix.scaled(window_width, window_height));
 
@@ -45,7 +46,7 @@ game_window::game_window(QWidget *parent)
         "background-color: rgba(0,0,0,0%); color : white;");
     QFont font;
     font.setWeight(QFont::ExtraBold);
-    font.setPixelSize(120);
+    font.setPixelSize(point_size);
     ui->Eclipse->setFont(font);
     ui->Eclipse->setAlignment(Qt::AlignCenter);
 

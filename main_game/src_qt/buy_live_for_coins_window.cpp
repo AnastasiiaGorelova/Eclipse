@@ -14,29 +14,14 @@
 
 buy_live_for_coins_window::buy_live_for_coins_window(QWidget *parent) :
         QWidget(parent), ui(new Ui::buy_live_for_coins_window) {
-
-    timer = new QTimer();
-    timer->setParent(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(check_status()));
-    timer->start(timeout);
-
-    std::cerr << "start_timer\n";
-
     ui->setupUi(this);
 
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
                                     (*this).size(),
                                     qApp->desktop()->availableGeometry()));
 
-
-    QPixmap backgroung("../../images/menu_background.png"); //поменять картинку
-    backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, backgroung);
-    this->setPalette(palette);
-
-    setWindowTitle("Additional life");
     setFixedSize(window_width, window_height);
+    setWindowTitle("Additional life");
 }
 
 buy_live_for_coins_window::~buy_live_for_coins_window() {
@@ -53,6 +38,7 @@ void buy_live_for_coins_window::_on_no_button_clicked() {
 
 void buy_live_for_coins_window::buy_for_n_coins(int n, int k) {
     coins = k;
+
     auto *vlay = new QVBoxLayout(this);
     vlay->setAlignment(Qt::AlignCenter);
 
@@ -67,6 +53,37 @@ void buy_live_for_coins_window::buy_for_n_coins(int n, int k) {
     text->setFont(font);
     text->setAlignment(Qt::AlignCenter);
     vlay -> addWidget(text);
+    vlay->addWidget(yes_button);
+    vlay->addWidget(no_button);
+
+    this->setLayout(vlay);
+}
+
+void buy_live_for_coins_window::set_god(God *damn_) {
+    damn = damn_;
+}
+
+void buy_live_for_coins_window::check_status() {
+    if (damn->gamer_choice == God::continue_game) {
+        timer->stop();
+        damn->add_life_and_restart_game(coins);
+    } else if (damn->gamer_choice == God::stop_game) {
+        damn->controller_out.close_live_for_coins_window();
+        damn->show_game_finish_window();
+    }
+}
+
+void buy_live_for_coins_window::set_window_options() {
+    timer = new QTimer();
+    timer->setParent(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(check_status()));
+    timer->start(timeout);
+
+    QPixmap backgroung("../../images/menu_background.png");
+    backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, backgroung);
+    this->setPalette(palette);
 
     QString style = "QPushButton{border: 1px solid transparent;text-align: center;"
                     "color:rgba(255,255,255,255);"
@@ -87,30 +104,11 @@ void buy_live_for_coins_window::buy_for_n_coins(int n, int k) {
     yes_button = new QPushButton("Да");
     yes_button->setParent(this);
     yes_button->setStyleSheet(style);
-    vlay->addWidget(yes_button);
 
     no_button = new QPushButton("Нет");
     no_button->setParent(this);
     no_button->setStyleSheet(style);
-    vlay->addWidget(no_button);
 
     connect(no_button, &QPushButton::released, this, &buy_live_for_coins_window::_on_no_button_clicked);
     connect(yes_button, &QPushButton::released, this, &buy_live_for_coins_window::_on_yes_button_clicked);
-
-    vlay->setAlignment(Qt::AlignCenter);
-    this->setLayout(vlay);
-}
-
-void buy_live_for_coins_window::set_god(God *damn_) {
-    damn = damn_;
-}
-
-void buy_live_for_coins_window::check_status() {
-    if (damn->gamer_choice == God::continue_game) {
-        timer->stop();
-        damn->add_life_and_restart_game(coins);
-    } else if (damn->gamer_choice == God::stop_game) {
-        damn->controller_out.close_live_for_coins_window();
-        damn->show_game_finish_window();
-    }
 }

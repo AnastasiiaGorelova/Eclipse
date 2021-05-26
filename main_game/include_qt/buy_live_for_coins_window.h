@@ -16,23 +16,22 @@ class buy_live_for_coins_window : public QWidget {
 Q_OBJECT
 
 public:
-
     explicit buy_live_for_coins_window(QWidget *parent = nullptr);
     ~buy_live_for_coins_window() override;
 
     void set_god(God* damn_);
     void buy_for_n_coins(int n, int k);
-    int coins;
+    void set_window_options();
 
 private:
+    int coins{};
+    God* damn = nullptr;
+    QTimer* timer = nullptr;
+
+    QPushButton* yes_button = nullptr;
+    QPushButton* no_button = nullptr;
+
     Ui::buy_live_for_coins_window *ui;
-
-    God* damn;
-    QTimer* timer;
-
-    QPushButton* yes_button;
-    QPushButton* no_button;
-
 private slots:
     void _on_yes_button_clicked();
     void _on_no_button_clicked();

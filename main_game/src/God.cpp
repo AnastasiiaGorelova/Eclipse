@@ -106,7 +106,6 @@ void God::finish_or_continue_game() {
 void God::make_move_in_logic_and_ui() {
     auto direction = train.get_aggregated_changes();
     game->make_move(direction);
-    //game->make_move_with_alien(direction);//for debug
     finish_or_continue_game();
 }
 
@@ -142,7 +141,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 
 void God::show_game_finish_window() {
     controller_out.delete_obj(
-            game->get_ship_id());//?????? не уверена, что вставила туда
+            game->get_ship_id());
     delete_controller_in();
     cur_player.time = get_time();
     update_local_leaderboard(cur_player);
