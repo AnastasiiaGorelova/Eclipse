@@ -36,6 +36,7 @@ namespace eclipse {
             if (y >= kHeight / 10) {
                 y = kHeight / 10;
                 state = On_the_field;
+                set_hearts();
             }
         }
         if (new_direction == kUp) {
@@ -62,4 +63,15 @@ namespace eclipse {
             lives = 5;//надо перенести в другое место
         }
     }
+
+    void monster::set_hearts() {
+        int heart_size = size / lives;
+        int heart_y = y - heart_size;
+        int heart_x = x;
+        for(int i = 0; i < lives; i++) {
+            heart_coordinates.emplace_back(heart_x, heart_y);
+            heart_x += heart_size;
+        }
+    }
+
 }// namespace eclipse

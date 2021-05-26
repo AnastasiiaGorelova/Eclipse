@@ -299,15 +299,23 @@ namespace eclipse {
         return {kWidth, kHeight};
     }
 
+    void Game::set_alien() {
+        changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
+        alien.change_state(Going_out);
+    }
+
     void Game::attack_by_alien() {
         if (alien.get_state() == Not_on_the_field) {
-            changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
-            alien.change_state(Going_out);
             return;
         }
         if (alien.get_state() == Going_out) {
             alien.move(kDown);
             changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+            if (alien.get_state() == On_the_field) {
+                for (const auto &i : alien.heart_coordinates) {
+                    changes.emplace_back(Changes{});///TODO
+                }
+            }
             return;
         }
         if (alien.get_state() == Leaving) {

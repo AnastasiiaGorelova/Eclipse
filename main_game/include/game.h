@@ -65,6 +65,7 @@ namespace eclipse {
         void clear_field();
         std::string get_ship_id() const;
         void attack_by_alien();
+        void set_alien();
     };
 
 }// namespace eclipse
