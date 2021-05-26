@@ -8,7 +8,7 @@
 #include <game_finish_window.h>
 #include <error_massage_window.h>
 #include <buy_live_for_coins_window.h>
-#include <local_leaderboard_ui.h>
+#include <leaderboard_ui.h>
 #include <legend_window.h>
 
 class Controller_out {

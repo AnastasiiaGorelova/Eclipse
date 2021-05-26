@@ -1,6 +1,6 @@
 
 #include <QHBoxLayout>
-#include "local_leaderboard_ui.h"
+#include "leaderboard_ui.h"
 #include "ui_local_leaderboard_ui.h"
 #include <QDesktopWidget>
 #include <QHeaderView>

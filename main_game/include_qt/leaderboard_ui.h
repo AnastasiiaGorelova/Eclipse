@@ -1,7 +1,7 @@
 
 
-#ifndef MAIN_GAME_LOCAL_LEADERBOARD_UI_H
-#define MAIN_GAME_LOCAL_LEADERBOARD_UI_H
+#ifndef MAIN_GAME_LEADERBOARD_UI_H
+#define MAIN_GAME_LEADERBOARD_UI_H
 
 #include <QWidget>
 #include <QTableWidget>
@@ -22,4 +22,4 @@ private:
     QTableWidget *table;
 };
 
-#endif //MAIN_GAME_LOCAL_LEADERBOARD_UI_H
+#endif //MAIN_GAME_LEADERBOARD_UI_H

@@ -1,7 +1,6 @@
 #include <god.h>
 #include <game_window.h>
 #include <QDesktopWidget>
-#include <QLineEdit>
 #include <QStyle>
 #include "ui_game_window.h"
 
