@@ -45,6 +45,7 @@ public:
     void start_game();
     void cancel_game();
     void make_move_in_logic_and_ui();
+    void make_move_in_logic_and_ui_with_monster();
     void stop_timers() const;
     void start_timers();
     void add_life_and_restart_game(int coins);

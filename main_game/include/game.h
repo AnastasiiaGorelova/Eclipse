@@ -19,9 +19,9 @@
 namespace eclipse {
 
     struct Game {
+        monster alien = monster(kWidth, new_uuid());
     private:
         spaceship ship = spaceship(kWidth, kHeight, new_uuid());
-        monster alien = monster(kWidth, new_uuid());
         int game_speed = 1;//asteroids
         int shot_size = 40;
         int bonus_size = 60;
