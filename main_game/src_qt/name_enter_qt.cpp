@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <iostream>
-#include "God.h"
+#include "god.h"
 
 #define window_width 350
 #define window_height 220

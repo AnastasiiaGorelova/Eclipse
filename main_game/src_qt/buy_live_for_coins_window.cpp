@@ -5,7 +5,7 @@
 #include "buy_live_for_coins_window.h"
 #include "ui_buy_live_for_coins_window.h"
 
-#include "God.h"
+#include "god.h"
 
 #define window_width 400
 #define window_height 300

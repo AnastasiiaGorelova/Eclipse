@@ -1,5 +1,5 @@
 #include "main_window.h"
-#include "God.h"
+#include "god.h"
 #include "ui_main_window.h"
 #include <QDesktopWidget>
 #include <QGraphicsProxyWidget>

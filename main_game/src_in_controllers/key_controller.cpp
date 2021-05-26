@@ -1,6 +1,6 @@
-#include <Key_Controller_.h>
+#include <key_controller.h>
 #include <QApplication>
-#include "God.h"
+#include "god.h"
 
 bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::KeyPress) {

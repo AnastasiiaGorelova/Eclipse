@@ -2,7 +2,7 @@
 #include "game_finish_window.h"
 #include <QLabel>
 #include <QVBoxLayout>
-#include "God.h"
+#include "god.h"
 #include "ui_game_finish_window.h"
 
 #define window_width 400

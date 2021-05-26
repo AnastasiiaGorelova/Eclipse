@@ -2,8 +2,8 @@
 #define MAIN_GAME_GOD_H
 
 #include <memory>
-#include "Key_Controller_.h"
-#include "Modification_store.h"
+#include "key_controller.h"
+#include "modification_store.h"
 #include "arduino.h"
 #include "controllers_in.h"
 #include "game.h"

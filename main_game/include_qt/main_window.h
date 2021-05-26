@@ -1,7 +1,7 @@
 #ifndef MAIN_GAME_MAIN_WINDOW_H
 #define MAIN_GAME_MAIN_WINDOW_H
 
-#include <GameObject.h>
+#include <game_object.h>
 #include <QGraphicsScene>
 #include <QLabel>
 #include <QTimer>

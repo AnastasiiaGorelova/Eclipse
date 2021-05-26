@@ -1,6 +1,6 @@
 
-#include "Selection.h"
-#include <God.h>
+#include "selection.h"
+#include <god.h>
 #include <QLabel>
 #include <QLineEdit>
 #include <QVBoxLayout>

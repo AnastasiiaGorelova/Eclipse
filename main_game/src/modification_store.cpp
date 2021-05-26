@@ -1,5 +1,5 @@
-#include "Modification_store.h"
-#include <God.h>
+#include "modification_store.h"
+#include <god.h>
 
 extern God damn;
 

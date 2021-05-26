@@ -3,7 +3,7 @@
 #define MAIN_GAME_GAME_UI_H
 
 #include <game_window.h>
-#include <Selection.h>
+#include <selection.h>
 #include <name_enter_qt.h>
 #include <game_finish_window.h>
 #include <error_massage_window.h>

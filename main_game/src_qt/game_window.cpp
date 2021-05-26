@@ -1,4 +1,4 @@
-#include <God.h>
+#include <god.h>
 #include <game_window.h>
 #include <QDesktopWidget>
 #include <QLineEdit>
@@ -13,7 +13,7 @@ game_window::game_window(QWidget *parent)
     : QWidget(parent), ui(new Ui::game_window) {
     ui->setupUi(this);
 
-    QPixmap pix("../../images/main.jpg");
+    QPixmap pix("../../images/main.png");
     ui->label->setPixmap(pix.scaled(window_width, window_height));
 
     QString style = "QPushButton{border: 1px solid transparent;text-align: center;"

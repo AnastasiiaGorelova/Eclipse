@@ -1,4 +1,4 @@
-#include "God.h"
+#include "god.h"
 
 void God::show_menu() {
     controller_out.show_menu(this);
@@ -90,7 +90,6 @@ void God::make_changes_in_out_controller() {
 void God::finish_or_continue_game() {
     make_changes_in_out_controller();
     if (!game->get_game_state()) {
-        std::cerr << "failed " << game->lives << '\n';
         stop_timers();
         if (game->coins >= game->coins_to_buy_live) {
             game->coins -= game->coins_to_buy_live;
@@ -118,7 +117,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
     message_errors error = no_errors;
     switch (controller_) {
         case eclipse::Key:
-            controller_in = new Key_Controller();// NOLINT
+            controller_in = new Key_Controller();
             controller_in->set_God(this);
             break;
         case eclipse::Arduino: {
@@ -237,8 +236,7 @@ void God::make_move_in_logic_and_ui_with_monster() {
             game->set_alien();
         }
     } else {
-        //game->make_move(direction);
-        game->make_move_with_alien(direction);//for debug
+        game->make_move_with_alien(direction);
     }
     finish_or_continue_game();
 }

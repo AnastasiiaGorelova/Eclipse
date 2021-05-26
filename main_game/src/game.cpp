@@ -1,5 +1,5 @@
 #include "game.h"
-#include "God.h"
+#include "god.h"
 #include "game_fwd.h"
 #include <vector>
 

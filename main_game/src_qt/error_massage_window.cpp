@@ -5,7 +5,7 @@
 #include "ui_error_massage_window.h"
 #include <QStyle>
 #include <QDesktopWidget>
-#include "God.h"
+#include "god.h"
 
 #define window_width 400
 #define window_height 300

@@ -1,5 +1,5 @@
-#ifndef MAIN_GAME_GAMEOBJECT_H
-#define MAIN_GAME_GAMEOBJECT_H
+#ifndef MAIN_GAME_GAME_OBJECT_H
+#define MAIN_GAME_GAME_OBJECT_H
 
 #include "QGraphicsPixmapItem"
 #include "QObject"
@@ -8,4 +8,4 @@ struct GameObject : public QObject, public QGraphicsPixmapItem {
     void del();
 };
 
-#endif  // MAIN_GAME_GAMEOBJECT_H
+#endif  // MAIN_GAME_GAME_OBJECT_H
