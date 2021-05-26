@@ -47,7 +47,14 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
     auto fnt = table->font();
     fnt.setPointSize(point_size);
     table->setFont(fnt);
+}
 
+local_leaderboard_ui::~local_leaderboard_ui() {
+    delete table;
+    delete ui;
+}
+
+void local_leaderboard_ui::download_local_leaderboard() {
     std::ifstream in("LocalLeaderBoard.txt"); // окрываем файл для чтения
     if (in.is_open())
     {
@@ -83,7 +90,6 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent) :
     setLayout(layout);
 }
 
-local_leaderboard_ui::~local_leaderboard_ui() {
-    delete table;
-    delete ui;
+void local_leaderboard_ui::download_server_leaderboard() {
+
 }

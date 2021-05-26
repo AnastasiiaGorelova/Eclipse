@@ -28,7 +28,7 @@ public:
     void show_buy_live_for_coins_window(int n = 5, int k = 0);
     void close_error_massage_window();
     void show_selection_window();
-    void show_local_leaderboard();
+    void show_leaderboard(int param);
     void show_legend_window();
 
     void make_changes_in_out_controller();

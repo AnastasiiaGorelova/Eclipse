@@ -222,8 +222,8 @@ void God::show_selection_window() {
     controller_out.show_selection_window(this);
 }
 
-void God::show_local_leaderboard() {
-    controller_out.show_local_leaderboard();
+void God::show_leaderboard(int param) {
+    controller_out.show_leaderboard(param);
 }
 
 void God::show_legend_window() {
