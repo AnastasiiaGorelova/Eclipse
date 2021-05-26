@@ -313,6 +313,13 @@ namespace eclipse {
             changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         bonus_in_the_field.clear();
+        for (const auto &it : alien.alien_shots_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
+        }
+        alien.alien_shots_in_the_field.clear();
+        if (alien.get_state() != Not_on_the_field) {
+            changes.emplace_back(Changes{Delete_object, alien.get_id()});
+        }
     }
 
     std::pair<int, int> get_field_size() {
