@@ -13,39 +13,42 @@ class God;
 
 namespace ReadingFromPort {
 
-enum Move { menu, left, right, exception };
-
 struct Arduino : virtual Controller_in {
+private:
     serial::Serial serial_;
     std::thread ta;
     std::atomic<bool> keep_going{};
-    std::mutex m;
 
+public:
     Arduino(const std::string &port, uint32_t baudrate = 9600);
+    Arduino(const Arduino &) = delete;
+    Arduino(Arduino &&) = delete;
+    Arduino &operator=(const Arduino &) = delete;
+    Arduino &operator=(Arduino &&) = delete;
 
     void make_a_move();
-
     void start_thread();
-
     void write_to_port() override;
-
     void set_God(God *damn_) override;
 
     virtual ~Arduino();
+    friend struct Ports;
 };
 
 struct Ports {
+private:
     std::vector<serial::PortInfo> devices_found_;
 
+public:
     Ports();
 
     /// Printing only
     void print_ports();
-    void is_port_open(Arduino &my_serial);
-    void print_information(Arduino &my_serial);
+    static void is_port_open(Arduino &my_serial);
+    static void print_information(Arduino &my_serial);
 
     /// Get arduino port
-    std::string get_arduino_port() const;
+    [[nodiscard]] std::string get_arduino_port() const;
 };
 
 }  // namespace ReadingFromPort

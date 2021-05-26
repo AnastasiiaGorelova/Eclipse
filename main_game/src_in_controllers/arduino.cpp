@@ -1,6 +1,5 @@
 #include "arduino.h"
 #include "God.h"
-#include "game.h"
 
 namespace ReadingFromPort {
 
@@ -47,7 +46,6 @@ void Arduino::make_a_move() {
             damn->gamer_choice = God::continue_game;
 
         } else {
-            // std::cerr << "wtf??" << std::endl;
             continue;
         }
     }
