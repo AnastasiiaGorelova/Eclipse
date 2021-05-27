@@ -42,7 +42,7 @@ public:
   void change_coins_counter(int count) const;
   void change_asteroid_crack(const std::string &hash, int size);
   void change_timer_for_ticks() const;
-  void seven_points_acceleration(int sign);
+  void ten_points_acceleration(int sign);
 
   void start_timer();
   void start_timer_for_beginning();
