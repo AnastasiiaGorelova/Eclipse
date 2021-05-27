@@ -1,6 +1,7 @@
 #ifndef MAIN_GAME_GOD_H
 #define MAIN_GAME_GOD_H
 
+#include <memory>
 #include "arduino.h"
 #include "controllers_in.h"
 #include "game.h"
@@ -8,10 +9,9 @@
 #include "key_controller.h"
 #include "local_leaderboard.h"
 #include "modification_store.h"
-#include <memory>
+#include "upstream_leaderboard.h"
 
-enum message_errors { no_errors,
-                      arduino_setting_error };
+enum message_errors { no_errors, arduino_setting_error };
 
 class God {
 public:
@@ -54,14 +54,10 @@ public:
     void finish_or_continue_game();
     void change_game_speed(int diff);
 
-    enum Choice {
-        wait,
-        continue_game,
-        stop_game
-    };
+    enum Choice { wait, continue_game, stop_game };
 
     Choice gamer_choice = wait;
-    int game_speed = 65; // ~ ticks_per_second
+    int game_speed = 65;  // ~ ticks_per_second
 };
 
-#endif// MAIN_GAME_GOD_H
+#endif  // MAIN_GAME_GOD_H

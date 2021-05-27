@@ -1,5 +1,4 @@
 #include "god.h"
-#include "upstream_leaderboard.h"
 
 void God::show_menu() {
     controller_out.show_menu(this);
