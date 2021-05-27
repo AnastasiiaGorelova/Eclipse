@@ -19,8 +19,8 @@ struct Player {
 };
 
 struct Time {
-    int mm;
-    int ss;
+    int64_t mm;
+    int64_t ss;
 };
 
 void update_local_leaderboard(Player &cur_player);

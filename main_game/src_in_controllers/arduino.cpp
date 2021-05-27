@@ -63,6 +63,7 @@ void Arduino::make_a_move() {
             serial_.flush();
             std::cerr << "n" << std::endl;
             damn->gamer_choice = God::stop_game;
+            keep_going = false;
 
         } else if (line == "YES\n") {
             serial_.flush();

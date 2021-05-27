@@ -27,13 +27,11 @@ void LocalLeaderboard::open_to_read() {
 }
 
 void LocalLeaderboard::deserialization() {
-    std::cerr << "(deserialization) What is in file:" << std::endl;
     assert(leaderboard_file.is_open());
     while (!leaderboard_file.eof()) {
         std::string s_n;
         std::string s_t;
         leaderboard_file >> s_n >> s_t;
-        std::cerr << s_n << " " << s_t << std::endl;
         if (!s_n.empty() and !s_t.empty()) {
             Player my_player{s_n, s_t};
             leaderboard_array.push_back(my_player);
@@ -61,11 +59,6 @@ void LocalLeaderboard::open_to_write() {
 }
 
 void LocalLeaderboard::serialization() {
-    std::cerr << "(serialization) What is in sorted arr:" << std::endl;
-    for (const auto &u : leaderboard_array) {
-        std::cerr << u.name << " " << u.time << std::endl;
-    }
-
     for (unsigned int i = 0; i < 10 and i < leaderboard_array.size(); i++) {
         leaderboard_file << leaderboard_array[i].name << " "
                          << leaderboard_array[i].time << std::endl;
