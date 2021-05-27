@@ -77,7 +77,7 @@ void God::make_changes_in_out_controller() {
                 controller_out.change_obj_pic(i.id, i.size);
                 break;
             case eclipse::Slow_down_game:
-                //замедлить игру
+                controller_out.slow_down_game();
                 break;
             case eclipse::Add_coin:
                 controller_out.change_coins_counter(game->coins);

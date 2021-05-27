@@ -60,6 +60,8 @@ public:
     void start_timers();
     void stop_timers() const;
     void game_pause();
+
+    void slow_down_game();
 };
 
 #endif //MAIN_GAME_GAME_UI_H

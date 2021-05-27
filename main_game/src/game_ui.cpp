@@ -164,5 +164,10 @@ void Controller_out::game_pause() {
     game_window_->set_game_on_pause();
 }
 
+void Controller_out::slow_down_game() {
+    game_window_->seven_points_acceleration(-1);
+    game_window_->change_timer_for_ticks();
+}
+
 
 

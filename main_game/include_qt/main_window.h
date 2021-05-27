@@ -33,6 +33,7 @@ public:
   void set_lives();
   void set_coins_counter();
   void set_God(God *damn_);
+  void set_game_on_pause();
 
   std::pair<std::string, std::string> get_cur_time();
 
@@ -40,7 +41,8 @@ public:
   void decrease_lives();
   void change_coins_counter(int count) const;
   void change_asteroid_crack(const std::string &hash, int size);
-  void set_game_on_pause();
+  void change_timer_for_ticks() const;
+  void seven_points_acceleration(int sign);
 
   void start_timer();
   void start_timer_for_beginning();
@@ -87,7 +89,6 @@ private:
   std::unordered_map<std::string, GameObject *> hash_table;
   static std::pair<std::string, std::string> find_time_string(int x);
 
-  void ten_points_acceleration();
 };
 
 #endif // MAIN_GAME_MAIN_WINDOW_H

@@ -314,7 +314,7 @@ void main_window::set_God(God *damn_) { damn = damn_; }
 void main_window::tick_god_with_monster() {
   if (damn->game->alien.get_state() == eclipse::Not_on_the_field) {
     timer_for_monster->stop();
-    ten_points_acceleration();
+    seven_points_acceleration(1);
     cur_enemy = asteroids;
     timer_for_ticks->start(1000 / ticks_for_second);
     return;
@@ -346,9 +346,13 @@ void main_window::check_keys() {
   }
 }
 
-void main_window::ten_points_acceleration() {
-  if (ticks_for_second < 120) {
-    ticks_for_second += 10;
-    damn->change_game_speed(10);
+void main_window::seven_points_acceleration(int sign) {
+  if (ticks_for_second + (sign * 7) <= 95 && ticks_for_second + (sign * 7)  >= 65) {
+    ticks_for_second += sign * 7;
+    damn->change_game_speed(sign * 7);
   }
+}
+
+void main_window::change_timer_for_ticks() const {
+    timer_for_ticks->setInterval(1000/ticks_for_second);
 }
