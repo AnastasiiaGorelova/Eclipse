@@ -64,9 +64,11 @@ void buy_live_for_coins_window::check_status() {
   if (damn->gamer_choice == God::continue_game) {
     timer->stop();
     damn->add_life_and_restart_game(coins);
+    damn->gamer_choice = God::wait;
   } else if (damn->gamer_choice == God::stop_game) {
     damn->controller_out.close_live_for_coins_window();
     damn->show_game_finish_window();
+    damn->gamer_choice = God::wait;
   }
 }
 
