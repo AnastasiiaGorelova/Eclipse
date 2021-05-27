@@ -31,9 +31,11 @@ namespace eclipse {
         Create_coin,
         Create_heart,
         Create_alien_heart,
+        Create_diamond,
         Move_object,
         Delete_object,
         Break_asteroid,
+        Slow_down_game,
         Add_coin,
         Add_heart,
         Decrease_lives

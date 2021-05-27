@@ -53,6 +53,11 @@ void God::make_changes_in_out_controller() {
                                        i.new_coordinates.second, i.size, i.id,
                                        "monster_shot");
                 break;
+            case eclipse::Create_diamond:
+                controller_out.set_obj(i.new_coordinates.first,
+                                       i.new_coordinates.second, i.size, i.id,
+                                       "diamond");
+                break;
             case eclipse::Create_coin:
                 controller_out.set_obj(i.new_coordinates.first,
                                        i.new_coordinates.second, i.size, i.id,
@@ -70,6 +75,9 @@ void God::make_changes_in_out_controller() {
                 break;
             case eclipse::Break_asteroid:
                 controller_out.change_obj_pic(i.id, i.size);
+                break;
+            case eclipse::Slow_down_game:
+                //замедлить игру
                 break;
             case eclipse::Add_coin:
                 controller_out.change_coins_counter(game->coins);
@@ -249,5 +257,5 @@ void God::make_move_in_logic_and_ui_with_monster() {
 }
 
 void God::change_game_speed(int diff) {
-    game_speed+= diff;
+    game_speed += diff;
 }

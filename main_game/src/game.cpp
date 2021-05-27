@@ -1,6 +1,6 @@
 #include "game.h"
-#include "god.h"
 #include "game_fwd.h"
+#include "god.h"
 #include <vector>
 
 extern ::God damn;
@@ -120,9 +120,11 @@ namespace eclipse {
                 if (it2->get_type() == "coin") {
                     coins++;
                     changes.emplace_back(Changes{Add_coin});
-                } else {
+                } else if (it2->get_type() == "heart") {
                     lives = std::min(lives + 1, 3);
                     changes.emplace_back(Changes{Add_heart});
+                } else if (it2->get_type() == "diamond") {
+                    changes.emplace_back(Changes{Slow_down_game});
                 }
                 bonus_in_the_field.erase(it2);
                 return false;
@@ -164,10 +166,14 @@ namespace eclipse {
                     Bonus new_coin(x, new_uuid(), "coin");
                     changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
                     bonus_in_the_field.insert(std::move(new_coin));
-                } else {
+                } else if (random_number(0, 1) == 1) {
                     Bonus new_heart(x, new_uuid(), "heart");
                     changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
                     bonus_in_the_field.insert(std::move(new_heart));
+                } else {
+                    Bonus new_diamond(x, new_uuid(), "diamond");
+                    changes.emplace_back(Changes{Create_diamond, new_diamond.get_id(), new_diamond.get_coordinates(), bonus_size});
+                    bonus_in_the_field.insert(std::move(new_diamond));
                 }
             }
         }
@@ -232,11 +238,13 @@ namespace eclipse {
                 if (temp_bonus.get_type() == "coin") {
                     coins++;
                     changes.emplace_back(Changes{Add_coin});
-                } else {
+                } else if (temp_bonus.get_type() == "heart") {
                     if (lives != 3) {
                         lives = std::min(lives + 1, 3);
                         changes.emplace_back(Changes{Add_heart});
                     }
+                } else if (temp_bonus.get_type() == "diamond") {
+                    changes.emplace_back(Changes{Slow_down_game});
                 }
                 changes.emplace_back(Changes{Delete_object, temp_bonus.get_id()});
                 it++;
