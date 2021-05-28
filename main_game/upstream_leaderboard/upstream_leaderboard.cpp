@@ -1,7 +1,7 @@
 #include "upstream_leaderboard.h"
 
 void UpstreamLeaderboard::call_client(const Player &cur_player) {
-    std::string string_req = "python ../client/main.py " + cur_player.name +
+    std::string string_req = "python3.9 ../client/main.py " + cur_player.name +
                              " " + std::to_string(score) + " > " + file_name;
     const char *request = string_req.c_str();
     try {
