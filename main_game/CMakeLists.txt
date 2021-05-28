@@ -30,7 +30,6 @@ add_subdirectory(dependencies)
 #target_link_libraries(main_game Qt5::Widgets)
 
 
-
 # Server
 add_executable(server_eclipse server/main.cpp)
 target_include_directories(server_eclipse PUBLIC "thirdparty")

@@ -43,7 +43,7 @@ int main() {
             int64_t score;
             try {
                 username = x["username"].s();
-                score = x["score"].operator unsigned long();
+                score = x["score"].operator int();
             } catch (const std::runtime_error &e) {
                 return crow::response(400, e.what());
             }
