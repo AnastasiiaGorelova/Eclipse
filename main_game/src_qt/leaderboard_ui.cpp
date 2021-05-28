@@ -105,10 +105,26 @@ void local_leaderboard_ui::download_server_leaderboard() {
 
     for(int i = 0; i < arr.size(); i++) {
         QJsonValue val = arr.at(i);
-        int score = val.toObject().value("score").toInt();
+        int x = val.toObject().value("score").toInt();
+
+        std::string min = std::to_string(x / 60);
+        if (min.size() == 0) {
+            min = "00";
+        }else if (min.size() == 1) {
+            min = "0" + min;
+        }
+        std::string sec = std::to_string(x % 60);
+        if (sec.size() == 0) {
+            min = "00";
+        }else if (sec.size() == 1) {
+            sec = "0" + sec;
+        }
+        std::string score(min + ":" + sec);
+        std::cerr << score;
+
         std::string line =  val.toObject().value("username").toString().toStdString();
         auto *item_1 = new QTableWidgetItem(QString::fromStdString(line));
-        auto *item_2 = new QTableWidgetItem(QString::fromStdString(std::to_string(score)));
+        auto *item_2 = new QTableWidgetItem(QString::fromStdString(score));
         item_1->setFlags(Qt::ItemIsEnabled);
         item_2->setFlags(Qt::ItemIsEnabled);
         item_1->setTextColor(QColor(255, 255, 255));
