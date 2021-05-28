@@ -151,6 +151,7 @@ void God::select_game_controller(eclipse::Controllers controller_) {
 }
 
 void God::show_game_finish_window() {
+    game_speed = 65;
     controller_out.delete_obj(game->get_ship_id());
     delete_controller_in();
     cur_player.time = get_time();
