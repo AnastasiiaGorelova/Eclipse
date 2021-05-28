@@ -347,7 +347,7 @@ void main_window::check_keys() {
 }
 
 void main_window::ten_points_acceleration(int count) {
-  if (ticks_for_second + count <= 95 && ticks_for_second + count  >= 60) {
+  if (ticks_for_second + count <= 95 && ticks_for_second + count  >= 50) {
     ticks_for_second += count;
     damn->change_game_speed(count);
   }
