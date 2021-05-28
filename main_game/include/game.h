@@ -53,9 +53,9 @@ namespace eclipse {
         std::set<Asteroid> asteroids_in_the_field;
         int coins = 0;
         int lives = 3;
-        int coins_to_buy_live = 0;
+        int coins_to_buy_live = 3;
         GameState game_state = kOngoing;
-        bool check_for_speed = false;
+        bool check_for_speed = true;
 
         std::vector<Changes> changes = {Changes{Create_ship,
                                                 ship.get_id(),
