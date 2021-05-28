@@ -212,17 +212,17 @@ void main_window::start_timer() {
 }
 
 void main_window::tick_god() {
-    static int time_lasts = 0;
-    time_lasts++;
-    if (time_lasts == alien_timeout_come_in_sec * ticks_for_second) {
-        time_lasts = 0;
-        timer_for_ticks->stop();
-        cur_enemy = alien;
-        damn->game->alien.change_state(eclipse::Going_out);
-        timer_for_monster->start(1000 / ticks_for_second);
-        return;
-    }
-    damn->make_move_in_logic_and_ui();
+  static int time_lasts = 0;
+  time_lasts++;
+  if (time_lasts > alien_timeout_come_in_sec * ticks_for_second) {
+    time_lasts = 0;
+    timer_for_ticks->stop();
+    cur_enemy = alien;
+    damn->game->alien.change_state(eclipse::Going_out);
+    timer_for_monster->start(1000 / ticks_for_second);
+    return;
+  }
+  damn->make_move_in_logic_and_ui();
 }
 
 void main_window::make_shot() { damn->make_shoot(); }
