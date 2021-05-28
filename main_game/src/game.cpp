@@ -162,11 +162,13 @@ namespace eclipse {
         if (random_number(0, 400) == 5) {
             int x = random_number(0, kWidth - bonus_size);
             if (check_for_nothing(x, bonus_size)) {
-                if (random_number(0, 1) == 1) {
+                //if (random_number(0, 1) == 1) {
+                if (random_number(0, 0) == 1) {
                     Bonus new_coin(x, new_uuid(), "coin");
                     changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
                     bonus_in_the_field.insert(std::move(new_coin));
-                } else if (random_number(0, 1) == 1) {
+                    // } else if (random_number(0, 1) == 1) {
+                } else if (random_number(0, 0) == 1) {
                     Bonus new_heart(x, new_uuid(), "heart");
                     changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
                     bonus_in_the_field.insert(std::move(new_heart));

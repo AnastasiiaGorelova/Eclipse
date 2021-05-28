@@ -23,11 +23,11 @@ namespace eclipse {
 
     private:
         spaceship ship = spaceship(kWidth, kHeight, new_uuid());
-        int game_speed = 1; //speed for asteroid, bonuses
+        int game_speed = 1;//speed for asteroid, bonuses
         int shot_size = 40;
         int bonus_size = 60;
-        std::set<Asteroid> asteroids_in_the_field;
-        std::set<Bonus> bonus_in_the_field;
+        //        std::set<Asteroid> asteroids_in_the_field;
+        //std::set<Bonus> bonus_in_the_field;
         std::set<Shot> shots_in_the_field;
 
         void check_for_living();
@@ -47,6 +47,8 @@ namespace eclipse {
         [[nodiscard]] bool destroy_objects_by_shots(int x1, int y1, int size1);
 
     public:
+        std::set<Bonus> bonus_in_the_field;
+        std::set<Asteroid> asteroids_in_the_field;
         int coins = 0;
         int lives = 3;
         int coins_to_buy_live = 0;

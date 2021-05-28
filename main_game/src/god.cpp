@@ -154,8 +154,8 @@ void God::show_game_finish_window() {
     controller_out.delete_obj(game->get_ship_id());
     delete_controller_in();
     cur_player.time = get_time();
-    update_local_leaderboard(cur_player);                        ///
-    std::thread t(upload_json_from_server_to_file, cur_player);  ///
+    update_local_leaderboard(cur_player);                      ///
+    std::thread t(upload_json_from_server_to_file, cur_player);///
     t.detach();
     controller_out.show_game_finish_window(this);
     controller_out.close_game_field();
@@ -240,6 +240,18 @@ void God::show_legend_window() {
     controller_out.show_legend_window();
 }
 
+bool God::check_field_and_set_monster() {
+    auto direction = train.get_aggregated_changes();
+    if (!game->check_the_field()) {
+        game->move_objects_without_generating(direction);
+        finish_or_continue_game();
+        return false;
+    }
+    game->set_alien();
+    finish_or_continue_game();
+    return true;
+}
+
 void God::make_move_in_logic_and_ui_with_monster() {
     auto direction = train.get_aggregated_changes();
     if (direction == eclipse::kChangeGameState) {
@@ -247,14 +259,7 @@ void God::make_move_in_logic_and_ui_with_monster() {
         controller_out.game_pause();
         return;
     }
-    if (!game->check_the_field()) {
-        game->move_objects_without_generating(direction);
-        if (game->check_the_field()) {
-            game->set_alien();
-        }
-    } else {
-        game->make_move_with_alien(direction);
-    }
+    game->make_move_with_alien(direction);
     finish_or_continue_game();
 }
 

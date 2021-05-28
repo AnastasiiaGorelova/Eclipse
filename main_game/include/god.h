@@ -1,7 +1,6 @@
 #ifndef MAIN_GAME_GOD_H
 #define MAIN_GAME_GOD_H
 
-#include <memory>
 #include "arduino.h"
 #include "controllers_in.h"
 #include "game.h"
@@ -10,8 +9,10 @@
 #include "local_leaderboard.h"
 #include "modification_store.h"
 #include "upstream_leaderboard.h"
+#include <memory>
 
-enum message_errors { no_errors, arduino_setting_error };
+enum message_errors { no_errors,
+                      arduino_setting_error };
 
 class God {
 public:
@@ -53,11 +54,15 @@ public:
     void name_entered(const std::string &player_name);
     void finish_or_continue_game();
     void change_game_speed(int diff);
+    bool check_field_and_set_monster();
+    bool ready_for_moving_alien = false;
 
-    enum Choice { wait, continue_game, stop_game };
+    enum Choice { wait,
+                  continue_game,
+                  stop_game };
 
     Choice gamer_choice = wait;
-    int game_speed = 65;  // ~ ticks_per_second
+    int game_speed = 65;// ~ ticks_per_second
 };
 
-#endif  // MAIN_GAME_GOD_H
+#endif// MAIN_GAME_GOD_H
