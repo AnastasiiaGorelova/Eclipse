@@ -14,5 +14,8 @@ if __name__ == "__main__":
             print(jstr.decode())
         except BaseException:
             print("[\"Server is closed\"]")
+    elif len(sys.argv) == 1:
+        jstr = requests.get("http://srv6.yeputons.net:23917/leaderboard_top").content
+        print(jstr.decode())
     else:
         print("[\"Wrong!\"]")

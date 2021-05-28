@@ -1,8 +1,20 @@
 #include "upstream_leaderboard.h"
 
-void UpstreamLeaderboard::call_client(const Player &cur_player) {
-    std::string string_req = "python3.9 ../client/main.py " + cur_player.name +
-                             " " + std::to_string(score) + " > " + file_name;
+void UpstreamLeaderboard::add_player_to_server(const Player &cur_player) {
+    std::string string_req = "python3.9 ../client/main.py \"" +
+                             cur_player.name + "\" " + std::to_string(score) +
+                             " > " + file_name;
+    std::cerr << string_req << std::endl;
+    const char *request = string_req.c_str();
+    try {
+        system(request);
+    } catch (...) {
+        std::cerr << "Server is closed" << std::endl;
+    }
+}
+
+void UpstreamLeaderboard::upload_records() {
+    std::string string_req = "python3.9 ../client/main.py > " + file_name;
     std::cerr << string_req << std::endl;
     const char *request = string_req.c_str();
     try {
@@ -32,9 +44,15 @@ void UpstreamLeaderboard::make_score(const Player &cur_player) {
     score = for_score.mm * 60 + for_score.ss;
 }
 
+void upload_json_from_server_to_file_top_only(){
+    UpstreamLeaderboard my_leaderboard;
+    my_leaderboard.open_to_write();
+    my_leaderboard.upload_records();
+}
+
 void upload_json_from_server_to_file(const Player &cur_player) {
     UpstreamLeaderboard my_leaderboard;
     my_leaderboard.open_to_write();
     my_leaderboard.make_score(cur_player);
-    my_leaderboard.call_client(cur_player);
+    my_leaderboard.add_player_to_server(cur_player);
 }

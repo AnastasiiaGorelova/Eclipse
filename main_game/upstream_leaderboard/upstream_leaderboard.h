@@ -16,6 +16,7 @@
 #include "local_leaderboard.h"
 
 void upload_json_from_server_to_file(const Player &cur_player);
+void upload_json_from_server_to_file_top_only();
 
 struct UpstreamLeaderboard {
 private:
@@ -24,7 +25,8 @@ private:
     int64_t score;
 
 public:
-    void call_client(const Player &cur_player);
+    void add_player_to_server(const Player &cur_player);
+    void upload_records();
     void open_to_write();
     void make_score(const Player &cur_player);
 };
