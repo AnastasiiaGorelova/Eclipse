@@ -1,7 +1,9 @@
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <mutex>
 #include "crow.h"
 #include "json.hpp"
-#include "util_eclipse.h"
 
 using json = nlohmann::json;
 
@@ -41,12 +43,13 @@ int main() {
             int64_t score;
             try {
                 username = x["username"].s();
-                score = x["score"].operator unsigned long();
+                score = x["score"].operator long long();
             } catch (const std::runtime_error &e) {
                 return crow::response(400, e.what());
             }
 
-            std::string uuid = new_uuid();
+            std::string uuid =
+                boost::uuids::to_string(boost::uuids::random_generator()());
             LeaderboardRecord record{uuid, username, score};
             records.push_back(record);
             std::sort(records.begin(), records.end(),
