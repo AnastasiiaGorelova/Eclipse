@@ -6,6 +6,10 @@
 #include <QHeaderView>
 #include <fstream>
 #include <iostream>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFileDialog>
 
 #define window_width 400
 #define window_height 325
@@ -89,4 +93,37 @@ void local_leaderboard_ui::download_local_leaderboard() {
   setLayout(layout);
 }
 
-void local_leaderboard_ui::download_server_leaderboard() {}
+void local_leaderboard_ui::download_server_leaderboard() {
+
+    QFile fileJson("/home/alena/Documents/Eclipse/main_game/src/ServerLeaderBoard.json");
+    fileJson.open(QIODevice::ReadOnly);
+    QString raw = fileJson.readAll();
+    fileJson.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(raw.toUtf8());
+    QJsonArray arr = doc.array();
+
+    for(int i = 0; i < arr.size(); i++) {
+        QJsonValue val = arr.at(i);
+        int score = val.toObject().value("score").toInt();
+        std::string line =  val.toObject().value("username").toString().toStdString();
+        auto *item_1 = new QTableWidgetItem(QString::fromStdString(line));
+        auto *item_2 = new QTableWidgetItem(QString::fromStdString(std::to_string(score)));
+        item_1->setFlags(Qt::ItemIsEnabled);
+        item_2->setFlags(Qt::ItemIsEnabled);
+        item_1->setTextColor(QColor(255, 255, 255));
+        item_2->setTextColor(QColor(255, 255, 255));
+        item_1->setTextAlignment(Qt::AlignCenter);
+        item_2->setTextAlignment(Qt::AlignCenter);
+        table->setItem(i, 0, item_1);
+        table->setItem(i, 1, item_2);
+    }
+    int x = arr.size();
+    for (;  x < 10; x++) {
+        table->removeRow(x);
+    }
+
+    auto *layout = new QHBoxLayout(this);
+    layout->addWidget(table);
+    setLayout(layout);
+}
