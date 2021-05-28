@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 
+set(BUILD_CLIENT "ON")
+
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -23,12 +25,13 @@ qt5_wrap_cpp(SOURCES "include_qt/game_window.h" "include_qt/main_window.h" "incl
 add_subdirectory(dependencies)
 
 # GAME
-#add_executable(main_game ${SOURCES})
-#target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard" "upstream_leaderboard")
-#target_link_libraries(main_game serial)
-#target_link_libraries(main_game Boost::filesystem)
-#target_link_libraries(main_game Qt5::Widgets)
-
+if (BUILD_CLIENT)
+add_executable(main_game ${SOURCES})
+target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard" "upstream_leaderboard")
+target_link_libraries(main_game serial)
+target_link_libraries(main_game Boost::filesystem)
+target_link_libraries(main_game Qt5::Widgets)
+endif()
 
 # Server
 add_executable(server_eclipse server/main.cpp)
