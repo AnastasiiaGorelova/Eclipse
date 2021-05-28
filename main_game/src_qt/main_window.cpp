@@ -214,7 +214,7 @@ void main_window::start_timer() {
 void main_window::tick_god() {
   static int time_lasts = 0;
   time_lasts++;
-  if (time_lasts == alien_timeout_come_in_sec * ticks_for_second) {
+  if (time_lasts > alien_timeout_come_in_sec * ticks_for_second) {
     time_lasts = 0;
     timer_for_ticks->stop();
     cur_enemy = alien;
@@ -314,7 +314,7 @@ void main_window::set_God(God *damn_) { damn = damn_; }
 void main_window::tick_god_with_monster() {
   if (damn->game->alien.get_state() == eclipse::Not_on_the_field) {
     timer_for_monster->stop();
-      ten_points_acceleration(10);
+    ten_points_acceleration(10);
     cur_enemy = asteroids;
     timer_for_ticks->start(1000 / ticks_for_second);
     return;
@@ -324,7 +324,6 @@ void main_window::tick_god_with_monster() {
 
 void main_window::set_game_on_pause() {
   text->setText("| |");
-
   timer_for_pause = new QTimer();
   timer_for_pause->setParent(this);
   connect(timer_for_pause, SIGNAL(timeout()), this, SLOT(check_keys()));
