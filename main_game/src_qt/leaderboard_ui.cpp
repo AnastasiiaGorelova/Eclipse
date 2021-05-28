@@ -131,7 +131,6 @@ void local_leaderboard_ui::download_server_leaderboard() {
             sec = "0" + sec;
         }
         std::string score(min + ":" + sec);
-        std::cerr << score;
 
         std::string line =  val.toObject().value("username").toString().toStdString();
         auto *item_1 = new QTableWidgetItem(QString::fromStdString(line));
