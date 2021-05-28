@@ -5,9 +5,12 @@
 #include "bonus.h"
 #include "changes.h"
 #include "game_fwd.h"
+#include "monster.h"
 #include "shots.h"
 #include "space_ship.h"
+#include "util.h"
 #include <random>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -16,62 +19,54 @@
 namespace eclipse {
 
     struct Game {
+        monster alien = monster(kWidth, new_uuid());
+
     private:
-        GameState game_state = kOngoing;
-        std::vector<std::vector<std::string>> field;
-        std::unordered_map<std::string, std::string> map;//for asteroids to delete
-        spaceship ship = spaceship(kWidth, kHeight);
-        int game_speed = 2;//asteroids
+        spaceship ship = spaceship(kWidth, kHeight, new_uuid());
+        int game_speed = 1; //speed for asteroid, bonuses
         int shot_size = 40;
         int bonus_size = 60;
-        std::vector<Asteroid> asteroids_in_the_field;
-        std::vector<Shot> shots_in_the_field;
-        std::vector<Coin> coins_in_the_field;
-        std::vector<Heart> hearts_in_the_field;
+        std::set<Asteroid> asteroids_in_the_field;
+        std::set<Bonus> bonus_in_the_field;
+        std::set<Shot> shots_in_the_field;
 
-        std::string checker_for_nothing(int x_start,
-                                        int x_finish,
-                                        int y_start,
-                                        int y_finish) const;
-        void change_field(int x_start,
-                          int x_finish,
-                          int y_start,
-                          int y_finish,
-                          const std::string &value);
-        void recover_ship();
         void check_for_living();
         void generate_asteroid();
         void generate_bonus();
         void moving_shots();
+        void moving_alien_shots();
         void moving_bonus();
         void moving_asteroids();
         void moving_ship(MoveDirection direction);
+        void shoot_by_alien();
+
+        [[nodiscard]] bool check_for_borders(int y, int size) const;
+        [[nodiscard]] bool check_for_nothing(int x, int size) const;
+        [[nodiscard]] bool check_for_conflict_with_ship(int x, int y, int size) const;
+        [[nodiscard]] bool check_for_conflict(int x1, int y1, int size1, int x2, int y2, int size2) const;
+        [[nodiscard]] bool destroy_objects_by_shots(int x1, int y1, int size1);
 
     public:
         int coins = 0;
         int lives = 3;
-        int coins_to_buy_live = 5;
-        Game() {
-            field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
-            for (int i = ship.get_coordinates().first;
-                 i < ship.get_coordinates().first + ship.get_size(); i++) {
-                for (int j = ship.get_coordinates().second; j < kHeight; j++) {
-                    field[i][j] = "abcd";
-                }
-            }
-        }
+        int coins_to_buy_live = 0;
+        GameState game_state = kOngoing;
+        Game() = default;
 
         std::vector<Changes> changes = {Changes{Create_ship,
                                                 ship.get_id(),
                                                 ship.get_coordinates(), ship.get_size()}};
 
-        GameState get_game_state() const;
-
-        std::string get_field_state(int x, int y) const;
-
-        void make_move(MoveDirection direction = kNoMove);
+        [[nodiscard]] bool get_game_state() const;
+        [[nodiscard]] bool check_the_field() const;
+        [[nodiscard]] std::string get_ship_id() const;
         void shoot();
         void clear_field();
+        void attack_by_alien();
+        void set_alien();
+        void make_move(MoveDirection direction = kNoMove);
+        void make_move_with_alien(MoveDirection direction = kNoMove);
+        void move_objects_without_generating(MoveDirection direction);
     };
 
 }// namespace eclipse

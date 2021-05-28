@@ -25,6 +25,7 @@
 #define HALFX 120
 #define WIDTH 240
 #define HEIGHT 250
+#define HALFHEIGHT 125
 #define KEY_Q 0x14
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300); // Connect TouchScreen
@@ -86,6 +87,41 @@ TSPoint waitOneTouch() {
         return p;
 }
 
+  void change_window_coins(){
+    tft.setTextSize (4);
+    tft.fillScreen(BLACK);
+    tft.fillRect(0, 160, WIDTH, HEIGHT, MAGENTA);
+    tft.setCursor(80, 90);
+    tft.setTextColor(WHITE);
+    tft.print("YES");
+    tft.setTextColor(BLACK);
+    tft.setCursor(90, 220);
+    tft.print("NO");
+  }
+
+  void draw_playground(){
+    tft.setTextSize (3);
+    tft.fillScreen(BLACK);
+    tft.fillRect(0, 70, HALFX, HEIGHT, CYAN); // fillRec(startX, startY, ширина, высота)
+    tft.fillRect(HALFX, 70, HALFX, HEIGHT, MAGENTA);
+    tft.setCursor(80, 29);
+    tft.setTextColor(WHITE);
+    tft.print("PAUSE");
+    tft.setTextColor(BLACK);
+    tft.setCursor(138, 180);
+    tft.print("RIGHT");
+    tft.setCursor(23, 180);
+    tft.print("LEFT");
+  }
+
+  void change_window_pause(){
+    tft.setTextSize (3);
+    tft.fillScreen(BLACK);
+    tft.setCursor(50, 145);
+    tft.setTextColor(WHITE);
+    tft.print("CONTINUE");
+  }
+
 
 void setup() {
 
@@ -123,20 +159,10 @@ void setup() {
         tft.println("Touch to proceed");
 
         // Wait touch
+        Serial.println("waitOneTouch!");
         waitOneTouch();
 
-        tft.setTextSize (3);
-        tft.fillScreen(BLACK);
-        tft.fillRect(0, 70, HALFX, HEIGHT, CYAN); // fillRec(startX, startY, ширина, высота)
-        tft.fillRect(HALFX, 70, HALFX, HEIGHT, MAGENTA);
-        tft.setCursor(85, 30);
-        tft.setTextColor(WHITE);
-        tft.print("MENU");
-        tft.setTextColor(BLACK);
-        tft.setCursor(138, 180);
-        tft.print("RIGHT");
-        tft.setCursor(23, 180);
-        tft.print("LEFT");
+        draw_playground();
 
         pinMode(13, OUTPUT);
 }
@@ -144,11 +170,53 @@ void setup() {
 
 void loop(){
 
+  Serial.print("NEWLOOP");
+  Serial.print("\n");
+
 /// IMPORTANT
         TSPoint p = ts.getPoint();
         pinMode(XM, OUTPUT);
         pinMode(YP, OUTPUT);
 ///  ENDIMPORTANT
+
+int FLAG = 0;
+
+String command;
+
+if (Serial.available() > 0) {  //если есть доступные данные
+    // считываем байт
+    // char buf_for_command[10];
+    command = Serial.readString();
+
+    // отсылаем то, что получили
+    Serial.print("I received: ");
+    Serial.println(command);
+    Serial.flush();
+    FLAG = 1;
+}
+
+if (FLAG == 1){
+  if (command == "coins"){
+   change_window_coins();
+   TSPoint p = waitOneTouch();
+   if(p.y < 450){
+     Serial.print("NO");
+     Serial.print("\n");
+   } else {
+     Serial.print("YES");
+     Serial.print("\n");
+   }
+ } else {
+   change_window_pause();
+   waitOneTouch();
+   Serial.print("CONTINUE");
+   Serial.print("\n");
+ }
+   FLAG = 0;
+   Serial.flush();
+   draw_playground();
+}
+
 
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
 
@@ -164,38 +232,29 @@ void loop(){
 
       /// нажали направо
       if (p.x < 570){
-          touched(HALFX, 70, HALFX, HEIGHT, MAGENTA);
-          delay(500);
-          stop_touch(HALFX, 70, HALFX, HEIGHT, MAGENTA);
-
-          // Keyboard.write(KEY_RIGHT_ARROW);
-
           Serial.print("RIGHT");
           Serial.print("\n");
+          // Keyboard.write(KEY_RIGHT_ARROW);
+          touched(HALFX, 70, HALFX, HEIGHT, MAGENTA);
+          stop_touch(HALFX, 70, HALFX, HEIGHT, MAGENTA);
 
+      /// нажали налево
       } else {
-        /// нажали налево
-        touched(0, 70, HALFX, HEIGHT, CYAN);
-        delay(500);
-        stop_touch(0, 70, HALFX, HEIGHT, CYAN);
-
-        // Keyboard.write(KEY_LEFT_ARROW);
-
         Serial.print("LEFT");
         Serial.print("\n");
+        // Keyboard.write(KEY_LEFT_ARROW);
+        touched(0, 70, HALFX, HEIGHT, CYAN);
+        stop_touch(0, 70, HALFX, HEIGHT, CYAN);
       }
 
     /// нажали на меню
     } else {
-      touched(0, 0, WIDTH, 70, BLACK);
-      delay(500);
-      stop_touch(0, 0, WIDTH, 70, BLACK);
-
-      // Keyboard.write(KEY_Q);
-
-      Serial.print("MENU");
+      Serial.print("PAUSE");
       Serial.print("\n");
-
+      Serial.flush();
+      // Keyboard.write(KEY_Q);
+      touched(0, 0, WIDTH, 70, BLACK);
+      stop_touch(0, 0, WIDTH, 70, BLACK);
     }
   }
 

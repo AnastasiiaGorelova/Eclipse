@@ -45,6 +45,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="server_board">
+      <property name="text">
+       <string>Глобальная таблица рекордов</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="exit">
       <property name="text">
        <string>Выйти</string>

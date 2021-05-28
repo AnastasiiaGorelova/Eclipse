@@ -1,5 +1,5 @@
 
-#include "God.h"
+#include "god.h"
 #include <QApplication>
 
 /*void print(eclipse::Game &game) {
@@ -23,6 +23,5 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     God damn;
     damn.show_menu();
-
     return QApplication::exec();
 }

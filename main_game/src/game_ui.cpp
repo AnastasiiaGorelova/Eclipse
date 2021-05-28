@@ -1,7 +1,10 @@
 #include "game_ui.h"
 
+#define local_leaderboard 0
+#define server_leaderboard 1
+
 void Controller_out::show_menu(God* damn) {
-    menu_window_ = new game_window(); // NOLINT
+    menu_window_ = new game_window();
     menu_window_-> set_god(damn);
     menu_window_->show_menu_first();
 }
@@ -13,7 +16,7 @@ void Controller_out::close_menu() {
 }
 
 void Controller_out::show_game_field(God* damn) {
-    game_window_ = new main_window(); // NOLINT
+    game_window_ = new main_window();
     game_window_->make_field();
     game_window_->set_God(damn);
     game_window_->set_lives();
@@ -58,7 +61,6 @@ void Controller_out::set_obj(int x,
                              const std::string &hash,
                              const std::string &object_name) const {
     game_window_->set(x, y, size, hash, object_name);
-
 }
 
 void Controller_out::move_obj(int x, int y, const std::string &hash) const {
@@ -110,11 +112,13 @@ void Controller_out::stop_timers() const {
     game_window_->timer->stop();
     game_window_->timer_for_shots->stop();
     game_window_->timer_for_ticks->stop();
+    game_window_->timer_for_monster->stop();
 }
 
 void Controller_out::show_live_for_coins_window(int n, int k, God* damn) {
     buy_live_for_coins_window_ = new buy_live_for_coins_window();
     buy_live_for_coins_window_->set_god(damn);
+    buy_live_for_coins_window_->set_window_options();
     buy_live_for_coins_window_->buy_for_n_coins(n, k);
     buy_live_for_coins_window_->show();
 }
@@ -141,8 +145,13 @@ void Controller_out::close_error_massage_window() {
     error_massage_window_ = nullptr;
 }
 
-void Controller_out::show_local_leaderboard() {
+void Controller_out::show_leaderboard(int param) {
     local_leaderboard_ui_ = new local_leaderboard_ui();
+    if (param == local_leaderboard) {
+        local_leaderboard_ui_->download_local_leaderboard();
+    } else if (param == server_leaderboard){
+        local_leaderboard_ui_->download_server_leaderboard();
+    }
     local_leaderboard_ui_->show();
 }
 
@@ -150,5 +159,15 @@ void Controller_out::show_legend_window() {
     legend_window_ = new legend_window();
     legend_window_->show();
 }
+
+void Controller_out::game_pause() {
+    game_window_->set_game_on_pause();
+}
+
+void Controller_out::slow_down_game() {
+    game_window_->ten_points_acceleration(-15);
+    game_window_->change_timer_for_ticks();
+}
+
 
 

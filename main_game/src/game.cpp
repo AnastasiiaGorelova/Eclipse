@@ -1,76 +1,43 @@
 #include "game.h"
 #include "game_fwd.h"
-#include "util.h"
+#include "god.h"
 #include <vector>
 
-#include "God.h"
 extern ::God damn;
 
-
 namespace eclipse {
-    namespace {
-        int random_number(int l, int r) {
-            std::mt19937 gen{std::random_device{}()};
-            std::uniform_int_distribution<> dist(l, r);
-            return dist(gen);
-        }
 
-    }// namespace
-
-    void Game::recover_ship() {
-        change_field(ship.get_coordinates().first,
-                     ship.get_coordinates().first + ship.get_size(),
-                     ship.get_coordinates().second,
-                     ship.get_coordinates().second + ship.get_size(),
-                     "abcd");
+    std::string Game::get_ship_id() const {
+        return ship.get_id();
     }
 
-    std::string Game::checker_for_nothing(int x_start,
-                                          int x_finish,
-                                          int y_start,
-                                          int y_finish) const {
-        for (int i = x_start; i < x_finish; i++) {
-            for (int j = y_start; j < y_finish; j++) {
-                if (j >= kHeight || j < 0) {
-                    return "edge";
-                }
-                if (get_field_state(i, j) != default_id) {
-                    return get_field_state(i, j);
-                }
-            }
+    bool Game::check_for_borders(int y, int size) const {
+        if (y < 0 || y + size >= kHeight) {
+            return false;
         }
-        return default_id;
+        return true;
+    }
+
+    bool Game::check_for_conflict_with_ship(int x, int y, int size) const {
+        if (y + size < ship.get_coordinates().second) {
+            return true;
+        }
+        if (x + size < ship.get_coordinates().first || ship.get_coordinates().first + ship.get_size() < x) {
+            return true;
+        }
+        return false;//bumped
     }
 
     void Game::check_for_living() {
         --lives;
-        //std::cerr << "- ";
         if (lives <= 0) {// dead
             game_state = kFinished;
-            changes.emplace_back(Changes{Finish_game});
-        } else {
-            changes.emplace_back(Changes{Decrease_lives});
         }
+        changes.emplace_back(Changes{Decrease_lives});
     }
 
-    GameState Game::get_game_state() const {
-        return game_state;
-    }
-
-    std::string Game::get_field_state(int x, int y) const {
-        return field[x][y];
-    }
-
-    void Game::change_field(int x_start,
-                            int x_finish,
-                            int y_start,
-                            int y_finish,
-                            const std::string &value) {
-        for (int i = x_start; i < x_finish; i++) {
-            for (int j = y_start; j < y_finish; j++) {
-                field[i][j] = value;
-            }
-        }
+    bool Game::get_game_state() const {
+        return game_state == kOngoing;
     }
 
     void Game::shoot() {
@@ -81,236 +48,365 @@ namespace eclipse {
                                      new_shot.get_id(),
                                      {new_shot.get_coordinates().first, new_shot.get_coordinates().second},
                                      new_shot.get_size()});
-        change_field(x, x + new_shot.get_size(), y, y + new_shot.get_size(), new_shot.get_id());
-        shots_in_the_field.push_back(std::move(new_shot));
+        shots_in_the_field.insert(std::move(new_shot));
+    }
+
+    bool Game::check_for_nothing(int x, int size) const {
+        for (auto it1 = asteroids_in_the_field.begin(); it1 != asteroids_in_the_field.end(); it1++) {
+            if (it1->get_coordinates().second < size) {
+                if ((it1->get_coordinates().first >= x && it1->get_coordinates().first <= x + size) ||
+                    (x >= it1->get_coordinates().first && x <= it1->get_coordinates().first + it1->get_size())) {
+                    return false;//bumped
+                }
+            }
+        }
+        for (auto it2 = bonus_in_the_field.begin(); it2 != bonus_in_the_field.end(); it2++) {
+            if (it2->get_coordinates().second < size) {
+                if ((it2->get_coordinates().first >= x && it2->get_coordinates().first <= x + size) ||
+                    (x >= it2->get_coordinates().first && x <= it2->get_coordinates().first + bonus_size)) {
+                    return false;//bumped
+                }
+            }
+        }
+        for (auto it3 = shots_in_the_field.begin(); it3 != shots_in_the_field.end(); it3++) {
+            if (it3->get_coordinates().second < size) {
+                if ((it3->get_coordinates().first >= x && it3->get_coordinates().first <= x + size) ||
+                    (x >= it3->get_coordinates().first && x <= it3->get_coordinates().first + it3->get_size())) {
+                    return false;//bumped
+                }
+            }
+        }
+        return true;
+    }
+
+    bool Game::check_for_conflict(int x1, int y1, int size1, int x2, int y2, int size2) const {
+        if ((x1 > x2 + size2 || x2 > x1 + size1) || (y1 > y2 + size2 || y2 > y1 + size1)) {
+            return true;
+        }
+        return false;//bumped
+    }
+
+    bool Game::destroy_objects_by_shots(int x1, int y1, int size1) {
+        if (alien.get_state() != Not_on_the_field && !check_for_conflict(x1, y1, size1, alien.get_coordinates().first, alien.get_coordinates().second, alien.get_size())) {
+            if (alien.get_state() == On_the_field) {
+                if (!alien.heart_coordinates.empty()) {
+                    changes.emplace_back(Changes{Delete_object, alien.heart_coordinates[alien.heart_coordinates.size() - 1].id});
+                    alien.heart_coordinates.pop_back();
+                }
+                alien.decrease_lives();
+            }
+            return false;
+        }
+        auto it1 = asteroids_in_the_field.begin();
+        while (it1 != asteroids_in_the_field.end()) {
+            if (!check_for_conflict(x1, y1, size1, it1->get_coordinates().first, it1->get_coordinates().second, it1->get_size())) {
+                Asteroid temp_asteroid = *it1;
+                asteroids_in_the_field.erase(it1);
+                temp_asteroid.destroy();
+                if (temp_asteroid.get_state() == kDead) {
+                    changes.emplace_back(Changes{Delete_object, temp_asteroid.get_id()});
+                } else {
+                    changes.emplace_back(Changes{Break_asteroid, temp_asteroid.get_id(), temp_asteroid.get_coordinates(), temp_asteroid.get_size()});
+                    asteroids_in_the_field.insert(temp_asteroid);
+                }
+                return false;
+            }
+            it1++;
+        }
+        auto it2 = bonus_in_the_field.begin();
+        while (it2 != bonus_in_the_field.end()) {
+            if (!check_for_conflict(x1, y1, size1, it2->get_coordinates().first, it2->get_coordinates().second, bonus_size)) {
+                changes.emplace_back(Changes{Delete_object, it2->get_id()});
+                if (it2->get_type() == "coin") {
+                    coins++;
+                    changes.emplace_back(Changes{Add_coin});
+                } else if (it2->get_type() == "heart") {
+                    lives = std::min(lives + 1, 3);
+                    changes.emplace_back(Changes{Add_heart});
+                } else if (it2->get_type() == "diamond") {
+                    changes.emplace_back(Changes{Slow_down_game});
+                }
+                bonus_in_the_field.erase(it2);
+                return false;
+            }
+            it2++;
+        }
+        auto it3 = alien.alien_shots_in_the_field.begin();
+        while (it3 != alien.alien_shots_in_the_field.end()) {
+            if (!check_for_conflict(x1, y1, size1, it3->get_coordinates().first, it3->get_coordinates().second, bonus_size)) {//ударил астероид
+                changes.emplace_back(Changes{Delete_object, it3->get_id()});
+                alien.alien_shots_in_the_field.erase(it3);
+                return false;
+            }
+            it3++;
+        }
+        return true;
     }
 
     void Game::generate_asteroid() {
-        if (random_number(0, 90) == 5 && asteroids_in_the_field.size() < 3) {
+        if (random_number(0, 50) == 5 && asteroids_in_the_field.size() < 4) {
             int size = random_number(70, 120);
             int x = random_number(0, kWidth - size);
-            while (checker_for_nothing(x, x + size, 0, size) != default_id) {
-                x = random_number(0, kWidth - size);
+            if (check_for_nothing(x, size)) {
+                Asteroid new_asteroid(x, size, new_uuid());
+                changes.emplace_back(Changes{Create_asteroid,
+                                             new_asteroid.get_id(),
+                                             new_asteroid.get_coordinates(),
+                                             new_asteroid.get_size()});
+                asteroids_in_the_field.insert(std::move(new_asteroid));
             }
-            Asteroid new_asteroid(x, size, new_uuid());
-            changes.emplace_back(Changes{Create_asteroid,
-                                         new_asteroid.get_id(),
-                                         {new_asteroid.get_coordinates().first,
-                                          new_asteroid.get_coordinates().second},
-                                         new_asteroid.get_size()});
-            change_field(x, x + size, 0, size, new_asteroid.get_id());
-            asteroids_in_the_field.push_back(std::move(new_asteroid));
         }
     }
 
     void Game::generate_bonus() {
-        if (random_number(0, 400) == 5) {//coin
+        if (random_number(0, 400) == 5) {
             int x = random_number(0, kWidth - bonus_size);
-            if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
-                Coin new_coin(x, new_uuid());
-                changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
-                change_field(x, x + bonus_size, 0, bonus_size, new_coin.get_id());
-                coins_in_the_field.push_back(std::move(new_coin));
-            }
-        }
-        if (random_number(0, 500) == 5) {//heart
-            int x = random_number(0, kWidth - bonus_size);
-            if (checker_for_nothing(x, x + bonus_size, 0, bonus_size) == default_id) {
-                Heart new_heart(x, new_uuid());
-                changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
-                change_field(x, x + bonus_size, 0, bonus_size, new_heart.get_id());
-                hearts_in_the_field.push_back(std::move(new_heart));
+            if (check_for_nothing(x, bonus_size)) {
+                if (random_number(0, 1) == 1) {
+                    Bonus new_coin(x, new_uuid(), "coin");
+                    changes.emplace_back(Changes{Create_coin, new_coin.get_id(), new_coin.get_coordinates(), bonus_size});
+                    bonus_in_the_field.insert(std::move(new_coin));
+                } else if (random_number(0, 1) == 1) {
+                    Bonus new_heart(x, new_uuid(), "heart");
+                    changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
+                    bonus_in_the_field.insert(std::move(new_heart));
+                } else {
+                    Bonus new_diamond(x, new_uuid(), "diamond");
+                    changes.emplace_back(Changes{Create_diamond, new_diamond.get_id(), new_diamond.get_coordinates(), bonus_size});
+                    bonus_in_the_field.insert(std::move(new_diamond));
+                }
             }
         }
     }
 
     void Game::moving_shots() {
-        std::size_t id = 0;
-        while (id < shots_in_the_field.size()) {
-            int old_x = shots_in_the_field[id].get_coordinates().first;
-            int old_y = shots_in_the_field[id].get_coordinates().second;
-            change_field(old_x, old_x + shots_in_the_field[id].get_size(), old_y,
-                         old_y + shots_in_the_field[id].get_size(), default_id);
-            shots_in_the_field[id].move();
-            int new_y = shots_in_the_field[id].get_coordinates().second;
-            std::string checker1 = checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
-                                                       new_y + shots_in_the_field[id].get_size());
-            std::string checker2 = checker_for_nothing(old_x, old_x + shots_in_the_field[id].get_size(),
-                                                       new_y - game_speed, new_y - game_speed + shots_in_the_field[id].get_size());
-            //сейчас врежется астероид
-            if (checker1 != default_id || checker2 != default_id) {//если сейчас столкнется с астероидом --> удаляем
-                changes.emplace_back(
-                        Changes{Delete_object,
-                                shots_in_the_field[id].get_id()});
-                if (checker1 != default_id) {
-                    map.insert({checker1, "asteroid"});
-                } else {
-                    map.insert({checker2, "asteroid"});
-                }
-                shots_in_the_field.erase(shots_in_the_field.begin() + id);
+        auto it = shots_in_the_field.begin();
+        std::set<Shot> after_changes;
+        while (it != shots_in_the_field.end()) {
+            if (!destroy_objects_by_shots(it->get_coordinates().first, it->get_coordinates().second, it->get_size())) {//bumped
+                changes.emplace_back(Changes{Delete_object, it->get_id()});
             } else {
-                change_field(old_x, old_x + shots_in_the_field[id].get_size(), new_y,
-                             new_y + shots_in_the_field[id].get_size(), shots_in_the_field[id].get_id());
-                changes.emplace_back(Changes{Move_object,
-                                             shots_in_the_field[id].get_id(),
-                                             {old_x, new_y}});
-                id++;
+                Shot temp_shot = *it;
+                temp_shot.move();
+                if (!check_for_borders(temp_shot.get_coordinates().second, temp_shot.get_size()) ||
+                    !destroy_objects_by_shots(temp_shot.get_coordinates().first, temp_shot.get_coordinates().second, temp_shot.get_size())) {//bumped
+                    changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
+                } else {
+                    after_changes.insert(temp_shot);
+                    changes.emplace_back(Changes{Move_object, temp_shot.get_id(), temp_shot.get_coordinates()});
+                }
             }
+            it++;
         }
+        shots_in_the_field = after_changes;
     }
 
     void Game::moving_asteroids() {
-        std::size_t id = 0;
-        while (id < asteroids_in_the_field.size()) {
-            int old_x = asteroids_in_the_field[id].get_coordinates().first;
-            int old_y = asteroids_in_the_field[id].get_coordinates().second;
-            int size = asteroids_in_the_field[id].get_size();
-            change_field(old_x, old_x + size, old_y, old_y + size,
-                         default_id);
-            asteroids_in_the_field[id].move(game_speed);
-            int new_y = asteroids_in_the_field[id].get_coordinates().second;
-            std::string checker = checker_for_nothing(old_x, old_x + size, new_y,
-                                                      new_y + size);
-            if (checker != default_id || map.find(asteroids_in_the_field[id].get_id()) != map.end()) {
-                //не можем спокойно подвинуть астероид
-                if (map.find(asteroids_in_the_field[id].get_id()) != map.end()) {
-                    map.erase(asteroids_in_the_field[id].get_id());
-                }
-                asteroids_in_the_field[id].destroy();
-                if (new_y + size >= kHeight ||
-                    asteroids_in_the_field[id].get_state() ==
-                            kDead) {//врезались в землю
-                    if (new_y + size >= kHeight || checker == "abcd") {
-                        check_for_living();
-                    }
-                    recover_ship();//убрать костыль
-                    // если в корабль врезался астероид, восстанавливаем  корабль
-                    changes.emplace_back(Changes{Delete_object,
-                                                 asteroids_in_the_field[id].get_id()});
-                    asteroids_in_the_field.erase(asteroids_in_the_field.begin() + id);
-                    continue;
-                } else {// еще не убили, но ранили
-                    changes.emplace_back(Changes{Break_asteroid, asteroids_in_the_field[id].get_id(), {-1, -1}, asteroids_in_the_field[id].get_size()});
-                }
-            } else {
-                //пусто, можно двигать
-                change_field(old_x, old_x + size, new_y, new_y + size, asteroids_in_the_field[id].get_id());
+        auto it = asteroids_in_the_field.begin();
+        std::set<Asteroid> after_changes;
+        while (it != asteroids_in_the_field.end()) {
+            Asteroid cur_asteroid = *it;
+            cur_asteroid.move(game_speed);
+            if (!check_for_borders(cur_asteroid.get_coordinates().second, cur_asteroid.get_size()) ||
+                !check_for_conflict_with_ship(cur_asteroid.get_coordinates().first, cur_asteroid.get_coordinates().second, cur_asteroid.get_size())) {//bumped into the border
+                check_for_living();
+                changes.emplace_back(Changes{Delete_object,
+                                             cur_asteroid.get_id()});
+            } else {// we can move object
                 changes.emplace_back(Changes{Move_object,
-                                             asteroids_in_the_field[id].get_id(),
-                                             {old_x, new_y}});
-                id++;
+                                             cur_asteroid.get_id(),
+                                             cur_asteroid.get_coordinates()});
+                after_changes.insert(cur_asteroid);
             }
+            it++;
         }
+        asteroids_in_the_field = after_changes;
     }
 
     void Game::moving_bonus() {
-        int id = 0;
-        while (id < coins_in_the_field.size()) {
-            int old_x = coins_in_the_field[id].get_coordinates().first;
-            int old_y = coins_in_the_field[id].get_coordinates().second;
-            change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
-            if (map.find(coins_in_the_field[id].get_id()) != map.end()) {//caught it!
-                coins++;
-                changes.emplace_back(Changes{Add_coin});
-                changes.emplace_back(Changes{Delete_object, coins_in_the_field[id].get_id()});
-                map.erase(coins_in_the_field[id].get_id());
-                coins_in_the_field.erase(coins_in_the_field.begin() + id);
+        auto it = bonus_in_the_field.begin();
+        std::set<Bonus> after_changes;
+        while (it != bonus_in_the_field.end()) {
+            Bonus temp_bonus = *it;
+            temp_bonus.move(game_speed);
+            if (!check_for_borders(temp_bonus.get_coordinates().second, bonus_size)) {
+                changes.emplace_back(Changes{Delete_object, temp_bonus.get_id()});
+                it++;
                 continue;
             }
-            coins_in_the_field[id].move(game_speed);
-            int new_y = coins_in_the_field[id].get_coordinates().second;
-            if (checker_for_nothing(old_x, old_x + bonus_size, new_y, new_y + bonus_size) != default_id) {
-                changes.emplace_back(Changes{Delete_object, coins_in_the_field[id].get_id()});
-                coins_in_the_field.erase(coins_in_the_field.begin() + id);
-            } else {
-                changes.emplace_back(Changes{Move_object, coins_in_the_field[id].get_id(), coins_in_the_field[id].get_coordinates()});
-                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, coins_in_the_field[id].get_id());
-                id++;
-            }
-        }
-        id = 0;
-        while (id < hearts_in_the_field.size()) {
-            int old_x = hearts_in_the_field[id].get_coordinates().first;
-            int old_y = hearts_in_the_field[id].get_coordinates().second;
-            change_field(old_x, old_x + bonus_size, old_y, old_y + bonus_size, default_id);
-            if (map.find(hearts_in_the_field[id].get_id()) != map.end()) {//поймали
-                lives = std::min(lives + 1, 3);
-                //std::cerr << lives << " ";
-                changes.emplace_back(Changes{Add_heart});
-                changes.emplace_back(Changes{Delete_object, hearts_in_the_field[id].get_id()});
-                map.erase(hearts_in_the_field[id].get_id());
-                hearts_in_the_field.erase(hearts_in_the_field.begin() + id);
+            if (!check_for_conflict_with_ship(temp_bonus.get_coordinates().first, temp_bonus.get_coordinates().second, bonus_size)) {
+                if (temp_bonus.get_type() == "coin") {
+                    coins++;
+                    changes.emplace_back(Changes{Add_coin});
+                } else if (temp_bonus.get_type() == "heart") {
+                    if (lives != 3) {
+                        lives = std::min(lives + 1, 3);
+                        changes.emplace_back(Changes{Add_heart});
+                    }
+                } else if (temp_bonus.get_type() == "diamond") {
+                    changes.emplace_back(Changes{Slow_down_game});
+                }
+                changes.emplace_back(Changes{Delete_object, temp_bonus.get_id()});
+                it++;
                 continue;
             }
-            hearts_in_the_field[id].move(game_speed);
-            int new_y = hearts_in_the_field[id].get_coordinates().second;
-            if (checker_for_nothing(old_x, old_x + bonus_size, new_y, new_y + bonus_size) != default_id) {
-                changes.emplace_back(Changes{Delete_object, hearts_in_the_field[id].get_id()});
-                hearts_in_the_field.erase(hearts_in_the_field.begin() + id);
-            } else {
-                changes.emplace_back(Changes{Move_object, hearts_in_the_field[id].get_id(), hearts_in_the_field[id].get_coordinates()});
-                change_field(old_x, old_x + bonus_size, new_y, new_y + bonus_size, hearts_in_the_field[id].get_id());
-                id++;
-            }
+            changes.emplace_back(Changes{Move_object, temp_bonus.get_id(), temp_bonus.get_coordinates()});
+            after_changes.insert(temp_bonus);
+            it++;
         }
+        bonus_in_the_field = after_changes;
     }
 
     void Game::moving_ship(MoveDirection direction) {
-        int y = ship.get_coordinates().second;
-        int old_x = ship.get_coordinates().first;
-        change_field(old_x, old_x + ship.get_size(), y, y + ship.get_size(),
-                     default_id);
         ship.move(direction);
-        int new_x = ship.get_coordinates().first;
-        change_field(new_x, new_x + ship.get_size(), y, y + ship.get_size(),
-                     "abcd");
         changes.emplace_back(
                 Changes{Move_object,
                         ship.get_id(),
-                        {new_x, y},
+                        ship.get_coordinates(),
                         ship.get_size()});
     }
 
-
     void Game::make_move(MoveDirection direction) {
-        moving_ship(direction);
-        moving_shots();
-        moving_asteroids();
-        moving_bonus();
+        move_objects_without_generating(direction);
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
         generate_asteroid();
         generate_bonus();
     }
 
+    void Game::make_move_with_alien(MoveDirection direction) {
+        moving_ship(direction);
+        moving_alien_shots();
+        moving_shots();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
+        attack_by_alien();
+        if (alien.get_state() == On_the_field && random_number(0, 70) == 5) {
+            shoot_by_alien();
+        }
+    }
+
+    void Game::move_objects_without_generating(MoveDirection direction) {
+        moving_ship(direction);
+        moving_asteroids();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
+        moving_bonus();
+        moving_alien_shots();
+        moving_shots();
+        if (!get_game_state()) {
+            clear_field();
+            return;
+        }
+    }
+
     void Game::clear_field() {
-        for (auto &i : asteroids_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        for (const auto &it : asteroids_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         asteroids_in_the_field.clear();
-        for (auto &i : shots_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        for (const auto &it : shots_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
         shots_in_the_field.clear();
-        for (auto &i : hearts_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        for (const auto &it : bonus_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
-        hearts_in_the_field.clear();
-        for (auto &i : coins_in_the_field) {
-            changes.emplace_back(Changes{Delete_object, i.get_id()});
+        bonus_in_the_field.clear();
+        for (const auto &it : alien.alien_shots_in_the_field) {
+            changes.emplace_back(Changes{Delete_object, it.get_id()});
         }
-        coins_in_the_field.clear();
-        map.clear();
-        field.clear();
-        field.resize(kWidth, std::vector<std::string>(kHeight, default_id));
-        for (int i = ship.get_coordinates().first;
-             i < ship.get_coordinates().first + ship.get_size(); i++) {
-            for (int j = ship.get_coordinates().second; j < kHeight; j++) {
-                field[i][j] = "abcd";
-            }
+        alien.alien_shots_in_the_field.clear();
+        for (const auto &i : alien.heart_coordinates) {
+            changes.emplace_back(Changes{Delete_object, i.id});
         }
+        alien.heart_coordinates.clear();
+        alien.change_state(Not_on_the_field);
+        changes.emplace_back(Changes{Delete_object, alien.get_id()});
     }
 
     std::pair<int, int> get_field_size() {
         return {kWidth, kHeight};
+    }
+
+    void Game::set_alien() {
+        if (get_game_state()) {
+            changes.emplace_back(Changes{Create_alien, alien.get_id(), alien.get_coordinates(), alien.get_size()});
+            alien.change_state(Going_out);
+        } else {
+            alien.change_state(Not_on_the_field);
+        }
+    }
+
+    void Game::attack_by_alien() {
+        if (alien.get_state() == Not_on_the_field) {
+            return;
+        }
+        if (alien.get_state() == Going_out) {
+            alien.move(kDown);
+            changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+            if (alien.get_state() == On_the_field) {
+                for (const auto &i : alien.heart_coordinates) {
+                    changes.emplace_back(Changes{Create_alien_heart, i.id, {alien.get_coordinates().first + i.x, i.y}, i.size});
+                }
+            }
+            return;
+        }
+        if (alien.get_state() == Leaving) {
+            alien.move(kUp);
+            if (alien.get_state() == Not_on_the_field) {
+                changes.emplace_back(Changes{Delete_object, alien.get_id()});
+            } else {
+                changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+            }
+            return;
+        }
+        if (alien.get_state() == On_the_field) {
+            alien.move(kNoMove);
+            changes.emplace_back(Changes{Move_object, alien.get_id(), alien.get_coordinates()});
+            for (const auto &i : alien.heart_coordinates) {
+                changes.emplace_back(Changes{Move_object, i.id, {alien.get_coordinates().first + i.x, i.y}});
+            }
+        }
+    }
+
+    void Game::shoot_by_alien() {
+        Shot new_shot(alien.get_coordinates().first + (alien.get_size() / 2), alien.get_coordinates().second + alien.get_size(), new_uuid());
+        changes.emplace_back(Changes{Create_alien_shot, new_shot.get_id(), new_shot.get_coordinates(), new_shot.get_size()});
+        alien.alien_shots_in_the_field.insert(std::move(new_shot));
+    }
+
+    void Game::moving_alien_shots() {
+        auto it = alien.alien_shots_in_the_field.begin();
+        std::set<Shot> after_changes;
+        while (it != alien.alien_shots_in_the_field.end()) {
+            Shot temp_shot = *it;
+            temp_shot.move_for_alien();
+            if (!check_for_borders(temp_shot.get_coordinates().second, temp_shot.get_size())) {
+                changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
+                it++;
+                continue;
+            }
+            if (!check_for_conflict_with_ship(temp_shot.get_coordinates().first, temp_shot.get_coordinates().second, temp_shot.get_size())) {
+                changes.emplace_back(Changes{Delete_object, temp_shot.get_id()});
+                check_for_living();
+            } else {
+                changes.emplace_back(Changes{Move_object, temp_shot.get_id(), temp_shot.get_coordinates()});
+                after_changes.insert(std::move(temp_shot));
+            }
+            it++;
+        }
+        alien.alien_shots_in_the_field = after_changes;
+    }
+
+    bool Game::check_the_field() const {
+        return asteroids_in_the_field.empty() && bonus_in_the_field.empty();
     }
 
 }// namespace eclipse

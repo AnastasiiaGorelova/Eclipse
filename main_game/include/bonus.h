@@ -4,33 +4,24 @@
 #include <string>
 
 namespace eclipse {
-    struct Coin {
+    struct Bonus {
     private:
         int x;
         int y = 0;
         std::string id;
+        std::string type;
 
     public:
-        Coin(int x, std::string id) : x(x), id(std::move(id)) {}
+        Bonus(int x, std::string id, std::string type) : x(x), id(std::move(id)), type(std::move(type)) {}
 
+        [[nodiscard]] std::pair<int, int> get_coordinates() const;// x,y coordinates
+        [[nodiscard]] std::string get_id() const;
+        [[nodiscard]] std::string get_type() const;
         void move(int speed);
-        std::pair<int, int> get_coordinates() const;  // x,y coordinates
-        std::string get_id() const;
+
+        friend bool operator<(const Bonus &first, const Bonus &second);
     };
 
-    struct Heart {
-    private:
-        int x;
-        int y = 0;
-        std::string id;
-
-    public:
-        Heart(int x, std::string id) : x(x), id(std::move(id)) {}
-
-        void move(int speed);
-        std::pair<int, int> get_coordinates() const;  // x,y coordinates
-        std::string get_id() const;
-    };
 }// namespace eclipse
 
 #endif//MAIN_GAME_BONUS_H

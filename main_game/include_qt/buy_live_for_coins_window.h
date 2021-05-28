@@ -1,39 +1,43 @@
 #ifndef MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H
 #define MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H
 
-#include <QWidget>
 #include <QPushButton>
+#include <QTimer>
+#include <QWidget>
 #include <memory>
 
 class God;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class buy_live_for_coins_window; }
+namespace Ui {
+class buy_live_for_coins_window;
+}
 QT_END_NAMESPACE
 
 class buy_live_for_coins_window : public QWidget {
-Q_OBJECT
+  Q_OBJECT
 
 public:
+  explicit buy_live_for_coins_window(QWidget *parent = nullptr);
+  ~buy_live_for_coins_window() override;
 
-    explicit buy_live_for_coins_window(QWidget *parent = nullptr);
-    ~buy_live_for_coins_window() override;
-
-    void set_god(God* damn_);
-    void buy_for_n_coins(int n, int k);
-    int coins;
+  void set_god(God *damn_);
+  void buy_for_n_coins(int n, int k);
+  void set_window_options();
 
 private:
-    Ui::buy_live_for_coins_window *ui;
+  int coins{};
+  God *damn = nullptr;
+  QTimer *timer = nullptr;
 
-    God* damn;
+  QPushButton *yes_button = nullptr;
+  QPushButton *no_button = nullptr;
 
-    QPushButton* yes_button;
-    QPushButton* no_button;
-
+  Ui::buy_live_for_coins_window *ui;
 private slots:
-    void _on_yes_button_clicked();
-    void _on_no_button_clicked();
+  void _on_yes_button_clicked();
+  void _on_no_button_clicked();
+  void check_status();
 };
 
-#endif //MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H
+#endif // MAIN_GAME_BUY_LIVE_FOR_COINS_WINDOW_H

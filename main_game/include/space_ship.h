@@ -8,18 +8,18 @@
 namespace eclipse {
     struct spaceship {
     private:
-        int size = 150;
+        const int size = 120;
         int x;
         int y;
-        std::string id = "abcd";
-        int speed = 8;
+        std::string id;
+        int speed = 16;
 
     public:
-        spaceship(int width, int height) : x(width / 2 - size / 2), y(height - size) {
+        spaceship(int width, int height, std::string id) : x(width / 2 - size / 2), y(height - size), id(std::move(id)) {
         }
-        std::pair<int, int> get_coordinates() const;
-        std::string get_id() const;
-        int get_size() const;
+        [[nodiscard]] std::pair<int, int> get_coordinates() const;
+        [[nodiscard]] std::string get_id() const;
+        [[nodiscard]] int get_size() const;
         void move(MoveDirection direction);
     };
 }// namespace eclipse
