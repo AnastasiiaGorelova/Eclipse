@@ -23,11 +23,11 @@ qt5_wrap_cpp(SOURCES "include_qt/game_window.h" "include_qt/main_window.h" "incl
 add_subdirectory(dependencies)
 
 # GAME
-add_executable(main_game ${SOURCES})
-target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard" "upstream_leaderboard")
-target_link_libraries(main_game serial)
-target_link_libraries(main_game Boost::filesystem)
-target_link_libraries(main_game Qt5::Widgets)
+#add_executable(main_game ${SOURCES})
+#target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard" "upstream_leaderboard")
+#target_link_libraries(main_game serial)
+#target_link_libraries(main_game Boost::filesystem)
+#target_link_libraries(main_game Qt5::Widgets)
 
 
 
