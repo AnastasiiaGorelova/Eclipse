@@ -56,29 +56,38 @@
 ### Установка используемых библиотек
 ### MACOS
 ```
-brew update
-brew install boost
-brew upgrade boost
-brew install nlohmann-json
-brew install qt5
+$ brew update
+$ brew install boost
+$ brew upgrade boost
+$ brew install nlohmann-json
+$ brew install qt5
 ```
 ### LINUX
 ```
-sudo apt-get -y install build-essential g++ python-dev autotools-dev libicu-dev libbz2-dev
-wget http://downloads.sourceforge.net/project/boost/boost/1.75.0/boost_1_75_0.tar.gz
-tar -zxvf boost_1_75_0.tar.gz
-cd boost_1_75_0
-cpuCores=`cat /proc/cpuinfo | grep "cpu cores" | uniq | awk '{print $NF}'`
-echo "Available CPU cores: "$cpuCores
-./bootstrap.sh  
-sudo ./b2 --with=all -j $cpuCores install
+$ sudo apt-get -y install build-essential g++ python-dev autotools-dev libicu-dev libbz2-dev
+$ wget http://downloads.sourceforge.net/project/boost/boost/1.75.0/boost_1_75_0.tar.gz
+$ tar -zxvf boost_1_75_0.tar.gz
+$ cd boost_1_75_0
+$ cpuCores=`cat /proc/cpuinfo | grep "cpu cores" | uniq | awk '{print $NF}'`
+$ echo "Available CPU cores: "$cpuCores
+$ ./bootstrap.sh  
+$ sudo ./b2 --with=all -j $cpuCores install
 
-sudo apt-get install nlohmann-json3-dev
-sudo apt-get install qt5-default
+$ sudo apt-get install nlohmann-json3-dev
+$ sudo apt-get install qt5-default
 ```
 ### Запуск игры
 ```
-
+$ git clone git@github.com:AnastasiiaGorelova/Eclipse.git
+$ cd main_game
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
+находясь в директории build запустить проект
+```
+$ ./main_game
 ```
 
 ## Описание функциональностей проекта:
