@@ -95,7 +95,7 @@ void local_leaderboard_ui::download_local_leaderboard() {
 
 void local_leaderboard_ui::download_server_leaderboard() {
 
-    QFile fileJson("/home/alena/Documents/Eclipse/main_game/src/ServerLeaderBoard.json");
+    QFile fileJson("ServerLeaderBoard.json");
     fileJson.open(QIODevice::ReadOnly);
     QString raw = fileJson.readAll();
     fileJson.close();
