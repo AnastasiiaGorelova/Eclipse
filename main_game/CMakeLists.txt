@@ -32,10 +32,10 @@ target_link_libraries(main_game Qt5::Widgets)
 
 
 # Server
-add_executable(server_ server/main.cpp)
-target_include_directories(server_ PUBLIC "thirdparty")
-target_link_libraries(server_ PRIVATE Threads::Threads)
-target_link_libraries(server_ PRIVATE Boost::thread Boost::system)
+add_executable(server_eclipse server/main.cpp)
+target_include_directories(server_eclipse PUBLIC "thirdparty")
+target_link_libraries(server_eclipse PRIVATE Threads::Threads)
+target_link_libraries(server_eclipse PRIVATE Boost::thread Boost::system)
 
 ## For Arduino test
 #add_executable(arduino_info "test_arduino/main.cpp" "src_in_controllers/arduino.cpp" "src_in_controllers/ports.cpp")
