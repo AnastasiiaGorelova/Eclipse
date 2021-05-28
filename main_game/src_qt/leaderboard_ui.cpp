@@ -1,5 +1,6 @@
 
 #include "leaderboard_ui.h"
+#include "ui_local_leaderboard_ui.h"
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -22,77 +23,77 @@
 
 local_leaderboard_ui::local_leaderboard_ui(QWidget *parent)
     : QWidget(parent), ui(new Ui::local_leaderboard_ui) {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
-                                    (*this).size(),
-                                    qApp->desktop()->availableGeometry()));
+  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
+                                  (*this).size(),
+                                  qApp->desktop()->availableGeometry()));
 
-    setFixedSize(window_width, window_height);
-    setWindowTitle("Score table");
+  setFixedSize(window_width, window_height);
+  setWindowTitle("Score table");
 
-    QPixmap backgroung(
-        "../../images/background_leaderboard.png");  //поменять картинку
-    backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, backgroung);
-    this->setPalette(palette);
+  QPixmap backgroung(
+      "../../images/background_leaderboard.png"); //поменять картинку
+  backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
+  QPalette palette;
+  palette.setBrush(QPalette::Background, backgroung);
+  this->setPalette(palette);
 
-    table = new QTableWidget;
-    table->setStyleSheet("QTableWidget {background-color: transparent;}");
-    table->horizontalHeader()->hide();
-    table->verticalHeader()->hide();
-    table->horizontalHeader()->setVisible(false);
-    table->verticalHeader()->setVisible(false);
-    table->setRowCount(row_count);
-    table->setColumnCount(column_count);
-    table->horizontalHeader()->setStretchLastSection(true);
-    table->horizontalHeader()->resizeSection(0, column_width);
-    table->horizontalHeader()->resizeSection(1, column_width);
-    table->setFocusPolicy(Qt::NoFocus);
+  table = new QTableWidget;
+  table->setStyleSheet("QTableWidget {background-color: transparent;}");
+  table->horizontalHeader()->hide();
+  table->verticalHeader()->hide();
+  table->horizontalHeader()->setVisible(false);
+  table->verticalHeader()->setVisible(false);
+  table->setRowCount(row_count);
+  table->setColumnCount(column_count);
+  table->horizontalHeader()->setStretchLastSection(true);
+  table->horizontalHeader()->resizeSection(0, column_width);
+  table->horizontalHeader()->resizeSection(1, column_width);
+  table->setFocusPolicy(Qt::NoFocus);
 
-    auto fnt = table->font();
-    fnt.setPointSize(point_size);
-    table->setFont(fnt);
+  auto fnt = table->font();
+  fnt.setPointSize(point_size);
+  table->setFont(fnt);
 }
 
 local_leaderboard_ui::~local_leaderboard_ui() {
-    delete table;
-    delete ui;
+  delete table;
+  delete ui;
 }
 
 void local_leaderboard_ui::download_local_leaderboard() {
-    std::ifstream in("LocalLeaderBoard.txt");  // окрываем файл для чтения
-    if (in.is_open()) {
-        int row = 0;
-        std::string line;
-        std::string score;
-        while (getline(in, line, ' ')) {
-            getline(in, score);
-            auto *item_1 = new QTableWidgetItem(QString::fromStdString(line));
-            auto *item_2 = new QTableWidgetItem(QString::fromStdString(score));
-            item_1->setFlags(Qt::ItemIsEnabled);
-            item_2->setFlags(Qt::ItemIsEnabled);
-            item_1->setTextColor(QColor(255, 255, 255));
-            item_2->setTextColor(QColor(255, 255, 255));
-            item_1->setTextAlignment(Qt::AlignCenter);
-            item_2->setTextAlignment(Qt::AlignCenter);
-            table->setItem(row, 0, item_1);
-            table->setItem(row, 1, item_2);
-            row++;
-        }
-        int x = row;
-        for (; row < 10; row++) {
-            table->removeRow(x);
-        }
-        in.close();
-    } else {
-        std::cerr << "File doesn't exist";
+  std::ifstream in("LocalLeaderBoard.txt"); // окрываем файл для чтения
+  if (in.is_open()) {
+    int row = 0;
+    std::string line;
+    std::string score;
+    while (getline(in, line, ' ')) {
+      getline(in, score);
+      auto *item_1 = new QTableWidgetItem(QString::fromStdString(line));
+      auto *item_2 = new QTableWidgetItem(QString::fromStdString(score));
+      item_1->setFlags(Qt::ItemIsEnabled);
+      item_2->setFlags(Qt::ItemIsEnabled);
+      item_1->setTextColor(QColor(255, 255, 255));
+      item_2->setTextColor(QColor(255, 255, 255));
+      item_1->setTextAlignment(Qt::AlignCenter);
+      item_2->setTextAlignment(Qt::AlignCenter);
+      table->setItem(row, 0, item_1);
+      table->setItem(row, 1, item_2);
+      row++;
     }
+    int x = row;
+    for (; row < 10; row++) {
+      table->removeRow(x);
+    }
+    in.close();
+  } else {
+    std::cerr << "File doesn't exist";
+  }
 
-    auto *layout = new QHBoxLayout(this);
-    layout->addWidget(table);
-    setLayout(layout);
+  auto *layout = new QHBoxLayout(this);
+  layout->addWidget(table);
+  setLayout(layout);
 }
 
 void local_leaderboard_ui::download_server_leaderboard() {
@@ -106,14 +107,28 @@ void local_leaderboard_ui::download_server_leaderboard() {
     QJsonDocument doc = QJsonDocument::fromJson(raw.toUtf8());
     QJsonArray arr = doc.array();
 
-    for (int i = 0; i < arr.size(); i++) {
+    for(int i = 0; i < arr.size(); i++) {
         QJsonValue val = arr.at(i);
-        int score = val.toObject().value("score").toInt();
-        std::string line =
-            val.toObject().value("username").toString().toStdString();
+        int x = val.toObject().value("score").toInt();
+
+        std::string min = std::to_string(x / 60);
+        if (min.size() == 0) {
+            min = "00";
+        }else if (min.size() == 1) {
+            min = "0" + min;
+        }
+        std::string sec = std::to_string(x % 60);
+        if (sec.size() == 0) {
+            min = "00";
+        }else if (sec.size() == 1) {
+            sec = "0" + sec;
+        }
+        std::string score(min + ":" + sec);
+        std::cerr << score;
+
+        std::string line =  val.toObject().value("username").toString().toStdString();
         auto *item_1 = new QTableWidgetItem(QString::fromStdString(line));
-        auto *item_2 =
-            new QTableWidgetItem(QString::fromStdString(std::to_string(score)));
+        auto *item_2 = new QTableWidgetItem(QString::fromStdString(score));
         item_1->setFlags(Qt::ItemIsEnabled);
         item_2->setFlags(Qt::ItemIsEnabled);
         item_1->setTextColor(QColor(255, 255, 255));
@@ -124,7 +139,7 @@ void local_leaderboard_ui::download_server_leaderboard() {
         table->setItem(i, 1, item_2);
     }
     int x = arr.size();
-    for (; x < 10; x++) {
+    for (;  x < 10; x++) {
         table->removeRow(x);
     }
 
