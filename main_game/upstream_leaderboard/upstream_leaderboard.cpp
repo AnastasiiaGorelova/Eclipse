@@ -4,7 +4,6 @@ void UpstreamLeaderboard::add_player_to_server(const Player &cur_player) {
     std::string string_req = "python3.9 ../client/main.py \"" +
                              cur_player.name + "\" " + std::to_string(score) +
                              " > " + file_name;
-    std::cerr << string_req << std::endl;
     const char *request = string_req.c_str();
     try {
         system(request);
@@ -15,7 +14,6 @@ void UpstreamLeaderboard::add_player_to_server(const Player &cur_player) {
 
 void UpstreamLeaderboard::upload_records() {
     std::string string_req = "python3.9 ../client/main.py > " + file_name;
-    std::cerr << string_req << std::endl;
     const char *request = string_req.c_str();
     try {
         system(request);

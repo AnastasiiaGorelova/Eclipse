@@ -111,7 +111,7 @@ void local_leaderboard_ui::download_server_leaderboard() {
     setFixedSize(window_width, 550);
     
     QPixmap backgroung(
-            "../../images/background_leaderboard.png"); //поменять картинку
+            "../../images/server_background.png"); //поменять картинку
     backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, backgroung);
