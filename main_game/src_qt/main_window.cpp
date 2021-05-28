@@ -214,9 +214,7 @@ void main_window::start_timer() {
 void main_window::tick_god() {
   static int time_lasts = 0;
   time_lasts++;
-    std::cerr << time_lasts << "тик в секунду " << ticks_for_second << '\n';
   if (time_lasts > alien_timeout_come_in_sec * ticks_for_second) {
-      std::cerr << time_lasts << "смена" << '\n';
     time_lasts = 0;
     timer_for_ticks->stop();
     cur_enemy = alien;
@@ -314,9 +312,7 @@ void main_window::add_life() {
 void main_window::set_God(God *damn_) { damn = damn_; }
 
 void main_window::tick_god_with_monster() {
-    std::cerr << "tick_god_with_monster" << '\n';
   if (damn->game->alien.get_state() == eclipse::Not_on_the_field) {
-    std::cerr << "come in" << '\n';
     timer_for_monster->stop();
     ten_points_acceleration(10);
     cur_enemy = asteroids;
