@@ -15,8 +15,8 @@
 #include "upstream_leaderboard.h"
 
 #define window_width 400
-#define window_height 325
-#define row_count 10
+#define window_height 550
+#define row_count 100
 #define column_count 2
 #define point_size 20
 #define column_width 180
@@ -31,6 +31,13 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent)
 
   setFixedSize(window_width, window_height);
   setWindowTitle("Score table");
+
+  setGeometry(
+            QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,size(),
+                    qApp->desktop()->availableGeometry()
+            ));
 
   QPixmap backgroung(
       "../../images/background_leaderboard.png"); //поменять картинку
