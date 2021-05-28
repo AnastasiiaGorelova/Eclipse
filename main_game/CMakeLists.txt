@@ -20,12 +20,12 @@ set(CMAKE_AUTORCC ON)
 find_package(Threads REQUIRED)
 find_package(Boost REQUIRED thread system)
 
+if (BUILD_CLIENT)
 file(GLOB_RECURSE SOURCES "src_qt/*.cpp" "src/*.cpp" "src_in_controllers/*.cpp" "src_local_leaderboard/*.cpp" "upstream_leaderboard/*.cpp")
 qt5_wrap_cpp(SOURCES "include_qt/game_window.h" "include_qt/main_window.h" "include_qt/selection.h" "include_qt/name_enter_qt.h" "include_qt/game_finish_window.h" "include_qt/error_massage_window.h" "include_qt/buy_live_for_coins_window.h" "include_qt/leaderboard_ui.h" "include_qt/legend_window.h")
 add_subdirectory(dependencies)
 
 # GAME
-if (BUILD_CLIENT)
 add_executable(main_game ${SOURCES})
 target_include_directories(main_game PUBLIC "include" "include_qt" "include_in_controllers" "include_leaderboard" "upstream_leaderboard")
 target_link_libraries(main_game serial)
