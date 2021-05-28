@@ -102,7 +102,7 @@ void God::finish_or_continue_game() {
             game->coins -= game->coins_to_buy_live;
             show_buy_live_for_coins_window(game->coins_to_buy_live,
                                            game->coins);
-            game->coins_to_buy_live += 5;
+            game->coins_to_buy_live += 3;
         } else {
             show_game_finish_window();
         }
@@ -266,4 +266,9 @@ void God::make_move_in_logic_and_ui_with_monster() {
 
 void God::change_game_speed(int diff) {
     game_speed += diff;
+    if (game_speed < 65) {
+        game->check_for_speed = false;
+    } else {
+        game->check_for_speed = true;
+    }
 }
