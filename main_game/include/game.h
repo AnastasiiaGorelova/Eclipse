@@ -1,6 +1,12 @@
 #ifndef MAIN_GAME_GAME_H
 #define MAIN_GAME_GAME_H
 
+#include <random>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 #include "asteroids.h"
 #include "bonus.h"
 #include "changes.h"
@@ -8,13 +14,7 @@
 #include "monster.h"
 #include "shots.h"
 #include "space_ship.h"
-#include "util.h"
-#include <random>
-#include <set>
-#include <string>
-#include <unordered_map>
-#include <utility>
-#include <vector>
+#include "util_eclipse.h"
 
 namespace eclipse {
 

@@ -1,11 +1,11 @@
 #ifndef MAIN_GAME_MONSTER_H
 #define MAIN_GAME_MONSTER_H
 
-#include "game_fwd.h"
-#include "shots.h"
-#include "util.h"
 #include <set>
 #include <string>
+#include "game_fwd.h"
+#include "shots.h"
+#include "util_eclipse.h"
 
 namespace eclipse {
 

@@ -30,7 +30,7 @@ void loop()
 #if defined(__linux__)
 #include <pty.h>
 #else
-#include <util.h>
+#include <util_eclipse.h>
 #endif
 
 using namespace serial;
