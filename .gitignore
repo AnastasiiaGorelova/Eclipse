@@ -40,3 +40,5 @@ build/
 *autogen/
 
 .idea/
+ 
+venv
