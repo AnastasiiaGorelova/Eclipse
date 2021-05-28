@@ -172,7 +172,7 @@ namespace eclipse {
                     Bonus new_heart(x, new_uuid(), "heart");
                     changes.emplace_back(Changes{Create_heart, new_heart.get_id(), new_heart.get_coordinates(), bonus_size});
                     bonus_in_the_field.insert(std::move(new_heart));
-                } else {
+                } else if (check_for_speed) {
                     Bonus new_diamond(x, new_uuid(), "diamond");
                     changes.emplace_back(Changes{Create_diamond, new_diamond.get_id(), new_diamond.get_coordinates(), bonus_size});
                     bonus_in_the_field.insert(std::move(new_diamond));
