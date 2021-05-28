@@ -15,8 +15,8 @@
 #include "upstream_leaderboard.h"
 
 #define window_width 400
-#define window_height 550
-#define row_count 100
+#define window_height 325
+#define row_count 10
 #define column_count 2
 #define point_size 20
 #define column_width 180
@@ -32,20 +32,6 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent)
   setFixedSize(window_width, window_height);
   setWindowTitle("Score table");
 
-  setGeometry(
-            QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,size(),
-                    qApp->desktop()->availableGeometry()
-            ));
-
-  QPixmap backgroung(
-      "../../images/background_leaderboard.png"); //поменять картинку
-  backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
-  QPalette palette;
-  palette.setBrush(QPalette::Background, backgroung);
-  this->setPalette(palette);
-
   table = new QTableWidget;
   table->setStyleSheet("QTableWidget {background-color: transparent;}");
   table->horizontalHeader()->hide();
@@ -58,6 +44,7 @@ local_leaderboard_ui::local_leaderboard_ui(QWidget *parent)
   table->horizontalHeader()->resizeSection(0, column_width);
   table->horizontalHeader()->resizeSection(1, column_width);
   table->setFocusPolicy(Qt::NoFocus);
+  table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
   auto fnt = table->font();
   fnt.setPointSize(point_size);
@@ -70,6 +57,12 @@ local_leaderboard_ui::~local_leaderboard_ui() {
 }
 
 void local_leaderboard_ui::download_local_leaderboard() {
+    QPixmap backgroung(
+            "../../images/background_leaderboard.png"); //поменять картинку
+    backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, backgroung);
+    this->setPalette(palette);
   std::ifstream in("LocalLeaderBoard.txt"); // окрываем файл для чтения
   if (in.is_open()) {
     int row = 0;
@@ -113,6 +106,23 @@ void local_leaderboard_ui::download_server_leaderboard() {
 
     QJsonDocument doc = QJsonDocument::fromJson(raw.toUtf8());
     QJsonArray arr = doc.array();
+
+    table->setRowCount(100);
+    setFixedSize(window_width, 550);
+    
+    QPixmap backgroung(
+            "../../images/background_leaderboard.png"); //поменять картинку
+    backgroung = backgroung.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, backgroung);
+    this->setPalette(palette);
+
+    setGeometry(
+            QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,size(),
+                    qApp->desktop()->availableGeometry()
+            ));
 
     for(int i = 0; i < arr.size(); i++) {
         QJsonValue val = arr.at(i);
