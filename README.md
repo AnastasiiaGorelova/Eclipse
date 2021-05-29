@@ -24,6 +24,7 @@ $ brew install boost
 $ brew upgrade boost
 $ brew install nlohmann-json
 $ brew install qt5
+$ pip install requests
 ```
 ### LINUX
 ```
@@ -38,6 +39,8 @@ $ sudo ./b2 --with=all -j $cpuCores install
 
 $ sudo apt-get install nlohmann-json3-dev
 $ sudo apt-get install qt5-default
+
+$ pip install requests
 ```
 ### Запуск игры
 ```
