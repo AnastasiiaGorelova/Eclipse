@@ -2,6 +2,7 @@
 #define MAIN_GAME_MODIFICATION_STORE_H
 
 #include <vector>
+#include <mutex>
 #include "game_fwd.h"
 
 struct Modification_store {
@@ -13,6 +14,8 @@ struct Modification_store {
 
 private:
     std::vector<eclipse::MoveDirection> modifications;
+
+    std::mutex mod_mx;
 };
 
 #endif  // MAIN_GAME_MODIFICATION_STORE_H

@@ -28,7 +28,7 @@ void Arduino::write_to_port_for_pause() {
         line = serial_.readline();  // get line from arduino
         if (line == "CONTINUE\n") {
             serial_.flush();
-            damn->train.pushed_pause_or_play();
+            damn->modificationStore.pushed_pause_or_play();
             keep_going = true;
             return;
         }
@@ -41,17 +41,17 @@ void Arduino::make_a_move() {
         line = serial_.readline();  // get line from arduino
         if (line == "PAUSE\n") {
             serial_.flush();
-            damn->train.pushed_pause_or_play();
+            damn->modificationStore.pushed_pause_or_play();
             keep_going = false;
             write_to_port_for_pause();
 
         } else if (line == "RIGHT\n") {
             serial_.flush();
-            damn->train.pushed_button_right();  // тык
+            damn->modificationStore.pushed_button_right();  // тык
 
         } else if (line == "LEFT\n") {
             serial_.flush();
-            damn->train.pushed_button_left();  // тык
+            damn->modificationStore.pushed_button_left();  // тык
 
         } else if (line == "NO\n") {
             serial_.flush();

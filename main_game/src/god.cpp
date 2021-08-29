@@ -110,7 +110,7 @@ void God::finish_or_continue_game() {
 }
 
 void God::make_move_in_logic_and_ui() {
-    auto direction = train.get_aggregated_changes();
+    auto direction = modificationStore.get_aggregated_changes();
     if (direction == eclipse::kChangeGameState) {
         controller_out.stop_timers();
         controller_out.game_pause();
@@ -242,7 +242,7 @@ void God::show_legend_window() {
 }
 
 bool God::check_field_and_set_monster() {
-    auto direction = train.get_aggregated_changes();
+    auto direction = modificationStore.get_aggregated_changes();
     if (!game->check_the_field()) {
         game->move_objects_without_generating(direction);
         finish_or_continue_game();
@@ -254,7 +254,7 @@ bool God::check_field_and_set_monster() {
 }
 
 void God::make_move_in_logic_and_ui_with_monster() {
-    auto direction = train.get_aggregated_changes();
+    auto direction = modificationStore.get_aggregated_changes();
     if (direction == eclipse::kChangeGameState) {
         controller_out.stop_timers();
         controller_out.game_pause();

@@ -7,13 +7,13 @@ bool Key_Controller::eventFilter(QObject *obj, QEvent *event) {
     auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
     switch (keyEvent->key()) {
     case Qt::Key_Left:
-      damn->train.pushed_button_left();
+      damn->modificationStore.pushed_button_left();
       break;
     case Qt::Key_Right:
-      damn->train.pushed_button_right();
+      damn->modificationStore.pushed_button_right();
       break;
     case Qt::Key_Space:
-      damn->train.pushed_pause_or_play();
+      damn->modificationStore.pushed_pause_or_play();
       break;
     default:
       break;

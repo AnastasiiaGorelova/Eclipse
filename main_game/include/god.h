@@ -20,7 +20,7 @@ public:
     Controller_out controller_out;
     Controller_in *controller_in;
     Player cur_player;
-    Modification_store train;
+    Modification_store modificationStore;
 
     // controller_out (qt)
     void show_menu();

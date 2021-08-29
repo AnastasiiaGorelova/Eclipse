@@ -339,7 +339,7 @@ void main_window::set_game_on_pause() {
 }
 
 void main_window::check_keys() {
-    auto status = damn->train.get_aggregated_changes();
+    auto status = damn->modificationStore.get_aggregated_changes();
     if (status == eclipse::kChangeGameState) {
         text->setText("");
         timer_for_pause->stop();
